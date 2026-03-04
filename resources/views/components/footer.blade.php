@@ -2,7 +2,7 @@
 <footer class="bg-slate-900 text-white pt-20 pb-10">
     <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
         <div class="col-span-1 md:col-span-1 lg:col-span-1">
-            <a href="http://127.0.0.1:8002/" class="flex items-center gap-3 mb-6">
+            <a href="https://charity.feedtancmg.org/" class="flex items-center gap-3 mb-6">
                 <div class="h-16 w-16 rounded-2xl object-contain bg-white p-3 shadow-lg">
                     <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772609946/4_lqe3dl.png" alt="FeedTan Logo" class="w-full h-full object-contain">
                 </div>
@@ -26,21 +26,21 @@
         <div>
             <h4 class="font-bold mb-6 text-emerald-500">Quick Links</h4>
             <ul class="space-y-3 text-sm">
-                <li><a href="http://127.0.0.1:8002/" class="hover:text-white transition-colors">Home</a></li>
-                <li><a href="http://127.0.0.1:8002/about" class="hover:text-white transition-colors">About Us</a></li>
-                <li><a href="http://127.0.0.1:8002/campaigns" class="hover:text-white transition-colors">Campaigns</a></li>
-                <li><a href="http://127.0.0.1:8002/impact" class="hover:text-white transition-colors">Our Impact</a></li>
-                <li><a href="http://127.0.0.1:8002/get-involved" class="hover:text-white transition-colors">Volunteer</a></li>
+                <li><a href="https://charity.feedtancmg.org/" class="hover:text-white transition-colors">Home</a></li>
+                <li><a href="https://charity.feedtancmg.org/about" class="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="https://charity.feedtancmg.org/campaigns" class="hover:text-white transition-colors">Campaigns</a></li>
+                <li><a href="https://charity.feedtancmg.org/impact" class="hover:text-white transition-colors">Our Impact</a></li>
+                <li><a href="https://charity.feedtancmg.org/get-involved" class="hover:text-white transition-colors">Volunteer</a></li>
             </ul>
         </div>
 
         <div>
             <h4 class="font-bold mb-6 text-emerald-500">Get Involved</h4>
             <ul class="space-y-3 text-sm">
-                <li><a href="http://127.0.0.1:8002/donate" class="hover:text-white transition-colors">Make a Donation</a></li>
-                <li><a href="http://127.0.0.1:8002/get-involved" class="hover:text-white transition-colors">Volunteer Programs</a></li>
-                <li><a href="http://127.0.0.1:8002/campaigns" class="hover:text-white transition-colors">Current Campaigns</a></li>
-                <li><a href="http://127.0.0.1:8002/contact" class="hover:text-white transition-colors">Contact Us</a></li>
+                <li><a href="https://charity.feedtancmg.org/donate" class="hover:text-white transition-colors">Make a Donation</a></li>
+                <li><a href="https://charity.feedtancmg.org/get-involved" class="hover:text-white transition-colors">Volunteer Programs</a></li>
+                <li><a href="https://charity.feedtancmg.org/campaigns" class="hover:text-white transition-colors">Current Campaigns</a></li>
+                <li><a href="https://charity.feedtancmg.org/contact" class="hover:text-white transition-colors">Contact Us</a></li>
             </ul>
         </div>
 
@@ -54,7 +54,7 @@
                         P.O.Box 7744, Ushirika Sokoine Road<br>
                         Moshi, Kilimanjaro, Tanzania<br>
                         <br>
-                        <strong>Website:</strong> http://127.0.0.1:8002<br>
+                        <strong>Website:</strong> https://charity.feedtancmg.org<br>
                         <strong>Email:</strong> info@feedtan.org<br>
                         <strong>Phone:</strong> (555) 123-4567
                     </span>
@@ -82,11 +82,11 @@
     <div class="max-w-7xl mx-auto px-6 pt-10 border-t border-slate-800">
         <div class="flex flex-col items-center text-center gap-8">
             <div class="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                <a href="http://127.0.0.1:8002/terms" class="hover:text-emerald-500 transition-colors">Terms & Conditions</a>
-                <a href="http://127.0.0.1:8002/privacy" class="hover:text-emerald-500 transition-colors">Privacy Policy</a>
-                <a href="http://127.0.0.1:8002/faq" class="hover:text-emerald-500 transition-colors">FAQ</a>
+                <a href="https://charity.feedtancmg.org/terms" class="hover:text-emerald-500 transition-colors">Terms & Conditions</a>
+                <a href="https://charity.feedtancmg.org/privacy" class="hover:text-emerald-500 transition-colors">Privacy Policy</a>
+                <a href="https://charity.feedtancmg.org/faq" class="hover:text-emerald-500 transition-colors">FAQ</a>
             </div>
-            <p class="text-sm text-slate-500">© 2024 FeedTan Community Microfinance Group. All rights reserved. | Celebrating 10 Years of Service</p>
+            <p class="text-sm text-slate-500"> 2024 FeedTan Community Microfinance Group. All rights reserved. | Celebrating 10 Years of Service</p>
         </div>
     </div>
 </footer>
