@@ -83,8 +83,8 @@
                                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Grow hope with <span class="text-emerald-400">sustainable solutions</span></h1>
                                     <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Nourishing communities, cultivating futures, and planting seeds of change through sustainable food security initiatives.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="{{ getSiteUrl('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Donate Now</a>
-                                        <a href="{{ getSiteUrl('get-involved') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Join Our Team</a>
+                                        <a href="/campaigns" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Donate Now</a>
+                                        <a href="/get-involved" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Join Our Team</a>
                                     </div>
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
 
                         <div class="swiper-slide relative flex items-center">
                             <div class="absolute inset-0 z-0">
-                                <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=2200&q=80" alt="School Nutrition" class="w-full h-full object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613873/african-kid-marketplace-_8_caa2f7.jpg" alt="Community Gardens" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/35 to-transparent"></div>
                             </div>
                             <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
@@ -276,7 +276,7 @@
                     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                         <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                             <div class="relative">
-                                <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=600&q=80" alt="School Nutrition" class="w-full h-56 object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613875/happy-students-receiving-donations_hkmhgf.jpg" alt="School Nutrition" class="w-full h-56 object-cover">
                                 <div class="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">75% Funded</div>
                             </div>
                             <div class="p-8">
@@ -301,7 +301,7 @@
 
                         <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                             <div class="relative">
-                                <img src="https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=600&q=80" alt="Emergency Relief" class="w-full h-56 object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613879/volunteer-helping-with-donation-box_dwuyr7.jpg" alt="Emergency Relief" class="w-full h-56 object-cover">
                                 <div class="absolute top-4 left-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold">45% Funded</div>
                             </div>
                             <div class="p-8">
@@ -326,7 +326,7 @@
 
                         <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                             <div class="relative">
-                                <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=600&q=80" alt="Community Gardens" class="w-full h-56 object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613870/african-kid-marketplace-_7_xiwx7g.jpg" alt="Community Gardens" class="w-full h-56 object-cover">
                                 <div class="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">90% Funded</div>
                             </div>
                             <div class="p-8">
