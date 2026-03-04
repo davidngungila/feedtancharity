@@ -83,8 +83,8 @@
                                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Grow hope with <span class="text-emerald-400">sustainable solutions</span></h1>
                                     <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Nourishing communities, cultivating futures, and planting seeds of change through sustainable food security initiatives.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="/campaigns" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Donate Now</a>
-                                        <a href="/get-involved" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Join Our Team</a>
+                                        <a href="{{ getSiteUrl('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Donate Now</a>
+                                        <a href="{{ getSiteUrl('get-involved') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Join Our Team</a>
                                     </div>
                                 </div>
                             </div>
@@ -101,8 +101,8 @@
                                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Cultivating <span class="text-emerald-400">food security</span></h1>
                                     <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Teaching sustainable agriculture and creating local food sources for lasting community impact.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="/campaigns" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Support Gardens</a>
-                                        <a href="/get-involved" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Learn More</a>
+                                        <a href="{{ getSiteUrl('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Support Gardens</a>
+                                        <a href="{{ getSiteUrl('get-involved') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Learn More</a>
                                     </div>
                                 </div>
                             </div>
@@ -119,8 +119,8 @@
                                     <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Nourishing <span class="text-emerald-400">young minds</span></h1>
                                     <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Providing daily nutritious meals to ensure children can focus on learning and growing.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="/campaigns" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Feed a Child</a>
-                                        <a href="/about" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">About Us</a>
+                                        <a href="{{ getSiteUrl('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Feed a Child</a>
+                                        <a href="{{ getSiteUrl('about') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">About Us</a>
                                     </div>
                                 </div>
                             </div>
@@ -252,8 +252,8 @@
                                     </div>
 
                                     <div class="mt-10 grid gap-3 sm:grid-cols-2">
-                                        <a href="/campaigns" class="rounded-2xl border border-slate-200 bg-white px-6 py-4 text-center text-sm font-bold text-slate-900 hover:bg-slate-50">Support Campaigns</a>
-                                        <a href="/get-involved" class="rounded-2xl bg-emerald-600 px-6 py-4 text-center text-sm font-bold text-white hover:bg-emerald-700">Volunteer With Us</a>
+                                        <a href="{{ getSiteUrl('campaigns') }}" class="rounded-2xl border border-slate-200 bg-white px-6 py-4 text-center text-sm font-bold text-slate-900 hover:bg-slate-50">Support Campaigns</a>
+                                        <a href="{{ getSiteUrl('get-involved') }}" class="rounded-2xl bg-emerald-600 px-6 py-4 text-center text-sm font-bold text-white hover:bg-emerald-700">Volunteer With Us</a>
                                     </div>
                                 </div>
                             </div>
@@ -270,7 +270,7 @@
                             <h2 class="text-4xl font-serif text-slate-900 mb-6 font-bold">Growing impact together</h2>
                             <p class="text-slate-500">Join our current initiatives and help us plant seeds of hope in communities that need it most.</p>
                         </div>
-                        <a href="/campaigns" class="text-emerald-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">View All Campaigns <i class="ph ph-arrow-right"></i></a>
+                        <a href="{{ getSiteUrl('campaigns') }}" class="text-emerald-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">View All Campaigns <i class="ph ph-arrow-right"></i></a>
                     </div>
 
                     <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
@@ -293,7 +293,7 @@
                                     </div>
                                 </div>
                                 
-                                <a href="/campaigns" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-all text-center">
+                                <a href="{{ getSiteUrl('campaigns') }}" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-all text-center">
                                     <i class="ph ph-hand-heart mr-2"></i> Support This Campaign
                                 </a>
                             </div>
@@ -318,7 +318,7 @@
                                     </div>
                                 </div>
                                 
-                                <a href="/campaigns" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-all text-center">
+                                <a href="{{ getSiteUrl('campaigns') }}" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-all text-center">
                                     <i class="ph ph-hand-heart mr-2"></i> Support This Campaign
                                 </a>
                             </div>
@@ -343,7 +343,7 @@
                                     </div>
                                 </div>
                                 
-                                <a href="/campaigns" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-all text-center">
+                                <a href="{{ getSiteUrl('campaigns') }}" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-emerald-700 transition-all text-center">
                                     <i class="ph ph-hand-heart mr-2"></i> Support This Campaign
                                 </a>
                             </div>
@@ -416,8 +416,8 @@
                     <h2 class="text-4xl md:text-5xl font-serif text-white mb-8 font-bold">Ready to grow hope with us?</h2>
                     <p class="text-emerald-100 text-xl max-w-2xl mx-auto mb-12">Join our mission today and help us plant seeds of change that will flourish for generations.</p>
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
-                        <a href="/campaigns" class="px-12 py-5 bg-white text-emerald-600 font-bold rounded-full shadow-2xl hover:scale-105 transition-all">Donate Now</a>
-                        <a href="/about" class="flex items-center gap-3 text-white font-bold hover:scale-105 transition-all text-xl">
+                        <a href="{{ getSiteUrl('campaigns') }}" class="px-12 py-5 bg-white text-emerald-600 font-bold rounded-full shadow-2xl hover:scale-105 transition-all">Donate Now</a>
+                        <a href="{{ getSiteUrl('about') }}" class="flex items-center gap-3 text-white font-bold hover:scale-105 transition-all text-xl">
                             <i class="ph-bold ph-arrow-right text-3xl"></i> Learn More
                         </a>
                     </div>
@@ -428,7 +428,7 @@
         <footer class="bg-slate-900 text-white pt-20 pb-10">
             <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                 <div class="col-span-1 md:col-span-1 lg:col-span-1">
-                    <a href="/" class="flex items-center gap-3 mb-6">
+                    <a href="{{ getSiteUrl() }}" class="flex items-center gap-3 mb-6">
                         <div class="h-16 w-16 rounded-2xl object-contain bg-white p-3 shadow-lg">
                             <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772610231/ANIVERSERY-removebg-preview_wixulu.png" alt="FeedTan Logo" class="w-full h-full object-contain">
                         </div>
