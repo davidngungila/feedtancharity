@@ -52,14 +52,28 @@
                     <span>
                         FeedTan Community Microfinance Group<br>
                         P.O.Box 7744, Ushirika Sokoine Road<br>
-                        Moshi, Kilimanjaro, Tanzania
+                        Moshi, Kilimanjaro, Tanzania<br>
+                        <br>
+                        <strong>Website:</strong> http://127.0.0.1:8002<br>
+                        <strong>Email:</strong> info@feedtan.org<br>
+                        <strong>Phone:</strong> (555) 123-4567
                     </span>
                 </li>
                 <li class="flex items-center gap-3">
-                    <i class="ph ph-phone text-emerald-500"></i> (555) 123-4567
+                    <i class="ph ph-globe text-emerald-500"></i>
+                    <span>Online Platform: Live Website</span>
                 </li>
                 <li class="flex items-center gap-3">
-                    <i class="ph ph-envelope text-emerald-500"></i> info@feedtan.org
+                    <i class="ph ph-server text-emerald-500"></i>
+                    <span>Server Status: Active & Running</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="ph ph-clock text-emerald-500"></i>
+                    <span>Business Hours: Mon-Fri 8AM-6PM EAT</span>
+                </li>
+                <li class="flex items-center gap-3">
+                    <i class="ph ph-shield-check text-emerald-500"></i>
+                    <span>Registration: NGO Registered in Tanzania</span>
                 </li>
             </ul>
         </div>
