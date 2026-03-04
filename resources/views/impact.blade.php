@@ -179,7 +179,7 @@
                             <!-- Story 1 -->
                             <div class="swiper-slide">
                                 <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1544003696-b91c5435a2a?auto=format&fit=crop&w=800&q=80" alt="Maria's Story" class="w-full h-64 object-cover">
+                                    <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613879/volunteer-helping-with-donation-box_dwuyr7.jpg" alt="Maria's Story" class="w-full h-64 object-cover">
                                     <div class="p-8">
                                         <div class="flex items-center gap-4 mb-4">
                                             <span class="bg-emerald-100 text-emerald-700 text-xs px-3 py-1 rounded-full font-semibold">Education</span>
@@ -188,7 +188,7 @@
                                         <h3 class="text-2xl font-bold text-slate-900 mb-4">Maria's Journey</h3>
                                         <p class="text-slate-600 mb-6 leading-relaxed">From struggling single mother to community garden leader, Maria transformed her family's future through our sustainable agriculture program.</p>
                                         <div class="flex items-center gap-4">
-                                            <img src="https://images.unsplash.com/photo-1494790108755-261a263d2c9a?auto=format&fit=crop&w=60&q=80" alt="Maria" class="w-12 h-12 rounded-full object-cover">
+                                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613875/happy-students-receiving-donations_hkmhgf.jpg" alt="Maria" class="w-12 h-12 rounded-full object-cover">
                                             <div>
                                                 <div class="font-semibold text-slate-900">Maria Rodriguez</div>
                                                 <div class="text-sm text-slate-600">Community Garden Leader</div>
@@ -201,7 +201,7 @@
                             <!-- Story 2 -->
                             <div class="swiper-slide">
                                 <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80" alt="James's Story" class="w-full h-64 object-cover">
+                                    <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613873/african-kid-marketplace-_8_caa2f7.jpg" alt="James's Story" class="w-full h-64 object-cover">
                                     <div class="p-8">
                                         <div class="flex items-center gap-4 mb-4">
                                             <span class="bg-purple-100 text-purple-700 text-xs px-3 py-1 rounded-full font-semibold">Nutrition</span>
@@ -210,7 +210,7 @@
                                         <h3 class="text-2xl font-bold text-slate-900 mb-4">James's Recovery</h3>
                                         <p class="text-slate-600 mb-6 leading-relaxed">After losing his job, James found hope through our emergency relief program and now volunteers to help others in need.</p>
                                         <div class="flex items-center gap-4">
-                                            <img src="https://images.unsplash.com/photo-1472099645215-5a1b5a9c1a9a?auto=format&fit=crop&w=60&q=80" alt="James" class="w-12 h-12 rounded-full object-cover">
+                                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613872/african-kid-marketplace-_10_dzptzo.jpg" alt="James" class="w-12 h-12 rounded-full object-cover">
                                             <div>
                                                 <div class="font-semibold text-slate-900">James Thompson</div>
                                                 <div class="text-sm text-slate-600">Volunteer Coordinator</div>
@@ -223,7 +223,7 @@
                             <!-- Story 3 -->
                             <div class="swiper-slide">
                                 <div class="bg-white rounded-3xl shadow-lg border border-slate-100 overflow-hidden">
-                                    <img src="https://images.unsplash.com/photo-1573497019940-1c3c6d39f965?auto=format&fit=crop&w=800&q=80" alt="Sarah's Story" class="w-full h-64 object-cover">
+                                    <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613873/african-kid-marketplace-_9_gswfmp.jpg" alt="Sarah's Story" class="w-full h-64 object-cover">
                                     <div class="p-8">
                                         <div class="flex items-center gap-4 mb-4">
                                             <span class="bg-green-100 text-green-700 text-xs px-3 py-1 rounded-full font-semibold">Children</span>
@@ -232,7 +232,7 @@
                                         <h3 class="text-2xl font-bold text-slate-900 mb-4">Sarah's Dreams</h3>
                                         <p class="text-slate-600 mb-6 leading-relaxed">Thanks to our school nutrition program, Sarah went from hungry student to top of her class, now pursuing her dream of becoming a doctor.</p>
                                         <div class="flex items-center gap-4">
-                                            <img src="https://images.unsplash.com/photo-1438761681033-6c21bce5ec6c?auto=format&fit=crop&w=60&q=80" alt="Sarah" class="w-12 h-12 rounded-full object-cover">
+                                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613872/african-kid-marketplace_tga6k6.jpg" alt="Sarah" class="w-12 h-12 rounded-full object-cover">
                                             <div>
                                                 <div class="font-semibold text-slate-900">Sarah Johnson</div>
                                                 <div class="text-sm text-slate-600">Honor Student</div>

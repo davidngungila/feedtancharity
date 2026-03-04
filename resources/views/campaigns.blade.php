@@ -237,7 +237,7 @@
                     <!-- Campaign 1 -->
                     <div class="campaign-card bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                         <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=600&q=80" alt="School Nutrition Program" class="w-full h-56 object-cover">
+                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613875/happy-students-receiving-donations_hkmhgf.jpg" alt="School Nutrition Program" class="w-full h-56 object-cover">
                             <div class="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">75% Funded</div>
                             <div class="absolute top-4 right-4 bg-white/90 backdrop-blur rounded-full px-3 py-1">
                                 <span class="text-xs font-semibold text-emerald-600">Featured</span>
@@ -248,205 +248,244 @@
                                 <span class="bg-emerald-100 text-emerald-700 text-xs px-2 py-1 rounded-full font-semibold">Nutrition</span>
                                 <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-semibold">Education</span>
                             </div>
-                            <h3 class="text-xl font-bold mb-3 text-slate-900">School Nutrition Program</h3>
-                            <p class="text-slate-600 mb-6 leading-relaxed">Providing daily nutritious meals to underprivileged children, ensuring they can focus on learning and growing.</p>
+                            <h3 class="text-xl font-bold text-slate-900 mb-4">School Nutrition Program</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">Providing daily nutritious meals to 500+ children in underserved communities, ensuring they can focus on learning and growth.</p>
                             
                             <div class="mb-6">
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="font-semibold text-slate-700">Progress</span>
-                                    <span class="font-bold text-emerald-600">$37,500 of $50,000</span>
+                                    <span class="text-slate-600">Progress</span>
+                                    <span class="font-semibold text-emerald-600">$37,500 / $50,000</span>
                                 </div>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div class="bg-gradient-to-r from-emerald-500 to-emerald-400 h-3 rounded-full" style="width: 75%"></div>
+                                <div class="w-full bg-slate-200 rounded-full h-3">
+                                    <div class="bg-emerald-600 h-3 rounded-full" style="width: 75%"></div>
                                 </div>
-                                <div class="flex justify-between text-xs mt-2 text-slate-500">
-                                    <span>75% Complete</span>
+                            </div>
+                            
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-users text-emerald-600"></i>
+                                    <span>245 donors</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-calendar text-emerald-600"></i>
                                     <span>15 days left</span>
                                 </div>
                             </div>
                             
-                            <div class="space-y-3">
-                                <a href="/campaigns/school-nutrition" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-all text-center">Support Campaign</a>
-                                <a href="/donate" class="w-full border border-emerald-600 text-emerald-600 px-6 py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-all text-center">Quick Donate</a>
-                            </div>
+                            <a href="/donate" class="w-full py-3 bg-emerald-600 text-white font-semibold rounded-xl hover:bg-emerald-700 transition-all text-center block">
+                                Donate Now
+                            </a>
                         </div>
                     </div>
-
+                    
                     <!-- Campaign 2 -->
                     <div class="campaign-card bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                         <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1556761175-129418cb2dfe?auto=format&fit=crop&w=600&q=80" alt="Emergency Relief Fund" class="w-full h-56 object-cover">
-                            <div class="absolute top-4 left-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-sm font-semibold">45% Funded</div>
-                            <div class="absolute top-4 right-4 bg-red-100 backdrop-blur rounded-full px-3 py-1">
-                                <span class="text-xs font-semibold text-red-700">Urgent</span>
-                            </div>
-                        </div>
-                        <div class="p-8">
-                            <div class="flex items-center gap-2 mb-4">
-                                <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-semibold">Emergency</span>
-                                <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-semibold">Relief</span>
-                            </div>
-                            <h3 class="text-xl font-bold mb-3 text-slate-900">Emergency Relief Fund</h3>
-                            <p class="text-slate-600 mb-6 leading-relaxed">Rapid response for families facing unexpected crises and natural disasters.</p>
-                            
-                            <div class="mb-6">
-                                <div class="flex justify-between text-sm mb-2">
-                                    <span class="font-semibold text-slate-700">Progress</span>
-                                    <span class="font-bold text-yellow-600">$22,500 of $50,000</span>
-                                </div>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div class="bg-gradient-to-r from-yellow-500 to-yellow-400 h-3 rounded-full" style="width: 45%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs mt-2 text-slate-500">
-                                    <span>45% Complete</span>
-                                    <span>7 days left</span>
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-3">
-                                <a href="/campaigns/emergency-relief" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-all text-center">Support Campaign</a>
-                                <a href="/donate" class="w-full border border-emerald-600 text-emerald-600 px-6 py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-all text-center">Quick Donate</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Campaign 3 -->
-                    <div class="campaign-card bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
-                        <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=600&q=80" alt="Community Gardens" class="w-full h-56 object-cover">
-                            <div class="absolute top-4 left-4 bg-emerald-600 text-white px-3 py-1 rounded-full text-sm font-semibold">90% Funded</div>
+                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613873/african-kid-marketplace-_8_caa2f7.jpg" alt="Community Garden Initiative" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">60% Funded</div>
                         </div>
                         <div class="p-8">
                             <div class="flex items-center gap-2 mb-4">
                                 <span class="bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-semibold">Agriculture</span>
                                 <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full font-semibold">Sustainability</span>
                             </div>
-                            <h3 class="text-xl font-bold mb-3 text-slate-900">Community Gardens</h3>
-                            <p class="text-slate-600 mb-6 leading-relaxed">Creating sustainable food sources and teaching communities to grow their own nutritious food.</p>
+                            <h3 class="text-xl font-bold text-slate-900 mb-4">Community Garden Initiative</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">Establishing 10 sustainable community gardens to provide fresh produce and agricultural training for local families.</p>
                             
                             <div class="mb-6">
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="font-semibold text-slate-700">Progress</span>
-                                    <span class="font-bold text-emerald-600">$45,000 of $50,000</span>
+                                    <span class="text-slate-600">Progress</span>
+                                    <span class="font-semibold text-blue-600">$18,000 / $30,000</span>
                                 </div>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div class="bg-gradient-to-r from-emerald-500 to-emerald-400 h-3 rounded-full" style="width: 90%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs mt-2 text-slate-500">
-                                    <span>90% Complete</span>
-                                    <span>3 days left</span>
+                                <div class="w-full bg-slate-200 rounded-full h-3">
+                                    <div class="bg-blue-600 h-3 rounded-full" style="width: 60%"></div>
                                 </div>
                             </div>
                             
-                            <div class="space-y-3">
-                                <a href="/campaigns/community-gardens" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-all text-center">Support Campaign</a>
-                                <a href="/donate" class="w-full border border-emerald-600 text-emerald-600 px-6 py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-all text-center">Quick Donate</a>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-users text-blue-600"></i>
+                                    <span>132 donors</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-calendar text-blue-600"></i>
+                                    <span>22 days left</span>
+                                </div>
                             </div>
+                            
+                            <a href="/donate" class="w-full py-3 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-all text-center block">
+                                Donate Now
+                            </a>
                         </div>
                     </div>
-
+                    
+                    <!-- Campaign 3 -->
+                    <div class="campaign-card bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
+                        <div class="relative">
+                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613879/volunteer-helping-with-donation-box_dwuyr7.jpg" alt="Emergency Relief Fund" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-semibold">45% Funded</div>
+                            <div class="absolute top-4 right-4 bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                Urgent
+                            </div>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-semibold">Emergency</span>
+                                <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-semibold">Relief</span>
+                            </div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-4">Emergency Relief Fund</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">Rapid response fund providing immediate food, water, and essential supplies to families affected by crises and natural disasters.</p>
+                            
+                            <div class="mb-6">
+                                <div class="flex justify-between text-sm mb-2">
+                                    <span class="text-slate-600">Progress</span>
+                                    <span class="font-semibold text-orange-600">$13,500 / $30,000</span>
+                                </div>
+                                <div class="w-full bg-slate-200 rounded-full h-3">
+                                    <div class="bg-orange-600 h-3 rounded-full" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-users text-orange-600"></i>
+                                    <span>89 donors</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-calendar text-orange-600"></i>
+                                    <span>10 days left</span>
+                                </div>
+                            </div>
+                            
+                            <a href="/donate" class="w-full py-3 bg-orange-600 text-white font-semibold rounded-xl hover:bg-orange-700 transition-all text-center block">
+                                Donate Now
+                            </a>
+                        </div>
+                    </div>
+                    
                     <!-- Campaign 4 -->
                     <div class="campaign-card bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                         <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1542831371-75b59836b5e6?auto=format&fit=crop&w=600&q=80" alt="Clean Water Initiative" class="w-full h-56 object-cover">
-                            <div class="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">60% Funded</div>
+                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613868/african-children-enjoying-life_sebm6h.jpg" alt="Clean Water Project" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">30% Funded</div>
                         </div>
                         <div class="p-8">
                             <div class="flex items-center gap-2 mb-4">
                                 <span class="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-semibold">Water</span>
                                 <span class="bg-cyan-100 text-cyan-700 text-xs px-2 py-1 rounded-full font-semibold">Health</span>
                             </div>
-                            <h3 class="text-xl font-bold mb-3 text-slate-900">Clean Water Initiative</h3>
-                            <p class="text-slate-600 mb-6 leading-relaxed">Providing clean drinking water and sanitation facilities to rural communities.</p>
+                            <h3 class="text-xl font-bold text-slate-900 mb-4">Clean Water Project</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">Installing water purification systems and wells in 5 rural communities to provide access to clean, safe drinking water.</p>
                             
                             <div class="mb-6">
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="font-semibold text-slate-700">Progress</span>
-                                    <span class="font-bold text-blue-600">$30,000 of $50,000</span>
+                                    <span class="text-slate-600">Progress</span>
+                                    <span class="font-semibold text-purple-600">$9,000 / $30,000</span>
                                 </div>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div class="bg-gradient-to-r from-blue-500 to-blue-400 h-3 rounded-full" style="width: 60%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs mt-2 text-slate-500">
-                                    <span>60% Complete</span>
-                                    <span>20 days left</span>
+                                <div class="w-full bg-slate-200 rounded-full h-3">
+                                    <div class="bg-purple-600 h-3 rounded-full" style="width: 30%"></div>
                                 </div>
                             </div>
                             
-                            <div class="space-y-3">
-                                <a href="/campaigns/clean-water" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-all text-center">Support Campaign</a>
-                                <a href="/donate" class="w-full border border-emerald-600 text-emerald-600 px-6 py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-all text-center">Quick Donate</a>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-users text-purple-600"></i>
+                                    <span>67 donors</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-calendar text-purple-600"></i>
+                                    <span>30 days left</span>
+                                </div>
                             </div>
+                            
+                            <a href="/donate" class="w-full py-3 bg-purple-600 text-white font-semibold rounded-xl hover:bg-purple-700 transition-all text-center block">
+                                Donate Now
+                            </a>
                         </div>
                     </div>
-
+                    
                     <!-- Campaign 5 -->
                     <div class="campaign-card bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                         <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f5b07507?auto=format&fit=crop&w=600&q=80" alt="Medical Supplies" class="w-full h-56 object-cover">
-                            <div class="absolute top-4 left-4 bg-purple-600 text-white px-3 py-1 rounded-full text-sm font-semibold">30% Funded</div>
+                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613870/african-kid-marketplace-_7_xiwx7g.jpg" alt="Women's Empowerment" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 left-4 bg-pink-600 text-white px-3 py-1 rounded-full text-sm font-semibold">55% Funded</div>
                         </div>
                         <div class="p-8">
                             <div class="flex items-center gap-2 mb-4">
-                                <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full font-semibold">Medical</span>
-                                <span class="bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded-full font-semibold">Healthcare</span>
+                                <span class="bg-pink-100 text-pink-700 text-xs px-2 py-1 rounded-full font-semibold">Empowerment</span>
+                                <span class="bg-purple-100 text-purple-700 text-xs px-2 py-1 rounded-full font-semibold">Training</span>
                             </div>
-                            <h3 class="text-xl font-bold mb-3 text-slate-900">Medical Supplies</h3>
-                            <p class="text-slate-600 mb-6 leading-relaxed">Essential medical equipment and supplies for community health centers.</p>
+                            <h3 class="text-xl font-bold text-slate-900 mb-4">Women's Empowerment</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">Providing vocational training and microfinance opportunities for 200 women to start sustainable businesses and support their families.</p>
                             
                             <div class="mb-6">
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="font-semibold text-slate-700">Progress</span>
-                                    <span class="font-bold text-purple-600">$15,000 of $50,000</span>
+                                    <span class="text-slate-600">Progress</span>
+                                    <span class="font-semibold text-pink-600">$16,500 / $30,000</span>
                                 </div>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div class="bg-gradient-to-r from-purple-500 to-purple-400 h-3 rounded-full" style="width: 30%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs mt-2 text-slate-500">
-                                    <span>30% Complete</span>
-                                    <span>45 days left</span>
+                                <div class="w-full bg-slate-200 rounded-full h-3">
+                                    <div class="bg-pink-600 h-3 rounded-full" style="width: 55%"></div>
                                 </div>
                             </div>
                             
-                            <div class="space-y-3">
-                                <a href="/campaigns/medical-supplies" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-all text-center">Support Campaign</a>
-                                <a href="/donate" class="w-full border border-emerald-600 text-emerald-600 px-6 py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-all text-center">Quick Donate</a>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-users text-pink-600"></i>
+                                    <span>156 donors</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-calendar text-pink-600"></i>
+                                    <span>18 days left</span>
+                                </div>
                             </div>
+                            
+                            <a href="/donate" class="w-full py-3 bg-pink-600 text-white font-semibold rounded-xl hover:bg-pink-700 transition-all text-center block">
+                                Donate Now
+                            </a>
                         </div>
                     </div>
-
+                    
                     <!-- Campaign 6 -->
                     <div class="campaign-card bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                         <div class="relative">
-                            <img src="https://images.unsplash.com/photo-1581092783058-6055486aaff14?auto=format&fit=crop&w=600&q=80" alt="Education Fund" class="w-full h-56 object-cover">
-                            <div class="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-sm font-semibold">85% Funded</div>
+                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613871/african-kid-marketplace-_6_a5ykq5.jpg" alt="Medical Supplies" class="w-full h-56 object-cover">
+                            <div class="absolute top-4 left-4 bg-red-600 text-white px-3 py-1 rounded-full text-sm font-semibold">25% Funded</div>
+                            <div class="absolute top-4 right-4 bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold">
+                                Critical
+                            </div>
                         </div>
                         <div class="p-8">
                             <div class="flex items-center gap-2 mb-4">
-                                <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-semibold">Education</span>
-                                <span class="bg-amber-100 text-amber-700 text-xs px-2 py-1 rounded-full font-semibold">Learning</span>
+                                <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full font-semibold">Medical</span>
+                                <span class="bg-orange-100 text-orange-700 text-xs px-2 py-1 rounded-full font-semibold">Supplies</span>
                             </div>
-                            <h3 class="text-xl font-bold mb-3 text-slate-900">Education Fund</h3>
-                            <p class="text-slate-600 mb-6 leading-relaxed">School supplies, books, and learning resources for underserved communities.</p>
+                            <h3 class="text-xl font-bold text-slate-900 mb-4">Medical Supplies</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">Essential medical supplies and equipment for rural health clinics serving communities with limited healthcare access.</p>
                             
                             <div class="mb-6">
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="font-semibold text-slate-700">Progress</span>
-                                    <span class="font-bold text-orange-600">$42,500 of $50,000</span>
+                                    <span class="text-slate-600">Progress</span>
+                                    <span class="font-semibold text-red-600">$7,500 / $30,000</span>
                                 </div>
-                                <div class="w-full bg-gray-200 rounded-full h-3">
-                                    <div class="bg-gradient-to-r from-orange-500 to-orange-400 h-3 rounded-full" style="width: 85%"></div>
-                                </div>
-                                <div class="flex justify-between text-xs mt-2 text-slate-500">
-                                    <span>85% Complete</span>
-                                    <span>5 days left</span>
+                                <div class="w-full bg-slate-200 rounded-full h-3">
+                                    <div class="bg-red-600 h-3 rounded-full" style="width: 25%"></div>
                                 </div>
                             </div>
                             
-                            <div class="space-y-3">
-                                <a href="/campaigns/education-fund" class="w-full bg-emerald-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-emerald-700 transition-all text-center">Support Campaign</a>
-                                <a href="/donate" class="w-full border border-emerald-600 text-emerald-600 px-6 py-3 rounded-xl font-semibold hover:bg-emerald-50 transition-all text-center">Quick Donate</a>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-users text-red-600"></i>
+                                    <span>45 donors</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm text-slate-600">
+                                    <i class="ph ph-calendar text-red-600"></i>
+                                    <span>12 days left</span>
+                                </div>
                             </div>
+                            
+                            <a href="/donate" class="w-full py-3 bg-red-600 text-white font-semibold rounded-xl hover:bg-red-700 transition-all text-center block">
+                                Donate Now
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -512,100 +551,8 @@
                 </div>
             </div>
         </section>
-    </main>`n`n        @include('components.footer')
-
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-white pt-20 pb-10">
-        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-            <div class="col-span-1 md:col-span-1 lg:col-span-1">
-                <a href="/" class="flex items-center gap-3 mb-6">
-                    <div class="h-10 w-10 rounded-xl object-contain bg-gradient-to-br from-emerald-500 to-emerald-600 p-2">
-                        <i class="ph-bold ph-seedling text-white"></i>
-                    </div>
-                    <div class="flex flex-col">
-                        <span class="text-lg font-black tracking-tighter text-white leading-none">FeedTan</span>
-                        <span class="text-xs font-bold text-slate-400 leading-none mt-1">Growing Hope, Feeding Futures</span>
-                    </div>
-                </a>
-                <p class="text-slate-400 leading-relaxed text-sm mb-6">
-                    Cultivating sustainable communities and growing hope through innovative food security solutions since 2009.
-                </p>
-                <div class="flex items-center gap-4">
-                    <span class="text-xs font-bold text-emerald-400">501(c)(3)</span>
-                    <span class="text-xs text-slate-500">|</span>
-                    <span class="text-xs font-bold text-emerald-400">15+ Years</span>
-                    <span class="text-xs text-slate-500">|</span>
-                    <span class="text-xs font-bold text-emerald-400">Global Impact</span>
-                </div>
-                <div class="flex gap-3 mt-6">
-                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition-colors" aria-label="Facebook">
-                        <i class="ph ph-facebook-logo text-white"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition-colors" aria-label="Twitter">
-                        <i class="ph ph-twitter-logo text-white"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition-colors" aria-label="Instagram">
-                        <i class="ph ph-instagram-logo text-white"></i>
-                    </a>
-                    <a href="#" class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-emerald-600 transition-colors" aria-label="LinkedIn">
-                        <i class="ph ph-linkedin-logo text-white"></i>
-                    </a>
-                </div>
-            </div>
-
-            <div>
-                <h4 class="font-bold mb-6 text-emerald-500">Quick Links</h4>
-                <ul class="space-y-4 text-sm text-slate-400">
-                    <li><a href="/" class="hover:text-white transition-colors">Home</a></li>
-                    <li><a href="/about" class="hover:text-white transition-colors">About Us</a></li>
-                    <li><a href="/campaigns" class="hover:text-white transition-colors">Campaigns</a></li>
-                    <li><a href="/impact" class="hover:text-white transition-colors">Our Impact</a></li>
-                    <li><a href="/get-involved" class="hover:text-white transition-colors">Get Involved</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="font-bold mb-6 text-emerald-500">Get Involved</h4>
-                <ul class="space-y-4 text-sm text-slate-400">
-                    <li><a href="/donate" class="hover:text-white transition-colors">Donate Monthly</a></li>
-                    <li><a href="/partners" class="hover:text-white transition-colors">Corporate Partnerships</a></li>
-                    <li><a href="/events" class="hover:text-white transition-colors">Fundraising Events</a></li>
-                    <li><a href="/get-involved" class="hover:text-white transition-colors">Volunteer Programs</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 class="font-bold mb-6 text-emerald-500">Contact Info</h4>
-                <ul class="space-y-4 text-sm text-slate-400">
-                    <li class="flex items-start gap-3">
-                        <i class="ph ph-map-pin text-emerald-500 mt-0.5"></i>
-                        <span>
-                            FeedTan Charity Headquarters<br>
-                            123 Green Way, Hope City<br>
-                            United States
-                        </span>
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i class="ph ph-phone text-emerald-500"></i> (555) 123-4567
-                    </li>
-                    <li class="flex items-center gap-3">
-                        <i class="ph ph-envelope text-emerald-500"></i> info@feedtan.org
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="max-w-7xl mx-auto px-6 pt-10 border-t border-slate-800">
-            <div class="flex flex-col items-center text-center gap-8">
-                <div class="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                    <a href="/terms" class="hover:text-emerald-500 transition-colors">Terms & Conditions</a>
-                    <a href="/privacy" class="hover:text-emerald-500 transition-colors">Privacy Policy</a>
-                    <a href="/faq" class="hover:text-emerald-500 transition-colors">FAQ</a>
-                </div>
-                <p class="text-sm text-slate-500">© 2024 FeedTan Charity. All rights reserved. | 501(c)(3) Non-Profit Organization</p>
-            </div>
-        </div>
-    </footer>
+    </main>
+    @include('components.footer')
 
     <script>
         // Smooth scrolling for navigation links
