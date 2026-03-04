@@ -409,7 +409,7 @@
                         <a href="#campaigns" class="text-emerald-600 font-bold flex items-center gap-2 hover:gap-3 transition-all">View All Campaigns <i class="ph ph-arrow-right"></i></a>
                     </div>
 
-                    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
                         <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100">
                             <div class="relative">
                                 <img src="https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?auto=format&fit=crop&w=600&q=80" alt="School Nutrition" class="w-full h-56 object-cover">
@@ -489,208 +489,15 @@
             </section>
 
     
-            <section class="py-32 relative overflow-hidden" id="volunteer">
-                <!-- Background Pattern -->
-                <div class="absolute inset-0 opacity-5">
-                    <div class="absolute inset-0" style="background-image: url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23059669\" fill-opacity=\"0.4\"%3E%3Cpath d=\"M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
-                </div>
-
-                <div class="max-w-7xl mx-auto px-6 relative z-10">
-                    <!-- Unique Header -->
-                    <div class="text-center mb-20">
-                        <div class="inline-flex items-center gap-3 bg-gradient-to-r from-emerald-50 to-emerald-100 rounded-full px-6 py-3 mb-8 border border-emerald-200">
-                            <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
-                            <span class="text-emerald-700 font-bold text-sm tracking-wide">JOIN THE MOVEMENT</span>
-                            <div class="w-3 h-3 bg-emerald-500 rounded-full animate-pulse"></div>
-                        </div>
-                        <h2 class="text-5xl md:text-7xl font-serif text-slate-900 mb-8 font-bold leading-tight">
-                            Become a<br>
-                            <span class="relative">
-                                <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-400">Change Maker</span>
-                                <svg class="absolute -bottom-2 left-0 w-full" height="8" viewBox="0 0 100 8" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M0,4 Q25,8 50,4 T100,4" stroke="url(#gradient)" stroke-width="2" fill="none"/>
-                                    <defs>
-                                        <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" style="stop-color:#10b981;stop-opacity:0.3" />
-                                            <stop offset="50%" style="stop-color:#059669;stop-opacity:0.8" />
-                                            <stop offset="100%" style="stop-color:#10b981;stop-opacity:0.3" />
-                                        </linearGradient>
-                                    </defs>
-                                </svg>
-                            </span>
-                        </h2>
-                        <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                            Join our growing community of dedicated volunteers and help us cultivate lasting change through sustainable action.
-                        </p>
-                        <div class="mt-8 flex justify-center">
-                            <a href="#volunteer-form" class="group relative inline-flex items-center gap-3 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-2xl shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-300 hover:scale-105">
-                                <span>Start Your Journey</span>
-                                <i class="ph ph-arrow-right text-xl transition-transform group-hover:translate-x-1"></i>
-                                <div class="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity"></div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Unique Feature Cards -->
-                    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-20">
-                        <div class="group relative">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-                            <div class="relative bg-white rounded-3xl p-8 border border-slate-100 h-full flex flex-col">
-                                <div class="w-16 h-16 mx-auto mb-6 relative">
-                                    <div class="absolute inset-0 bg-gradient-to-br from-emerald-100 to-emerald-200 rounded-2xl transform rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
-                                    <div class="relative bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
-                                        <i class="ph ph-clock"></i>
-                                    </div>
-                                </div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-3 text-center">Flexible Scheduling</h3>
-                                <p class="text-slate-600 leading-relaxed text-center flex-grow">Choose hours that work perfectly with your lifestyle and commitments.</p>
-                                <div class="mt-6 text-center">
-                                    <span class="inline-flex items-center gap-2 text-emerald-600 font-semibold text-sm">
-                                        <i class="ph ph-check-circle-fill"></i>
-                                        Your Time, Your Impact
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="group relative">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-blue-400 to-blue-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-                            <div class="relative bg-white rounded-3xl p-8 border border-slate-100 h-full flex flex-col">
-                                <div class="w-16 h-16 mx-auto mb-6 relative">
-                                    <div class="absolute inset-0 bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl transform rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
-                                    <div class="relative bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
-                                        <i class="ph ph-heart"></i>
-                                    </div>
-                                </div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-3 text-center">Meaningful Impact</h3>
-                                <p class="text-slate-600 leading-relaxed text-center flex-grow">Make a real, tangible difference in people's lives every day.</p>
-                                <div class="mt-6 text-center">
-                                    <span class="inline-flex items-center gap-2 text-blue-600 font-semibold text-sm">
-                                        <i class="ph ph-check-circle-fill"></i>
-                                        Real Change, Real Lives
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="group relative">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-purple-400 to-purple-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-                            <div class="relative bg-white rounded-3xl p-8 border border-slate-100 h-full flex flex-col">
-                                <div class="w-16 h-16 mx-auto mb-6 relative">
-                                    <div class="absolute inset-0 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl transform rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
-                                    <div class="relative bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
-                                        <i class="ph ph-users"></i>
-                                    </div>
-                                </div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-3 text-center">Community Building</h3>
-                                <p class="text-slate-600 leading-relaxed text-center flex-grow">Connect with passionate, like-minded individuals.</p>
-                                <div class="mt-6 text-center">
-                                    <span class="inline-flex items-center gap-2 text-purple-600 font-semibold text-sm">
-                                        <i class="ph ph-check-circle-fill"></i>
-                                        Together We're Stronger
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="group relative">
-                            <div class="absolute -inset-1 bg-gradient-to-r from-orange-400 to-orange-600 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"></div>
-                            <div class="relative bg-white rounded-3xl p-8 border border-slate-100 h-full flex flex-col">
-                                <div class="w-16 h-16 mx-auto mb-6 relative">
-                                    <div class="absolute inset-0 bg-gradient-to-br from-orange-100 to-orange-200 rounded-2xl transform rotate-45 group-hover:rotate-90 transition-transform duration-500"></div>
-                                    <div class="relative bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg">
-                                        <i class="ph ph-graduation-cap"></i>
-                                    </div>
-                                </div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-3 text-center">Learn & Grow</h3>
-                                <p class="text-slate-600 leading-relaxed text-center flex-grow">Develop new skills while making a positive impact.</p>
-                                <div class="mt-6 text-center">
-                                    <span class="inline-flex items-center gap-2 text-orange-600 font-semibold text-sm">
-                                        <i class="ph ph-check-circle-fill"></i>
-                                        Grow While Giving
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Unique Application Form -->
-                    <div id="volunteer-form" class="max-w-4xl mx-auto">
-                        <div class="relative">
-                            <div class="absolute inset-0 bg-gradient-to-r from-emerald-50 via-blue-50 to-purple-50 rounded-3xl transform rotate-1"></div>
-                            <div class="relative bg-white rounded-3xl shadow-2xl border border-slate-100 p-12">
-                                <div class="text-center mb-10">
-                                    <h3 class="text-3xl font-serif font-bold text-slate-900 mb-4">Volunteer Application</h3>
-                                    <p class="text-slate-600">Start your journey of making a difference today</p>
-                                </div>
-
-                                <form class="space-y-8">
-                                    <div class="grid md:grid-cols-2 gap-8">
-                                        <div class="relative">
-                                            <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">Full Name</label>
-                                            <input type="text" class="w-full px-6 py-4 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-lg font-medium placeholder-slate-400" placeholder="John Doe">
-                                            <div class="absolute -right-2 -top-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white opacity-0 transform scale-0 transition-all">
-                                                <i class="ph ph-check text-sm"></i>
-                                            </div>
-                                        </div>
-                                        <div class="relative">
-                                            <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">Email Address</label>
-                                            <input type="email" class="w-full px-6 py-4 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-lg font-medium placeholder-slate-400" placeholder="john@example.com">
-                                            <div class="absolute -right-2 -top-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white opacity-0 transform scale-0 transition-all">
-                                                <i class="ph ph-check text-sm"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="grid md:grid-cols-2 gap-8">
-                                        <div class="relative">
-                                            <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">Phone Number</label>
-                                            <input type="tel" class="w-full px-6 py-4 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-lg font-medium placeholder-slate-400" placeholder="+1 (555) 123-4567">
-                                            <div class="absolute -right-2 -top-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white opacity-0 transform scale-0 transition-all">
-                                                <i class="ph ph-check text-sm"></i>
-                                            </div>
-                                        </div>
-                                        <div class="relative">
-                                            <label class="block text-sm font-bold text-slate-700 mb-3 uppercase tracking-wider">Areas of Interest</label>
-                                            <select class="w-full px-6 py-4 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all text-lg font-medium">
-                                                <option>Sustainable Agriculture</option>
-                                                <option>Food Preparation & Distribution</option>
-                                                <option>Community Outreach</option>
-                                                <option>Education & Training</option>
-                                                <option>Administrative Support</option>
-                                            </select>
-                                            <div class="absolute -right-2 -top-2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center text-white opacity-0 transform scale-0 transition-all">
-                                                <i class="ph ph-check text-sm"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <button type="submit" class="group relative inline-flex items-center gap-4 bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 text-white px-12 py-5 rounded-2xl font-bold text-xl shadow-2xl shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all duration-300 hover:scale-105">
-                                            <span>Submit Application</span>
-                                            <i class="ph ph-paper-plane-right text-2xl transition-transform group-hover:translate-x-2"></i>
-                                            <div class="absolute inset-0 rounded-2xl bg-white opacity-0 group-hover:opacity-10 transition-opacity"></div>
-                                        </button>
-                                        <p class="mt-6 text-sm text-slate-500">
-                                            <i class="ph ph-lock text-emerald-500"></i>
-                                            Your information is secure and will never be shared
-                                        </p>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            
             <section class="py-24 bg-emerald-600">
                 <div class="max-w-7xl mx-auto px-6 text-center">
                     <h2 class="text-4xl md:text-5xl font-serif text-white mb-8 font-bold">Ready to grow hope with us?</h2>
                     <p class="text-emerald-100 text-xl max-w-2xl mx-auto mb-12">Join our mission today and help us plant seeds of change that will flourish for generations.</p>
                     <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
                         <a href="#campaigns" class="px-12 py-5 bg-white text-emerald-600 font-bold rounded-full shadow-2xl hover:scale-105 transition-all">Donate Now</a>
-                        <a href="#volunteer" class="flex items-center gap-3 text-white font-bold hover:scale-105 transition-all text-xl">
-                            <i class="ph-bold ph-arrow-right text-3xl"></i> Volunteer With Us
+                        <a href="#about" class="flex items-center gap-3 text-white font-bold hover:scale-105 transition-all text-xl">
+                            <i class="ph-bold ph-arrow-right text-3xl"></i> Learn More
                         </a>
                     </div>
                 </div>
