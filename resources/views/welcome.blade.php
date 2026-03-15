@@ -425,20 +425,7 @@
             </section>
         </main>
 
-        <footer class="bg-slate-900 text-white pt-20 pb-10">
-            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
-                <div class="col-span-1 md:col-span-1 lg:col-span-1">
-                    <a href="{{ url('/') }}" class="flex items-center gap-3 mb-6">
-                        <div class="h-16 w-16 rounded-2xl object-contain bg-white p-3 shadow-lg">
-                            <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772610231/ANIVERSERY-removebg-preview_wixulu.png" alt="FeedTan Logo" class="w-full h-full object-contain">
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-lg font-black tracking-tighter text-white leading-none">FeedTan</span>
-                            <span class="text-xs font-bold text-slate-400 leading-none mt-1">Community Microfinance Group</span>
-                        </div>
-                    </a>
-                    <p class="text-slate-400 leading-relaxed text-sm mb-6">
-                        Cultivating sustainable communities and growing hope through innovative food security solutions since 2009.
+        @include('components.footer')
 
         <script>
             // Smooth scrolling for navigation links
