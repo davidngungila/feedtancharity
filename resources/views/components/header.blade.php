@@ -1,7 +1,7 @@
 <!-- Navigation Header -->
 <nav class="fixed top-0 w-full z-50 glass border-b border-slate-100">
     <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-        <a href="/" class="flex items-center gap-3 group/logo">
+        <a href="{{ getSiteUrl() }}" class="flex items-center gap-3 group/logo">
             <div class="h-20 w-20 rounded-2xl object-contain bg-white p-3 transition-transform group-hover/logo:scale-105 overflow-hidden shadow-lg">
                 <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772609946/4_lqe3dl.png" alt="FeedTan Logo" class="w-full h-full object-contain">
             </div>
