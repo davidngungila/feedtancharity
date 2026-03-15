@@ -59,22 +59,6 @@
                         <strong>Phone:</strong> (555) 123-4567
                     </span>
                 </li>
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-globe text-emerald-500"></i>
-                    <span>Online Platform: Live Website</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-server text-emerald-500"></i>
-                    <span>Server Status: Active & Running</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-clock text-emerald-500"></i>
-                    <span>Business Hours: Mon-Fri 8AM-6PM EAT</span>
-                </li>
-                <li class="flex items-center gap-3">
-                    <i class="ph ph-shield-check text-emerald-500"></i>
-                    <span>Registration: NGO Registered in Tanzania</span>
-                </li>
             </ul>
         </div>
     </div>
