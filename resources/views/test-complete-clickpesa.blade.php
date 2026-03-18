@@ -158,25 +158,44 @@
         console.log('showResult called with:', { elementId, content, isSuccess });
         
         const element = document.getElementById(elementId);
-        const contentDiv = document.getElementById(elementId.replace('-results', '-content'));
+        const contentDivId = elementId.replace('-results', '-content');
+        const contentDiv = document.getElementById(contentDivId);
         
         console.log('Elements found:', { 
             element: !!element, 
             contentDiv: !!contentDiv,
             elementId: elementId,
-            contentDivId: elementId.replace('-results', '-content')
+            contentDivId: contentDivId
         });
         
+        // Try alternative method if element not found
         if (!element) {
             console.error('Results element not found:', elementId);
+            // Try to find any element with similar ID
+            const possibleElements = document.querySelectorAll('[id*="results"]');
+            console.log('Possible result elements:', Array.from(possibleElements).map(el => el.id));
+            
             alert('Error: Results container not found. Check browser console for details.');
             return;
         }
         
         if (!contentDiv) {
-            console.error('Results content element not found:', elementId.replace('-results', '-content'));
-            alert('Error: Results content container not found. Check browser console for details.');
-            return;
+            console.error('Results content element not found:', contentDivId);
+            // Try to find content div within the results element
+            const possibleContentDivs = element.querySelectorAll('[id*="content"]');
+            console.log('Possible content divs:', Array.from(possibleContentDivs).map(el => el.id));
+            
+            // If still not found, create it
+            if (possibleContentDivs.length === 0) {
+                console.log('Creating content div dynamically...');
+                const newContentDiv = document.createElement('div');
+                newContentDiv.id = contentDivId;
+                newContentDiv.className = 'bg-slate-50 rounded-xl p-6 font-mono text-sm max-h-96 overflow-y-auto';
+                element.appendChild(newContentDiv);
+                contentDiv = newContentDiv;
+            } else {
+                contentDiv = possibleContentDivs[0];
+            }
         }
         
         // Make sure element is visible
@@ -454,6 +473,27 @@
     function testDisplay() {
         console.log('Testing display function...');
         
+        // Direct element access test
+        const resultsElement = document.getElementById('test-results');
+        const contentElement = document.getElementById('results-content');
+        
+        console.log('Direct element test:', {
+            resultsElement: !!resultsElement,
+            contentElement: !!contentElement,
+            resultsElementId: resultsElement?.id,
+            contentElementId: contentElement?.id
+        });
+        
+        if (!resultsElement || !contentElement) {
+            console.error('Elements not found!');
+            alert('Test Results elements not found! Check console for details.');
+            return;
+        }
+        
+        // Make visible
+        resultsElement.classList.remove('hidden');
+        resultsElement.style.display = 'block';
+        
         const testData = {
             message: 'Test display is working!',
             timestamp: new Date().toISOString(),
@@ -470,7 +510,29 @@
             }
         };
         
-        showResult('test-results', testData, true);
+        // Direct HTML assignment
+        const html = `
+            <div class="mb-4">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-100 text-green-800">
+                    ✅ Success
+                </span>
+                <span class="ml-2 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                    📍 Test Display
+                </span>
+            </div>
+            <div class="mb-2 text-xs text-slate-500">
+                🕒 ${new Date().toLocaleString()}
+            </div>
+            <pre class="whitespace-pre-wrap text-xs bg-white p-4 rounded border border-slate-200 max-h-96 overflow-y-auto">${JSON.stringify(testData, null, 2)}</pre>
+        `;
+        
+        console.log('Setting HTML directly...');
+        contentElement.innerHTML = html;
+        
+        // Scroll to results
+        resultsElement.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        
+        console.log('Test display completed successfully!');
     }
 
     function debugCredentials() {
