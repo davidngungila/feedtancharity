@@ -35,6 +35,14 @@
                 </div>
             </div>
 
+            <!-- Server Status Check -->
+            <div class="mb-8">
+                <button onclick="checkServerStatus()" class="w-full px-6 py-4 bg-gray-600 text-white font-bold rounded-xl hover:bg-gray-700 transition-all">
+                    <i class="ph-bold ph-server text-xl mr-3"></i>
+                    Check Server Status
+                </button>
+            </div>
+
             <!-- Test Connection Button -->
             <div class="mb-8">
                 <button onclick="testConnection()" class="w-full px-6 py-4 bg-emerald-600 text-white font-bold rounded-xl hover:bg-emerald-700 transition-all">
@@ -114,6 +122,61 @@
         `;
     }
 
+    async function checkServerStatus() {
+        const resultsDiv = document.getElementById('test-results');
+        const contentDiv = document.getElementById('results-content');
+        
+        resultsDiv.classList.remove('hidden');
+        contentDiv.innerHTML = '<div class="text-center">Checking server status...</div>';
+
+        try {
+            console.log('Checking server status...');
+            
+            // Add timeout to the fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+            
+            const response = await fetch('/api/payments/test-clickpesa-connection', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                signal: controller.signal
+            });
+
+            clearTimeout(timeoutId);
+            console.log('Response status:', response.status);
+            
+            showResult('test-results', {
+                message: 'Server is responding',
+                status: response.status,
+                url: window.location.href,
+                timestamp: new Date().toISOString()
+            }, true);
+        } catch (error) {
+            console.error('Server status check error:', error);
+            
+            let errorMessage = error.message;
+            if (error.name === 'AbortError') {
+                errorMessage = 'Request timed out (10 seconds) - server may be down or slow';
+            }
+            
+            showResult('test-results', { 
+                error: errorMessage,
+                stack: error.stack,
+                type: error.name,
+                suggestions: [
+                    'Make sure Laravel development server is running: php artisan serve',
+                    'Check if server is accessible at: ' + window.location.origin,
+                    'Verify API routes are properly registered',
+                    'Check Laravel logs for errors'
+                ]
+            }, false);
+        }
+    }
+
     async function testConnection() {
         const resultsDiv = document.getElementById('test-results');
         const contentDiv = document.getElementById('results-content');
@@ -122,18 +185,65 @@
         contentDiv.innerHTML = '<div class="text-center">Testing connection...</div>';
 
         try {
+            console.log('Testing connection to:', '/api/payments/test-clickpesa-connection');
+            
+            // Add timeout to the fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+            
             const response = await fetch('/api/payments/test-clickpesa-connection', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                signal: controller.signal
             });
 
-            const data = await response.json();
+            clearTimeout(timeoutId);
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+            
+            const contentType = response.headers.get('content-type');
+            console.log('Content type:', contentType);
+
+            let data;
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                console.log('Raw response:', text);
+                data = { 
+                    error: 'Non-JSON response received',
+                    status: response.status,
+                    content_type: contentType,
+                    raw_response: text.substring(0, 500) + (text.length > 500 ? '...' : '')
+                };
+            }
+
             showResult('test-results', data, response.ok);
         } catch (error) {
-            showResult('test-results', { error: error.message }, false);
+            console.error('Fetch error:', error);
+            
+            let errorMessage = error.message;
+            if (error.name === 'AbortError') {
+                errorMessage = 'Request timed out (15 seconds) - server may be down or slow';
+            }
+            
+            showResult('test-results', { 
+                error: errorMessage,
+                stack: error.stack,
+                type: error.name,
+                url: '/api/payments/test-clickpesa-connection',
+                suggestions: [
+                    'Make sure Laravel development server is running: php artisan serve',
+                    'Check if server is accessible at: ' + window.location.origin,
+                    'Verify API routes are properly registered: php artisan route:list',
+                    'Check Laravel logs: storage/logs/laravel.log',
+                    'Try running: php artisan config:clear && php artisan route:clear'
+                ]
+            }, false);
         }
     }
 
