@@ -90,6 +90,14 @@
                 </button>
             </div>
 
+            <!-- Debug Credentials Button -->
+            <div class="mb-6">
+                <button onclick="debugCredentials()" class="w-full px-6 py-4 bg-indigo-600 text-white font-bold rounded-xl hover:bg-indigo-700 transition-all">
+                    <i class="ph-bold ph-key text-xl mr-3"></i>
+                    Debug ClickPesa Credentials
+                </button>
+            </div>
+
             <!-- Clear Results Button -->
             <div class="mb-6">
                 <button onclick="clearResults()" class="w-full px-6 py-4 bg-gray-600 text-white font-bold rounded-xl hover:bg-gray-700 transition-all">
@@ -463,6 +471,32 @@
         };
         
         showResult('test-results', testData, true);
+    }
+
+    function debugCredentials() {
+        console.log('Debugging ClickPesa credentials...');
+        
+        fetch('/debug-clickpesa')
+            .then(response => {
+                console.log('Debug response status:', response.status);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Debug response data:', data);
+                showResult('test-results', {
+                    message: 'ClickPesa Credentials Debug',
+                    ...data,
+                    step: 'Credentials Debug'
+                }, true);
+            })
+            .catch(error => {
+                console.error('Debug credentials error:', error);
+                showResult('test-results', {
+                    error: error.message,
+                    step: 'Credentials Debug',
+                    suggestion: 'Check if Laravel server is running and route is accessible'
+                }, false);
+            });
     }
 
     function clearResults() {

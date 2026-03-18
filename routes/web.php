@@ -56,6 +56,35 @@ Route::get('/test-complete-clickpesa', function () {
     return view('test-complete-clickpesa');
 });
 
+// Debug ClickPesa credentials
+Route::get('/debug-clickpesa', function () {
+    $clientId = config('services.clickpesa.client_id');
+    $apiKey = config('services.clickpesa.api_key');
+    $baseUrl = config('services.clickpesa.base_url');
+    
+    return response()->json([
+        'credentials' => [
+            'client_id' => $clientId,
+            'api_key_set' => !empty($apiKey),
+            'api_key_length' => strlen($apiKey ?? ''),
+            'base_url' => $baseUrl,
+            'is_default_client_id' => $clientId === 'your_client_id_here',
+            'client_id_empty' => empty($clientId),
+            'api_key_empty' => empty($apiKey)
+        ],
+        'environment' => [
+            'app_env' => config('app.env'),
+            'app_debug' => config('app.debug'),
+            'laravel_version' => app()->version()
+        ],
+        'next_steps' => [
+            'if credentials are missing' => 'Copy credentials from .env.example to .env file',
+            'if client_id is "your_client_id_here"' => 'Update .env with real ClickPesa credentials',
+            'if api_key is empty' => 'Add CLICKPESA_API_KEY to .env file'
+        ]
+    ]);
+});
+
 // Impact page
 Route::get('/impact', function () {
     return view('impact');
