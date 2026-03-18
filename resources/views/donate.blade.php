@@ -184,142 +184,211 @@
             <div class="max-w-4xl mx-auto px-6">
                 <div class="bg-white rounded-3xl shadow-2xl p-12">
                     <div class="text-center mb-12">
-                        <h2 class="text-3xl font-serif font-bold text-slate-900 mb-4">Choose Your Donation</h2>
-                        <p class="text-slate-600">Every contribution makes a meaningful difference</p>
+                        <h2 class="text-3xl font-serif font-bold text-slate-900 mb-4">Make Your Donation</h2>
+                        <p class="text-slate-600">Secure payment powered by ClickPesa</p>
                     </div>
 
-                    <!-- Donation Type -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Donation Type</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <button @click="donationType = 'one-time'" :class="donationType === 'one-time' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
-                                <i class="ph-bold ph-hand-heart text-2xl mb-3"></i>
-                                <div class="text-lg font-bold">One-Time Donation</div>
-                                <div class="text-sm opacity-75">Make a single gift today</div>
-                            </button>
-                            <button @click="donationType = 'monthly'" :class="donationType === 'monthly' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
-                                <i class="ph-bold ph-calendar-check text-2xl mb-3"></i>
-                                <div class="text-lg font-bold">Monthly Giving</div>
-                                <div class="text-sm opacity-75">Provide sustained support</div>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Amount Selection -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <button @click="amount = 25" :class="amount === 25 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                $25
-                            </button>
-                            <button @click="amount = 50" :class="amount === 50 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                $50
-                            </button>
-                            <button @click="amount = 100" :class="amount === 100 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                $100
-                            </button>
-                            <button @click="amount = 250" :class="amount === 250 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                $250
-                            </button>
-                        </div>
-                        
-                        <div class="relative">
-                            <input x-model="customAmount" type="number" placeholder="Enter custom amount" class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
-                            <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                <i class="ph-bold ph-currency-dollar text-xl"></i>
+                    <!-- ClickPesa Payment Form -->
+                    <div x-data="clickPesaPayment()" x-init="init()">
+                        <!-- Loading State -->
+                        <div x-show="loading" x-transition class="text-center py-12">
+                            <div class="inline-flex items-center gap-3 text-emerald-600">
+                                <div class="w-8 h-8 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin"></div>
+                                <span class="text-lg font-semibold">Initializing payment system...</span>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Donation Options -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Designate Your Gift</h3>
-                        <div class="space-y-4">
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="general" class="text-emerald-600" checked>
-                                <div>
-                                    <div class="font-semibold text-slate-900">General Fund</div>
-                                    <div class="text-sm text-slate-600">Where needed most</div>
+                        <!-- Error State -->
+                        <div x-show="error" x-transition class="bg-rose-50 border border-rose-200 rounded-2xl p-6 mb-8">
+                            <div class="flex items-start gap-4">
+                                <div class="bg-rose-100 rounded-full p-2">
+                                    <i class="ph-bold ph-warning text-rose-600 text-xl"></i>
                                 </div>
-                            </label>
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="nutrition" class="text-emerald-600">
-                                <div>
-                                    <div class="font-semibold text-slate-900">School Nutrition</div>
-                                    <div class="text-sm text-slate-600">Feed hungry children</div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-rose-900 mb-2">Payment Error</h4>
+                                    <p class="text-rose-700" x-text="error"></p>
                                 </div>
-                            </label>
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="agriculture" class="text-emerald-600">
-                                <div>
-                                    <div class="font-semibold text-slate-900">Community Gardens</div>
-                                    <div class="text-sm text-slate-600">Sustainable food sources</div>
-                                </div>
-                            </label>
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="emergency" class="text-emerald-600">
-                                <div>
-                                    <div class="font-semibold text-slate-900">Emergency Relief</div>
-                                    <div class="text-sm text-slate-600">Crisis response fund</div>
-                                </div>
-                            </label>
+                                <button @click="error = null" class="text-rose-400 hover:text-rose-600">
+                                    <i class="ph-bold ph-x text-xl"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Personal Information -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Your Information</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Success State -->
+                        <div x-show="success" x-transition class="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 mb-8">
+                            <div class="text-center">
+                                <div class="bg-emerald-100 rounded-full p-4 w-20 h-20 mx-auto mb-4">
+                                    <i class="ph-bold ph-check-circle text-emerald-600 text-4xl"></i>
+                                </div>
+                                <h4 class="font-bold text-emerald-900 text-xl mb-2">Payment Successful!</h4>
+                                <p class="text-emerald-700 mb-4">Thank you for your generous donation to FeedTan Charity.</p>
+                                <div class="bg-white rounded-xl p-4 text-left">
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-slate-600">Transaction ID:</span>
+                                        <span class="font-semibold" x-text="paymentDetails.id"></span>
+                                    </div>
+                                    <div class="flex justify-between mb-2">
+                                        <span class="text-slate-600">Amount:</span>
+                                        <span class="font-semibold" x-text="formatCurrency(paymentDetails.amount)"></span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span class="text-slate-600">Status:</span>
+                                        <span class="font-semibold text-emerald-600" x-text="paymentDetails.status"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Payment Form -->
+                        <form x-show="!loading && !success" @submit.prevent="processPayment()" class="space-y-8">
+                            <!-- Donation Amount -->
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name *</label>
-                                <input type="text" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="John Doe">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
-                                <input type="email" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="john@example.com">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number</label>
-                                <input type="tel" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="+1 (555) 123-4567">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Address (Optional)</label>
-                                <input type="text" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="123 Main St, City, State 12345">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Monthly Options (only show for monthly donations) -->
-                    <div x-show="donationType === 'monthly'" x-transition class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Monthly Giving Options</h3>
-                        <div class="bg-emerald-50 rounded-xl p-6">
-                            <label class="flex items-center gap-4 mb-4">
-                                <input type="checkbox" class="text-emerald-600" checked>
-                                <div>
-                                    <div class="font-semibold text-slate-900">Automated Monthly Giving</div>
-                                    <div class="text-sm text-slate-600">Continue your support automatically each month</div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount (TZS)</h3>
+                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                    <template x-for="preset in [50000, 100000, 250000, 500000]" :key="preset">
+                                        <button type="button" 
+                                                @click="amount = preset; customAmount = ''"
+                                                :class="amount === preset ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
+                                                class="p-4 rounded-xl font-semibold border-2 transition-all">
+                                            <span x-text="formatCurrency(preset)"></span>
+                                        </button>
+                                    </template>
                                 </div>
-                            </label>
-                            <label class="flex items-center gap-4">
-                                <select class="px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all bg-white">
-                                    <option>Process donation on 1st of each month</option>
-                                    <option>Process donation on 15th of each month</option>
-                                    <option>Process donation on last day of month</option>
-                                </select>
-                            </label>
-                        </div>
-                    </div>
+                                
+                                <div class="relative">
+                                    <input x-model="customAmount" 
+                                           @input="amount = customAmount; validateAmount()"
+                                           type="number" 
+                                           placeholder="Enter custom amount (TZS)" 
+                                           class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                        <i class="ph-bold ph-currency-tanzanian-shilling text-xl"></i>
+                                    </div>
+                                </div>
+                                <p x-show="amountError" class="text-rose-600 text-sm mt-2" x-text="amountError"></p>
+                            </div>
 
-                    <!-- Submit Button -->
-                    <div class="text-center">
-                        <button type="submit" class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg">
-                            <i class="ph-bold ph-heart text-xl mr-3"></i>
-                            Complete Your Donation
-                        </button>
-                        <p class="mt-6 text-sm text-slate-500">
-                            <i class="ph ph-lock text-emerald-500"></i>
-                            Your payment information is secure and encrypted. FeedTan Charity is a 501(c)(3) tax-exempt organization.
-                        </p>
+                            <!-- Payment Method -->
+                            <div>
+                                <h3 class="text-xl font-bold text-slate-900 mb-6">Payment Method</h3>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <button type="button" 
+                                            @click="paymentMethod = 'mobile'"
+                                            :class="paymentMethod === 'mobile' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
+                                            class="p-6 rounded-2xl font-semibold border-2 transition-all">
+                                        <i class="ph-bold ph-device-mobile text-3xl mb-3"></i>
+                                        <div class="text-lg font-bold">Mobile Money</div>
+                                        <div class="text-sm opacity-75">M-Pesa, Tigo Pesa, Airtel Money</div>
+                                    </button>
+                                    <button type="button" 
+                                            @click="paymentMethod = 'card'"
+                                            :class="paymentMethod === 'card' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
+                                            class="p-6 rounded-2xl font-semibold border-2 transition-all">
+                                        <i class="ph-bold ph-credit-card text-3xl mb-3"></i>
+                                        <div class="text-lg font-bold">Card Payment</div>
+                                        <div class="text-sm opacity-75">Visa, Mastercard, American Express</div>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Mobile Money Form -->
+                            <div x-show="paymentMethod === 'mobile'" x-transition class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number *</label>
+                                    <input x-model="phoneNumber" 
+                                           @input="validatePhoneNumber()"
+                                           type="tel" 
+                                           placeholder="255712345678" 
+                                           class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                    <p class="text-slate-500 text-sm mt-2">Enter phone number with country code (e.g., 255712345678)</p>
+                                    <p x-show="phoneError" class="text-rose-600 text-sm mt-2" x-text="phoneError"></p>
+                                </div>
+                            </div>
+
+                            <!-- Personal Information -->
+                            <div class="space-y-6">
+                                <h3 class="text-xl font-bold text-slate-900">Your Information</h3>
+                                <div class="grid md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name *</label>
+                                        <input x-model="fullName" 
+                                               type="text" 
+                                               placeholder="John Doe" 
+                                               class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                                               required>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
+                                        <input x-model="email" 
+                                               type="email" 
+                                               placeholder="john@example.com" 
+                                               class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                                               required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="bg-slate-50 rounded-xl p-6">
+                                <label class="flex items-start gap-4 cursor-pointer">
+                                    <input x-model="agreeTerms" type="checkbox" class="text-emerald-600 mt-1" required>
+                                    <div>
+                                        <div class="font-semibold text-slate-900">I agree to the terms and conditions</div>
+                                        <div class="text-sm text-slate-600 mt-1">
+                                            By proceeding, you authorize FeedTan Charity to process this donation through ClickPesa's secure payment system.
+                                            Your payment information is encrypted and secure. All donations are tax-deductible as permitted by law.
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="text-center">
+                                <button type="submit" 
+                                        :disabled="processing || !isFormValid()"
+                                        class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+                                    <span x-show="!processing">
+                                        <i class="ph-bold ph-heart text-xl mr-3"></i>
+                                        Complete Donation - <span x-text="formatCurrency(amount || 0)"></span>
+                                    </span>
+                                    <span x-show="processing" class="flex items-center gap-3">
+                                        <div class="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                                        Processing Payment...
+                                    </span>
+                                </button>
+                                
+                                <div class="mt-6 flex items-center justify-center gap-6 text-sm text-slate-500">
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph ph-lock text-emerald-500"></i>
+                                        <span>Secure Payment</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph ph-shield-check text-emerald-500"></i>
+                                        <span>SSL Encrypted</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph ph-certificate text-emerald-500"></i>
+                                        <span>501(c)(3) Certified</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- Payment Status Polling -->
+                        <div x-show="pollingPayment" x-transition class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+                            <div class="flex items-center gap-4">
+                                <div class="bg-blue-100 rounded-full p-3">
+                                    <div class="w-6 h-6 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-blue-900 mb-1">Waiting for Payment Confirmation</h4>
+                                    <p class="text-blue-700">Please check your phone and complete the payment. We're waiting for confirmation...</p>
+                                </div>
+                                <button @click="cancelPayment()" class="text-blue-400 hover:text-blue-600">
+                                    <i class="ph-bold ph-x text-xl"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -417,17 +486,349 @@
     @include('components.footer')
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+        // ClickPesa Payment Integration
+        function clickPesaPayment() {
+            return {
+                // Configuration
+                config: {
+                    clientId: 'ID6t2Itw6oIepcDEYGQORZNaAcEvqIGZ',
+                    apiKey: 'SKmOjYqsWbDcROwxdDiC7XpLavqpbMjcyE33JHcvl2',
+                    baseUrl: 'https://api.clickpesa.com/third-parties'
+                },
+                
+                // State
+                loading: false,
+                processing: false,
+                success: false,
+                error: null,
+                pollingPayment: false,
+                authToken: null,
+                
+                // Form data
+                amount: 100000,
+                customAmount: '',
+                paymentMethod: 'mobile',
+                phoneNumber: '',
+                fullName: '',
+                email: '',
+                agreeTerms: false,
+                
+                // Validation errors
+                amountError: '',
+                phoneError: '',
+                
+                // Payment details
+                paymentDetails: {
+                    id: '',
+                    amount: 0,
+                    status: ''
+                },
+                
+                // Polling interval
+                pollInterval: null,
+                
+                // Initialize
+                async init() {
+                    // Generate auth token
+                    await this.generateToken();
+                },
+                
+                // Generate authentication token
+                async generateToken() {
+                    this.loading = true;
+                    try {
+                        const response = await fetch(`${this.config.baseUrl}/generate-token`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'client-id': this.config.clientId,
+                                'api-key': this.config.apiKey
+                            }
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success && data.token) {
+                            this.authToken = data.token;
+                            this.error = null;
+                        } else {
+                            throw new Error('Failed to generate authentication token');
+                        }
+                    } catch (error) {
+                        this.error = 'Unable to initialize payment system. Please refresh the page and try again.';
+                        console.error('Token generation error:', error);
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+                
+                // Format currency
+                formatCurrency(amount) {
+                    return new Intl.NumberFormat('en-TZ', {
+                        style: 'currency',
+                        currency: 'TZS',
+                        minimumFractionDigits: 0
+                    }).format(amount || 0);
+                },
+                
+                // Validate amount
+                validateAmount() {
+                    this.amountError = '';
+                    const amount = parseFloat(this.amount);
+                    
+                    if (!amount || amount <= 0) {
+                        this.amountError = 'Please enter a valid amount';
+                        return false;
+                    }
+                    
+                    if (amount < 1000) {
+                        this.amountError = 'Minimum donation amount is TZS 1,000';
+                        return false;
+                    }
+                    
+                    if (amount > 10000000) {
+                        this.amountError = 'Maximum donation amount is TZS 10,000,000';
+                        return false;
+                    }
+                    
+                    return true;
+                },
+                
+                // Validate phone number
+                validatePhoneNumber() {
+                    this.phoneError = '';
+                    
+                    if (this.paymentMethod === 'mobile' && !this.phoneNumber) {
+                        this.phoneError = 'Phone number is required for mobile money payments';
+                        return false;
+                    }
+                    
+                    if (this.phoneNumber && !/^255\d{9}$/.test(this.phoneNumber)) {
+                        this.phoneError = 'Please enter a valid Tanzanian phone number (e.g., 255712345678)';
+                        return false;
+                    }
+                    
+                    return true;
+                },
+                
+                // Check if form is valid
+                isFormValid() {
+                    return this.validateAmount() && 
+                           this.validatePhoneNumber() && 
+                           this.fullName.trim() && 
+                           this.email.trim() && 
+                           this.agreeTerms &&
+                           this.authToken;
+                },
+                
+                // Process payment
+                async processPayment() {
+                    if (!this.isFormValid()) {
+                        return;
+                    }
+                    
+                    this.processing = true;
+                    this.error = null;
+                    
+                    try {
+                        const orderReference = this.generateOrderReference();
+                        
+                        if (this.paymentMethod === 'mobile') {
+                            await this.processMobilePayment(orderReference);
+                        } else {
+                            await this.processCardPayment(orderReference);
+                        }
+                    } catch (error) {
+                        this.error = error.message || 'Payment processing failed. Please try again.';
+                        console.error('Payment error:', error);
+                    } finally {
+                        this.processing = false;
+                    }
+                },
+                
+                // Process mobile money payment
+                async processMobilePayment(orderReference) {
+                    // First preview the payment
+                    const previewResponse = await fetch(`${this.config.baseUrl}/payments/preview-ussd-push-request`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': this.authToken
+                        },
+                        body: JSON.stringify({
+                            amount: this.amount.toString(),
+                            currency: 'TZS',
+                            orderReference: orderReference,
+                            phoneNumber: this.phoneNumber,
+                            fetchSenderDetails: false
+                        })
                     });
+                    
+                    if (!previewResponse.ok) {
+                        throw new Error('Unable to preview payment. Please check your phone number and try again.');
+                    }
+                    
+                    const previewData = await previewResponse.json();
+                    
+                    // Initiate the payment
+                    const initiateResponse = await fetch(`${this.config.baseUrl}/payments/initiate-ussd-push-request`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': this.authToken
+                        },
+                        body: JSON.stringify({
+                            amount: this.amount.toString(),
+                            currency: 'TZS',
+                            orderReference: orderReference,
+                            phoneNumber: this.phoneNumber
+                        })
+                    });
+                    
+                    if (!initiateResponse.ok) {
+                        throw new Error('Unable to initiate payment. Please try again.');
+                    }
+                    
+                    const initiateData = await initiateResponse.json();
+                    
+                    // Start polling for payment status
+                    this.pollingPayment = true;
+                    this.pollPaymentStatus(orderReference);
+                },
+                
+                // Process card payment
+                async processCardPayment(orderReference) {
+                    const response = await fetch(`${this.config.baseUrl}/payments/initiate-card-payment`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': this.authToken
+                        },
+                        body: JSON.stringify({
+                            amount: this.amount.toString(),
+                            currency: 'USD',
+                            orderReference: orderReference,
+                            customer: {
+                                id: this.email,
+                                name: this.fullName,
+                                email: this.email
+                            }
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Unable to initiate card payment. Please try again.');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Redirect to card payment page
+                    if (data.cardPaymentLink) {
+                        window.location.href = data.cardPaymentLink;
+                    } else {
+                        throw new Error('Card payment link not available');
+                    }
+                },
+                
+                // Poll payment status
+                async pollPaymentStatus(orderReference) {
+                    this.pollInterval = setInterval(async () => {
+                        try {
+                            const response = await fetch(`${this.config.baseUrl}/payments/${orderReference}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': this.authToken
+                                }
+                            });
+                             
+                            if (response.ok) {
+                                const data = await response.json();
+                                 
+                                if (data && data.length > 0) {
+                                    const payment = data[0];
+                                    
+                                    if (payment.status === 'SUCCESS' || payment.status === 'SETTLED') {
+                                        this.handlePaymentSuccess(payment);
+                                    } else if (payment.status === 'FAILED') {
+                                        this.handlePaymentFailure(payment);
+                                    }
+                                }
+                            }
+                        } catch (error) {
+                            console.error('Polling error:', error);
+                        }
+                    }, 5000); // Poll every 5 seconds
+                    
+                    // Stop polling after 5 minutes
+                    setTimeout(() => {
+                        this.stopPolling();
+                    }, 300000);
+                },
+                
+                // Handle payment success
+                handlePaymentSuccess(payment) {
+                    this.stopPolling();
+                    this.pollingPayment = false;
+                    this.success = true;
+                    this.paymentDetails = {
+                        id: payment.id,
+                        amount: payment.collectedAmount,
+                        status: payment.status
+                    };
+                    
+                    // Send confirmation email (optional)
+                    this.sendConfirmationEmail(payment);
+                },
+                
+                // Handle payment failure
+                handlePaymentFailure(payment) {
+                    this.stopPolling();
+                    this.pollingPayment = false;
+                    this.error = `Payment failed: ${payment.message || 'Unknown error'}`;
+                },
+                
+                // Cancel payment
+                cancelPayment() {
+                    this.stopPolling();
+                    this.pollingPayment = false;
+                },
+                
+                // Stop polling
+                stopPolling() {
+                    if (this.pollInterval) {
+                        clearInterval(this.pollInterval);
+                        this.pollInterval = null;
+                    }
+                },
+                
+                // Generate order reference
+                generateOrderReference() {
+                    const timestamp = Date.now();
+                    const random = Math.floor(Math.random() * 1000);
+                    return `FTDON${timestamp}${random}`;
+                },
+                
+                // Send confirmation email (placeholder)
+                async sendConfirmationEmail(payment) {
+                    // This would typically call your backend to send a confirmation email
+                    console.log('Confirmation email sent for payment:', payment);
                 }
+            }
+        }
+        
+        // Smooth scrolling for navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
             });
         });
     </script>
