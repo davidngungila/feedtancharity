@@ -55,9 +55,9 @@
                 <div class="mt-6">
                     <button onclick="quickTest()" class="w-full px-6 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg">
                         <i class="ph-bold ph-rocket-launch text-xl mr-3"></i>
-                        🚀 Quick Test - Run All Steps Automatically
+                        🚀 Quick Test - Run All Steps Step-by-Step
                     </button>
-                    <p class="text-xs text-slate-500 mt-2">Runs all 4 steps in sequence with 2-second delays between steps</p>
+                    <p class="text-xs text-slate-500 mt-2">Runs all 4 steps sequentially, waiting for each step to complete before proceeding</p>
                 </div>
             </div>
 
@@ -780,116 +780,145 @@
             ]
         }, true);
         
-        // Run steps with delays
-        setTimeout(async () => {
-            try {
-                console.log('Quick Test - Step 1: Generate Token');
+        // Run steps sequentially, waiting for each to complete
+        runQuickTestStep1();
+    }
+
+    async function runQuickTestStep1() {
+        console.log('Quick Test - Step 1: Generate Token');
+        showResult('test-results', {
+            message: '🔄 Quick Test - Step 1: Generating Token...',
+            step: 'Quick Test',
+            progress: 'step 1 of 4',
+            current_step: 'Generate Token'
+        }, true);
+        
+        try {
+            await testGenerateToken();
+            // Wait a moment to see the result, then proceed
+            setTimeout(() => {
+                if (currentToken) {
+                    runQuickTestStep2();
+                } else {
+                    showResult('test-results', {
+                        error: 'Quick Test failed: Token generation was not successful',
+                        step: 'Quick Test',
+                        failed_at: 'Step 1: Generate Token',
+                        progress: '0 of 4 steps completed',
+                        action: 'Check the token generation result above and fix any issues'
+                    }, false);
+                }
+            }, 3000);
+        } catch (error) {
+            showResult('test-results', {
+                error: 'Quick Test failed at Step 1: ' + error.message,
+                step: 'Quick Test',
+                failed_at: 'Step 1: Generate Token',
+                progress: '0 of 4 steps completed'
+            }, false);
+        }
+    }
+
+    async function runQuickTestStep2() {
+        console.log('Quick Test - Step 2: Preview USSD-PUSH');
+        showResult('test-results', {
+            message: '🔄 Quick Test - Step 2: Previewing USSD-PUSH...',
+            step: 'Quick Test',
+            progress: 'step 2 of 4',
+            current_step: 'Preview USSD-PUSH'
+        }, true);
+        
+        try {
+            await testPreviewUssd();
+            // Wait a moment to see the result, then proceed
+            setTimeout(() => {
+                if (currentOrderReference) {
+                    runQuickTestStep3();
+                } else {
+                    showResult('test-results', {
+                        error: 'Quick Test failed: USSD preview was not successful',
+                        step: 'Quick Test',
+                        failed_at: 'Step 2: Preview USSD-PUSH',
+                        progress: '1 of 4 steps completed',
+                        action: 'Check the USSD preview result above and fix any issues'
+                    }, false);
+                }
+            }, 3000);
+        } catch (error) {
+            showResult('test-results', {
+                error: 'Quick Test failed at Step 2: ' + error.message,
+                step: 'Quick Test',
+                failed_at: 'Step 2: Preview USSD-PUSH',
+                progress: '1 of 4 steps completed'
+            }, false);
+        }
+    }
+
+    async function runQuickTestStep3() {
+        console.log('Quick Test - Step 3: Initiate USSD-PUSH');
+        showResult('test-results', {
+            message: '🔄 Quick Test - Step 3: Initiating USSD-PUSH...',
+            step: 'Quick Test',
+            progress: 'step 3 of 4',
+            current_step: 'Initiate USSD-PUSH'
+        }, true);
+        
+        try {
+            await testInitiatePayment();
+            // Wait a moment to see the result, then proceed
+            setTimeout(() => {
+                runQuickTestStep4();
+            }, 3000);
+        } catch (error) {
+            showResult('test-results', {
+                error: 'Quick Test failed at Step 3: ' + error.message,
+                step: 'Quick Test',
+                failed_at: 'Step 3: Initiate USSD-PUSH',
+                progress: '2 of 4 steps completed'
+            }, false);
+        }
+    }
+
+    async function runQuickTestStep4() {
+        console.log('Quick Test - Step 4: Check Payment Status');
+        showResult('test-results', {
+            message: '🔄 Quick Test - Step 4: Checking Payment Status...',
+            step: 'Quick Test',
+            progress: 'step 4 of 4',
+            current_step: 'Check Payment Status'
+        }, true);
+        
+        try {
+            await testPaymentStatus();
+            // Final success message
+            setTimeout(() => {
                 showResult('test-results', {
-                    message: '🔄 Quick Test - Step 1: Generating Token...',
+                    message: '🎉 Quick Test Complete! All steps executed successfully!',
                     step: 'Quick Test',
-                    progress: 'step 1 of 4',
-                    current_step: 'Generate Token'
+                    status: 'completed',
+                    progress: '4 of 4 steps completed',
+                    final_results: {
+                        token_generated: !!currentToken,
+                        order_reference: currentOrderReference,
+                        steps_completed: 4,
+                        total_time: '~15 seconds'
+                    },
+                    next_actions: [
+                        'Check your phone for USSD prompts',
+                        'Review the detailed results above',
+                        'Test individual steps if needed',
+                        'Use Clear Results to start over'
+                    ]
                 }, true);
-                await testGenerateToken();
-                
-                setTimeout(async () => {
-                    try {
-                        console.log('Quick Test - Step 2: Preview USSD-PUSH');
-                        showResult('test-results', {
-                            message: '🔄 Quick Test - Step 2: Previewing USSD-PUSH...',
-                            step: 'Quick Test',
-                            progress: 'step 2 of 4',
-                            current_step: 'Preview USSD-PUSH'
-                        }, true);
-                        await testPreviewUssd();
-                        
-                        setTimeout(async () => {
-                            try {
-                                console.log('Quick Test - Step 3: Initiate USSD-PUSH');
-                                showResult('test-results', {
-                                    message: '🔄 Quick Test - Step 3: Initiating USSD-PUSH...',
-                                    step: 'Quick Test',
-                                    progress: 'step 3 of 4',
-                                    current_step: 'Initiate USSD-PUSH'
-                                }, true);
-                                await testInitiatePayment();
-                                
-                                setTimeout(async () => {
-                                    try {
-                                        console.log('Quick Test - Step 4: Check Payment Status');
-                                        showResult('test-results', {
-                                            message: '🔄 Quick Test - Step 4: Checking Payment Status...',
-                                            step: 'Quick Test',
-                                            progress: 'step 4 of 4',
-                                            current_step: 'Check Payment Status'
-                                        }, true);
-                                        await testPaymentStatus();
-                                        
-                                        // Final message
-                                        setTimeout(() => {
-                                            showResult('test-results', {
-                                                message: '🎉 Quick Test Complete! All steps executed successfully!',
-                                                step: 'Quick Test',
-                                                status: 'completed',
-                                                progress: '4 of 4 steps completed',
-                                                final_results: {
-                                                    token_generated: !!currentToken,
-                                                    order_reference: currentOrderReference,
-                                                    steps_completed: 4,
-                                                    total_time: '~10 seconds'
-                                                },
-                                                next_actions: [
-                                                    'Check your phone for USSD prompts',
-                                                    'Review the detailed results above',
-                                                    'Test individual steps if needed',
-                                                    'Use Clear Results to start over'
-                                                ]
-                                            }, true);
-                                        }, 2000);
-                                        
-                                    } catch (error) {
-                                        console.error('Quick Test - Step 4 failed:', error);
-                                        showResult('test-results', {
-                                            error: 'Quick Test failed at Step 4: ' + error.message,
-                                            step: 'Quick Test',
-                                            failed_at: 'Step 4: Check Payment Status',
-                                            progress: '3 of 4 steps completed'
-                                        }, false);
-                                    }
-                                }, 2000);
-                                
-                            } catch (error) {
-                                console.error('Quick Test - Step 3 failed:', error);
-                                showResult('test-results', {
-                                    error: 'Quick Test failed at Step 3: ' + error.message,
-                                    step: 'Quick Test',
-                                    failed_at: 'Step 3: Initiate USSD-PUSH',
-                                    progress: '2 of 4 steps completed'
-                                }, false);
-                            }
-                        }, 2000);
-                        
-                    } catch (error) {
-                        console.error('Quick Test - Step 2 failed:', error);
-                        showResult('test-results', {
-                            error: 'Quick Test failed at Step 2: ' + error.message,
-                            step: 'Quick Test',
-                            failed_at: 'Step 2: Preview USSD-PUSH',
-                            progress: '1 of 4 steps completed'
-                        }, false);
-                    }
-                }, 2000);
-                
-            } catch (error) {
-                console.error('Quick Test - Step 1 failed:', error);
-                showResult('test-results', {
-                    error: 'Quick Test failed at Step 1: ' + error.message,
-                    step: 'Quick Test',
-                    failed_at: 'Step 1: Generate Token',
-                    progress: '0 of 4 steps completed'
-                }, false);
-            }
-        }, 1000);
+            }, 3000);
+        } catch (error) {
+            showResult('test-results', {
+                error: 'Quick Test failed at Step 4: ' + error.message,
+                step: 'Quick Test',
+                failed_at: 'Step 4: Check Payment Status',
+                progress: '3 of 4 steps completed'
+            }, false);
+        }
     }
 
     function testDisplay() {
