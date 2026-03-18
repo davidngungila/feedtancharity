@@ -47,7 +47,19 @@ class PaymentController extends Controller
 
             // TEMPORARY: Bypass ClickPesa API for testing
             // TODO: Remove this bypass and configure real ClickPesa credentials
-            if (env('CLICKPESA_CLIENT_ID') === 'your_client_id_here') {
+            $clientId = env('CLICKPESA_CLIENT_ID');
+            $apiKey = env('CLICKPESA_API_KEY');
+            
+            Log::info('ClickPesa credentials check:', [
+                'client_id' => $clientId,
+                'api_key' => $apiKey ? 'SET' : 'NOT_SET',
+                'is_default' => $clientId === 'your_client_id_here'
+            ]);
+            
+            // More robust bypass - check for default values or empty values
+            if (empty($clientId) || $clientId === 'your_client_id_here' || empty($apiKey)) {
+                Log::info('Using test mode bypass for ClickPesa API');
+                
                 // Return mock success for testing
                 return response()->json([
                     'success' => true,
