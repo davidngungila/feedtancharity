@@ -45,6 +45,25 @@ class PaymentController extends Controller
             $paymentMethod = $request->payment_method;
             $orderReference = $this->clickPesaService->generateOrderReference('DONATE');
 
+            // TEMPORARY: Bypass ClickPesa API for testing
+            // TODO: Remove this bypass and configure real ClickPesa credentials
+            if (env('CLICKPESA_CLIENT_ID') === 'your_client_id_here') {
+                // Return mock success for testing
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Payment preview successful (TEST MODE)',
+                    'data' => [
+                        'order_reference' => $orderReference,
+                        'amount' => $amount,
+                        'currency' => $request->currency ?? 'TZS',
+                        'payment_method' => $paymentMethod,
+                        'phone_number' => $request->phone_number,
+                        'redirect_url' => '#', // Would normally be ClickPesa payment URL
+                        'test_mode' => true
+                    ]
+                ]);
+            }
+
             // Save donation record
             $donation = \App\Models\Donation::create([
                 'order_reference' => $orderReference,

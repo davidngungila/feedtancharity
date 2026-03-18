@@ -327,9 +327,27 @@ class ClickPesaPayment {
                 const result = await this.processDonation(data);
 
                 if (result.success) {
-                    this.showNotification('Payment initiated successfully!', 'success');
+                    if (result.data?.test_mode) {
+                        // Test mode - show success message without opening payment modal
+                        this.showNotification('Form working! This is test mode - configure ClickPesa credentials to enable real payments.', 'success');
+                        
+                        // Log test data for debugging
+                        console.log('Test mode payment data:', result.data);
+                        
+                        // Reset form after a delay
+                        setTimeout(() => {
+                            form.reset();
+                            // Reset Alpine.js data if available
+                            if (form.__x) {
+                                form.__x.$data.amount = 50000;
+                                form.__x.$data.customAmount = 50000;
+                            }
+                        }, 3000);
+                    } else {
+                        // Real payment flow
+                        this.showNotification('Payment initiated successfully!', 'success');
 
-                    if (result.data.payment_link) {
+                        if (result.data.payment_link) {
                         // Card payment - show redirect modal
                         this.showPaymentModal(`
                             <div class="mb-6">
@@ -368,22 +386,9 @@ class ClickPesaPayment {
                         `);
 
                         // Start polling for payment status
-                        this.pollPaymentStatus(result.data.order_reference)
-                            .then((statusResult) => {
-                                if (statusResult.data.status.toLowerCase() === 'success' || 
-                                    statusResult.data.status.toLowerCase() === 'settled') {
-                                    this.showNotification('Payment completed successfully! Thank you for your donation.', 'success');
-                                } else if (statusResult.data.status.toLowerCase() === 'failed') {
-                                    this.showNotification('Payment failed. Please try again.', 'error');
-                                }
-                            })
-                            .catch((error) => {
-                                console.error('Payment polling error:', error);
-                            });
+                        this.pollPaymentStatus(result.data.order_reference);
                     }
-
-                    // Reset form
-                    form.reset();
+                    }
                 } else {
                     this.showNotification(result.message || 'Payment failed', 'error');
                 }
