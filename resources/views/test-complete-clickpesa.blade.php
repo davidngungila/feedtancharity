@@ -82,6 +82,14 @@
                 </button>
             </div>
 
+            <!-- Clear Results Button -->
+            <div class="mb-6">
+                <button onclick="clearResults()" class="w-full px-6 py-4 bg-gray-600 text-white font-bold rounded-xl hover:bg-gray-700 transition-all">
+                    <i class="ph-bold ph-arrow-counter-clockwise text-xl mr-3"></i>
+                    Clear Results & Start Over
+                </button>
+            </div>
+
             <!-- Results Section -->
             <div id="test-results" class="hidden">
                 <h3 class="text-xl font-bold text-slate-900 mb-4">Test Results</h3>
@@ -113,6 +121,20 @@
         const contentDiv = document.getElementById(elementId.replace('-results', '-content'));
         
         element.classList.remove('hidden');
+        
+        // Add step information if available
+        let displayContent = content;
+        if (content.step) {
+            displayContent = {
+                ...content,
+                testing_step: content.step
+            };
+        }
+        
+        // Add timestamp for debugging
+        displayContent.timestamp = new Date().toISOString();
+        displayContent.user_agent = navigator.userAgent.substring(0, 100);
+        
         contentDiv.innerHTML = `
             <div class="mb-4">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
@@ -120,9 +142,18 @@
                 }">
                     ${isSuccess ? '✅ Success' : '❌ Error'}
                 </span>
+                ${content.step ? `<span class="ml-2 inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-100 text-blue-800">
+                    📍 ${content.step}
+                </span>` : ''}
             </div>
-            <pre class="whitespace-pre-wrap text-xs">${JSON.stringify(content, null, 2)}</pre>
+            <div class="mb-2 text-xs text-slate-500">
+                🕒 ${new Date().toLocaleString()}
+            </div>
+            <pre class="whitespace-pre-wrap text-xs bg-white p-4 rounded border border-slate-200">${JSON.stringify(displayContent, null, 2)}</pre>
         `;
+        
+        // Scroll to results
+        element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
     async function testGenerateToken() {
@@ -131,6 +162,7 @@
         
         try {
             console.log('Testing token generation...');
+            showResult('test-results', { message: 'Generating token...' }, true);
             
             const response = await fetch('/api/payments/test-generate-token', {
                 method: 'POST',
@@ -141,7 +173,23 @@
                 }
             });
 
-            const data = await response.json();
+            console.log('Token response status:', response.status);
+            const contentType = response.headers.get('content-type');
+            console.log('Token response content-type:', contentType);
+
+            let data;
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                console.error('Non-JSON response received:', text);
+                data = { 
+                    error: 'Non-JSON response received',
+                    status: response.status,
+                    content_type: contentType,
+                    raw_response: text.substring(0, 500) + (text.length > 500 ? '...' : '')
+                };
+            }
             
             if (data.success && data.data.token) {
                 currentToken = data.data.token;
@@ -150,13 +198,19 @@
                 showResult('test-results', data, false);
             }
         } catch (error) {
-            showResult('test-results', { error: error.message }, false);
+            console.error('Token generation error:', error);
+            showResult('test-results', { 
+                error: error.message,
+                stack: error.stack,
+                type: error.name,
+                step: 'Token Generation'
+            }, false);
         }
     }
 
     async function testPreviewUssd() {
         if (!currentToken) {
-            showResult('test-results', { error: 'Please generate token first (Step 1)' }, false);
+            showResult('test-results', { error: 'Please generate token first (Step 1)', step: 'USSD Preview' }, false);
             return;
         }
 
@@ -166,6 +220,7 @@
         
         try {
             console.log('Testing USSD preview...');
+            showResult('test-results', { message: 'Previewing USSD payment...', step: 'USSD Preview' }, true);
             
             const response = await fetch('/api/payments/test-preview-ussd', {
                 method: 'POST',
@@ -183,16 +238,40 @@
                 })
             });
 
-            const data = await response.json();
+            console.log('USSD preview response status:', response.status);
+            const contentType = response.headers.get('content-type');
+            console.log('USSD preview content-type:', contentType);
+
+            let data;
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                console.error('Non-JSON response received:', text);
+                data = { 
+                    error: 'Non-JSON response received',
+                    status: response.status,
+                    content_type: contentType,
+                    raw_response: text.substring(0, 500) + (text.length > 500 ? '...' : ''),
+                    step: 'USSD Preview'
+                };
+            }
+            
             showResult('test-results', data, response.ok);
         } catch (error) {
-            showResult('test-results', { error: error.message }, false);
+            console.error('USSD preview error:', error);
+            showResult('test-results', { 
+                error: error.message,
+                stack: error.stack,
+                type: error.name,
+                step: 'USSD Preview'
+            }, false);
         }
     }
 
     async function testInitiatePayment() {
         if (!currentToken || !currentOrderReference) {
-            showResult('test-results', { error: 'Please complete Steps 1 & 2 first' }, false);
+            showResult('test-results', { error: 'Please complete Steps 1 & 2 first', step: 'Payment Initiation' }, false);
             return;
         }
 
@@ -201,6 +280,7 @@
         
         try {
             console.log('Testing payment initiation...');
+            showResult('test-results', { message: 'Initiating payment...', step: 'Payment Initiation' }, true);
             
             const response = await fetch('/api/payments/test-initiate-payment', {
                 method: 'POST',
@@ -217,21 +297,46 @@
                 })
             });
 
-            const data = await response.json();
+            console.log('Payment initiation response status:', response.status);
+            const contentType = response.headers.get('content-type');
+            console.log('Payment initiation content-type:', contentType);
+
+            let data;
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                console.error('Non-JSON response received:', text);
+                data = { 
+                    error: 'Non-JSON response received',
+                    status: response.status,
+                    content_type: contentType,
+                    raw_response: text.substring(0, 500) + (text.length > 500 ? '...' : ''),
+                    step: 'Payment Initiation'
+                };
+            }
+            
             showResult('test-results', data, response.ok);
         } catch (error) {
-            showResult('test-results', { error: error.message }, false);
+            console.error('Payment initiation error:', error);
+            showResult('test-results', { 
+                error: error.message,
+                stack: error.stack,
+                type: error.name,
+                step: 'Payment Initiation'
+            }, false);
         }
     }
 
     async function testPaymentStatus() {
         if (!currentToken || !currentOrderReference) {
-            showResult('test-results', { error: 'Please complete Steps 1-3 first' }, false);
+            showResult('test-results', { error: 'Please complete Steps 1-3 first', step: 'Payment Status' }, false);
             return;
         }
         
         try {
             console.log('Testing payment status...');
+            showResult('test-results', { message: 'Checking payment status...', step: 'Payment Status' }, true);
             
             const response = await fetch('/api/payments/test-payment-status', {
                 method: 'POST',
@@ -245,11 +350,49 @@
                 })
             });
 
-            const data = await response.json();
+            console.log('Payment status response status:', response.status);
+            const contentType = response.headers.get('content-type');
+            console.log('Payment status content-type:', contentType);
+
+            let data;
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                console.error('Non-JSON response received:', text);
+                data = { 
+                    error: 'Non-JSON response received',
+                    status: response.status,
+                    content_type: contentType,
+                    raw_response: text.substring(0, 500) + (text.length > 500 ? '...' : ''),
+                    step: 'Payment Status'
+                };
+            }
+            
             showResult('test-results', data, response.ok);
         } catch (error) {
-            showResult('test-results', { error: error.message }, false);
+            console.error('Payment status error:', error);
+            showResult('test-results', { 
+                error: error.message,
+                stack: error.stack,
+                type: error.name,
+                step: 'Payment Status'
+            }, false);
         }
+    }
+
+    function clearResults() {
+        // Clear results display
+        const resultsDiv = document.getElementById('test-results');
+        const contentDiv = document.getElementById('results-content');
+        resultsDiv.classList.add('hidden');
+        contentDiv.innerHTML = '';
+        
+        // Reset stored data
+        currentToken = null;
+        currentOrderReference = null;
+        
+        console.log('Results cleared, ready to start fresh');
     }
     </script>
 </body>
