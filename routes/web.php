@@ -31,6 +31,11 @@ Route::get('/test-clickpesa', function () {
     return view('test-clickpesa');
 });
 
+// ClickPesa simple test page (standalone)
+Route::get('/test-clickpesa-simple', function () {
+    return view('test-clickpesa-simple');
+});
+
 // Impact page
 Route::get('/impact', function () {
     return view('impact');
