@@ -55,9 +55,9 @@
                 <div class="mt-6">
                     <button onclick="quickTest()" class="w-full px-6 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold rounded-xl hover:from-emerald-700 hover:to-teal-700 transition-all shadow-lg">
                         <i class="ph-bold ph-rocket-launch text-xl mr-3"></i>
-                        🚀 Quick Test - Run All Steps Step-by-Step
+                        🚀 Quick Test - Pop-up & Splash Step-by-Step
                     </button>
-                    <p class="text-xs text-slate-500 mt-2">Runs all 4 steps sequentially, waiting for each step to complete before proceeding</p>
+                    <p class="text-xs text-slate-500 mt-2">Visual step-by-step execution with pop-up alerts and splash screens for each step</p>
                 </div>
             </div>
 
@@ -786,6 +786,10 @@
 
     async function runQuickTestStep1() {
         console.log('Quick Test - Step 1: Generate Token');
+        
+        // Show splash screen for Step 1
+        showStepSplash('Step 1: Generate Token', '🔑', 'Generating ClickPesa authentication token...', '#3B82F6');
+        
         showResult('test-results', {
             message: '🔄 Quick Test - Step 1: Generating Token...',
             step: 'Quick Test',
@@ -797,9 +801,15 @@
             await testGenerateToken();
             // Wait a moment to see the result, then proceed
             setTimeout(() => {
+                hideStepSplash();
                 if (currentToken) {
-                    runQuickTestStep2();
+                    // Show success popup
+                    showStepPopup('✅ Step 1 Complete!', 'Token generated successfully!', 'success');
+                    setTimeout(() => {
+                        runQuickTestStep2();
+                    }, 2000);
                 } else {
+                    showStepPopup('❌ Step 1 Failed', 'Token generation was not successful', 'error');
                     showResult('test-results', {
                         error: 'Quick Test failed: Token generation was not successful',
                         step: 'Quick Test',
@@ -810,6 +820,8 @@
                 }
             }, 3000);
         } catch (error) {
+            hideStepSplash();
+            showStepPopup('❌ Step 1 Error', 'Token generation failed: ' + error.message, 'error');
             showResult('test-results', {
                 error: 'Quick Test failed at Step 1: ' + error.message,
                 step: 'Quick Test',
@@ -821,6 +833,10 @@
 
     async function runQuickTestStep2() {
         console.log('Quick Test - Step 2: Preview USSD-PUSH');
+        
+        // Show splash screen for Step 2
+        showStepSplash('Step 2: Preview USSD-PUSH', '📱', 'Validating payment details and previewing USSD request...', '#8B5CF6');
+        
         showResult('test-results', {
             message: '🔄 Quick Test - Step 2: Previewing USSD-PUSH...',
             step: 'Quick Test',
@@ -832,9 +848,15 @@
             await testPreviewUssd();
             // Wait a moment to see the result, then proceed
             setTimeout(() => {
+                hideStepSplash();
                 if (currentOrderReference) {
-                    runQuickTestStep3();
+                    // Show success popup
+                    showStepPopup('✅ Step 2 Complete!', 'USSD preview successful!', 'success');
+                    setTimeout(() => {
+                        runQuickTestStep3();
+                    }, 2000);
                 } else {
+                    showStepPopup('❌ Step 2 Failed', 'USSD preview was not successful', 'error');
                     showResult('test-results', {
                         error: 'Quick Test failed: USSD preview was not successful',
                         step: 'Quick Test',
@@ -845,6 +867,8 @@
                 }
             }, 3000);
         } catch (error) {
+            hideStepSplash();
+            showStepPopup('❌ Step 2 Error', 'USSD preview failed: ' + error.message, 'error');
             showResult('test-results', {
                 error: 'Quick Test failed at Step 2: ' + error.message,
                 step: 'Quick Test',
@@ -856,6 +880,10 @@
 
     async function runQuickTestStep3() {
         console.log('Quick Test - Step 3: Initiate USSD-PUSH');
+        
+        // Show splash screen for Step 3
+        showStepSplash('Step 3: Initiate USSD-PUSH', '💳', 'Sending payment request to your phone...', '#10B981');
+        
         showResult('test-results', {
             message: '🔄 Quick Test - Step 3: Initiating USSD-PUSH...',
             step: 'Quick Test',
@@ -867,9 +895,16 @@
             await testInitiatePayment();
             // Wait a moment to see the result, then proceed
             setTimeout(() => {
-                runQuickTestStep4();
+                hideStepSplash();
+                // Show success popup
+                showStepPopup('✅ Step 3 Complete!', 'Payment initiated! Check your phone for USSD prompt.', 'success');
+                setTimeout(() => {
+                    runQuickTestStep4();
+                }, 2000);
             }, 3000);
         } catch (error) {
+            hideStepSplash();
+            showStepPopup('❌ Step 3 Error', 'Payment initiation failed: ' + error.message, 'error');
             showResult('test-results', {
                 error: 'Quick Test failed at Step 3: ' + error.message,
                 step: 'Quick Test',
@@ -881,6 +916,10 @@
 
     async function runQuickTestStep4() {
         console.log('Quick Test - Step 4: Check Payment Status');
+        
+        // Show splash screen for Step 4
+        showStepSplash('Step 4: Check Payment Status', '🔍', 'Checking payment completion status...', '#F59E0B');
+        
         showResult('test-results', {
             message: '🔄 Quick Test - Step 4: Checking Payment Status...',
             step: 'Quick Test',
@@ -892,26 +931,34 @@
             await testPaymentStatus();
             // Final success message
             setTimeout(() => {
-                showResult('test-results', {
-                    message: '🎉 Quick Test Complete! All steps executed successfully!',
-                    step: 'Quick Test',
-                    status: 'completed',
-                    progress: '4 of 4 steps completed',
-                    final_results: {
-                        token_generated: !!currentToken,
-                        order_reference: currentOrderReference,
-                        steps_completed: 4,
-                        total_time: '~15 seconds'
-                    },
-                    next_actions: [
-                        'Check your phone for USSD prompts',
-                        'Review the detailed results above',
-                        'Test individual steps if needed',
-                        'Use Clear Results to start over'
-                    ]
-                }, true);
+                hideStepSplash();
+                // Show success popup
+                showStepPopup('🎉 Quick Test Complete!', 'All steps executed successfully! Check your phone for USSD prompts.', 'success');
+                
+                setTimeout(() => {
+                    showResult('test-results', {
+                        message: '🎉 Quick Test Complete! All steps executed successfully!',
+                        step: 'Quick Test',
+                        status: 'completed',
+                        progress: '4 of 4 steps completed',
+                        final_results: {
+                            token_generated: !!currentToken,
+                            order_reference: currentOrderReference,
+                            steps_completed: 4,
+                            total_time: '~20 seconds'
+                        },
+                        next_actions: [
+                            'Check your phone for USSD prompts',
+                            'Review the detailed results above',
+                            'Test individual steps if needed',
+                            'Use Clear Results to start over'
+                        ]
+                    }, true);
+                }, 2000);
             }, 3000);
         } catch (error) {
+            hideStepSplash();
+            showStepPopup('❌ Step 4 Error', 'Payment status check failed: ' + error.message, 'error');
             showResult('test-results', {
                 error: 'Quick Test failed at Step 4: ' + error.message,
                 step: 'Quick Test',
@@ -919,6 +966,118 @@
                 progress: '3 of 4 steps completed'
             }, false);
         }
+    }
+
+    // Splash Screen Functions
+    function showStepSplash(title, emoji, description, color) {
+        // Remove existing splash
+        hideStepSplash();
+        
+        const splash = document.createElement('div');
+        splash.id = 'step-splash';
+        splash.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s ease-in-out;
+        `;
+        
+        splash.innerHTML = `
+            <div style="background: white; border-radius: 20px; padding: 40px; text-align: center; max-width: 400px; margin: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                <div style="font-size: 60px; margin-bottom: 20px;">${emoji}</div>
+                <h2 style="color: ${color}; margin: 0 0 10px 0; font-size: 24px; font-weight: bold;">${title}</h2>
+                <p style="color: #666; margin: 0; font-size: 16px; line-height: 1.5;">${description}</p>
+                <div style="margin-top: 20px;">
+                    <div style="width: 60px; height: 4px; background: ${color}; margin: 0 auto; border-radius: 2px; animation: pulse 1.5s infinite;"></div>
+                </div>
+            </div>
+            <style>
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+                @keyframes pulse {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.5; }
+                }
+            </style>
+        `;
+        
+        document.body.appendChild(splash);
+    }
+
+    function hideStepSplash() {
+        const splash = document.getElementById('step-splash');
+        if (splash) {
+            splash.remove();
+        }
+    }
+
+    function showStepPopup(title, message, type) {
+        const popup = document.createElement('div');
+        popup.id = 'step-popup';
+        
+        const bgColor = type === 'success' ? '#10B981' : type === 'error' ? '#EF4444' : '#3B82F6';
+        const emoji = type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️';
+        
+        popup.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: ${bgColor};
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 10000;
+            max-width: 350px;
+            animation: slideIn 0.3s ease-out;
+        `;
+        
+        popup.innerHTML = `
+            <div style="display: flex; align-items: center; margin-bottom: 8px;">
+                <span style="font-size: 24px; margin-right: 12px;">${emoji}</span>
+                <h3 style="margin: 0; font-size: 18px; font-weight: bold;">${title}</h3>
+            </div>
+            <p style="margin: 0; font-size: 14px; line-height: 1.4;">${message}</p>
+            <style>
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            </style>
+        `;
+        
+        document.body.appendChild(popup);
+        
+        // Auto-remove after 3 seconds
+        setTimeout(() => {
+            if (popup && popup.parentNode) {
+                popup.style.animation = 'slideOut 0.3s ease-in forwards';
+                setTimeout(() => {
+                    if (popup.parentNode) {
+                        popup.remove();
+                    }
+                }, 300);
+            }
+        }, 3000);
+        
+        // Add slide out animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     }
 
     function testDisplay() {
