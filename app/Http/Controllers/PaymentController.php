@@ -6,60 +6,32 @@ use App\Services\ClickPesaService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class PaymentController extends Controller
 {
     protected $clickPesaService;
-    
+
     public function __construct(ClickPesaService $clickPesaService)
     {
         $this->clickPesaService = $clickPesaService;
     }
-    
+
     /**
-     * Preview USSD Push payment
+     * Process donation payment
      */
-    public function previewUssdPayment(Request $request)
+    public function processDonation(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'amount' => 'required|numeric|min:1000',
-            'phone_number' => 'required|string|regex:/^[0-9]{12}$/', // 255XXXXXXXXX
-        ]);
-        
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
-        }
-        
-        $orderReference = $this->clickPesaService->generateOrderReference('DONATE');
-        
-        $result = $this->clickPesaService->previewUssdPush(
-            $request->amount,
-            $request->phone_number,
-            $orderReference,
-            true // fetch sender details
-        );
-        
-        return response()->json($result);
-    }
-    
-    /**
-     * Initiate USSD Push payment
-     */
-    public function initiateUssdPayment(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|min:1000',
-            'phone_number' => 'required|string|regex:/^[0-9]{12}$/', // 255XXXXXXXXX
-            'donor_name' => 'nullable|string|max:255',
+            'payment_method' => 'required|in:ussd,card',
+            'phone_number' => 'required_if:payment_method,ussd|regex:/^[0-9+]{10,15}$/',
+            'donor_name' => 'required|string|max:255',
             'donor_email' => 'nullable|email|max:255',
-            'donation_type' => 'required|string|in:one_time,monthly',
-            'campaign_id' => 'nullable|string|max:100',
+            'donation_type' => 'required|in:one_time,monthly',
+            'campaign_id' => 'nullable|exists:campaigns,id',
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json([
                 'success' => false,
@@ -67,188 +39,366 @@ class PaymentController extends Controller
                 'errors' => $validator->errors()
             ], 422);
         }
-        
-        $orderReference = $this->clickPesaService->generateOrderReference('DONATE');
-        
-        // Store donation details in session for confirmation page
-        session([
-            'donation_details' => [
+
+        try {
+            $amount = $request->amount;
+            $paymentMethod = $request->payment_method;
+            $orderReference = $this->clickPesaService->generateOrderReference('DONATE');
+
+            // Save donation record
+            $donation = \App\Models\Donation::create([
                 'order_reference' => $orderReference,
-                'amount' => $request->amount,
-                'phone_number' => $request->phone_number,
-                'donor_name' => $request->donor_name ?? 'Anonymous',
+                'donor_name' => $request->donor_name,
                 'donor_email' => $request->donor_email,
+                'amount' => $amount,
+                'currency' => $paymentMethod === 'ussd' ? 'TZS' : 'USD',
+                'payment_method' => $paymentMethod,
+                'phone_number' => $paymentMethod === 'ussd' ? $this->clickPesaService->validatePhoneNumber($request->phone_number) : null,
                 'donation_type' => $request->donation_type,
                 'campaign_id' => $request->campaign_id,
-                'payment_method' => 'mobile_money',
-            ]
-        ]);
-        
-        $result = $this->clickPesaService->initiateUssdPush(
-            $request->amount,
-            $request->phone_number,
-            $orderReference
-        );
-        
-        if ($result['success']) {
-            Log::info('USSD payment initiated', [
-                'order_reference' => $orderReference,
-                'amount' => $request->amount,
-                'phone_number' => $request->phone_number,
-                'transaction_id' => $result['data']['id'] ?? null
+                'status' => 'pending',
             ]);
-        }
-        
-        return response()->json($result);
-    }
-    
-    /**
-     * Preview Card payment
-     */
-    public function previewCardPayment(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|min:1', // USD minimum
-        ]);
-        
-        if ($validator->fails()) {
+
+            if ($paymentMethod === 'ussd') {
+                return $this->processUssdPayment($donation, $request->phone_number);
+            } else {
+                return $this->processCardPayment($donation);
+            }
+
+        } catch (\Exception $e) {
+            Log::error('Donation processing failed', [
+                'error' => $e->getMessage(),
+                'request' => $request->all()
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
+                'message' => 'An error occurred while processing your donation. Please try again.'
+            ], 500);
         }
-        
-        $orderReference = $this->clickPesaService->generateOrderReference('DONATE');
-        
-        $result = $this->clickPesaService->previewCardPayment(
-            $request->amount,
-            $orderReference
-        );
-        
-        return response()->json($result);
     }
-    
+
     /**
-     * Initiate Card payment
+     * Process USSD payment
      */
-    public function initiateCardPayment(Request $request)
+    private function processUssdPayment($donation, $phoneNumber)
     {
-        $validator = Validator::make($request->all(), [
-            'amount' => 'required|numeric|min:1', // USD minimum
-            'donor_name' => 'nullable|string|max:255',
-            'donor_email' => 'nullable|email|max:255',
-            'donation_type' => 'required|string|in:one_time,monthly',
-            'campaign_id' => 'nullable|string|max:100',
-        ]);
-        
-        if ($validator->fails()) {
+        // Preview USSD payment first
+        $preview = $this->clickPesaService->previewUssdPush(
+            $donation->amount,
+            $donation->order_reference,
+            $this->clickPesaService->validatePhoneNumber($phoneNumber),
+            true // Fetch sender details
+        );
+
+        if (!$preview['success']) {
+            $donation->update(['status' => 'failed']);
             return response()->json([
                 'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors()
-            ], 422);
+                'message' => 'Unable to preview payment. Please check your phone number and try again.',
+                'error' => $preview['error']
+            ], 400);
         }
-        
-        $orderReference = $this->clickPesaService->generateOrderReference('DONATE');
-        $customerId = $request->donor_email ? md5($request->donor_email) : null;
-        
-        // Store donation details in session for confirmation page
-        session([
-            'donation_details' => [
-                'order_reference' => $orderReference,
-                'amount' => $request->amount,
-                'donor_name' => $request->donor_name ?? 'Anonymous',
-                'donor_email' => $request->donor_email,
-                'donation_type' => $request->donation_type,
-                'campaign_id' => $request->campaign_id,
-                'payment_method' => 'card',
-                'currency' => 'USD',
+
+        // Initiate USSD payment
+        $payment = $this->clickPesaService->initiateUssdPush(
+            $donation->amount,
+            $donation->order_reference,
+            $this->clickPesaService->validatePhoneNumber($phoneNumber)
+        );
+
+        if (!$payment['success']) {
+            $donation->update(['status' => 'failed']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to initiate payment. Please try again.',
+                'error' => $payment['error']
+            ], 400);
+        }
+
+        // Update donation with payment details
+        $donation->update([
+            'payment_id' => $payment['data']['id'] ?? null,
+            'status' => 'processing'
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Payment initiated successfully! Please check your phone for the USSD prompt.',
+            'data' => [
+                'order_reference' => $donation->order_reference,
+                'amount' => $donation->amount,
+                'currency' => $donation->currency,
+                'payment_id' => $payment['data']['id'] ?? null,
+                'status' => 'processing',
+                'preview' => $preview['data']
             ]
         ]);
-        
-        $result = $this->clickPesaService->initiateCardPayment(
-            $request->amount,
-            $orderReference,
-            $customerId
-        );
-        
-        if ($result['success']) {
-            Log::info('Card payment initiated', [
-                'order_reference' => $orderReference,
-                'amount' => $request->amount,
-                'currency' => 'USD',
-                'customer_id' => $customerId,
-                'payment_link' => $result['data']['cardPaymentLink'] ?? null
-            ]);
-        }
-        
-        return response()->json($result);
     }
-    
+
+    /**
+     * Process card payment
+     */
+    private function processCardPayment($donation)
+    {
+        // Preview card payment first
+        $preview = $this->clickPesaService->previewCardPayment(
+            $donation->amount,
+            $donation->order_reference
+        );
+
+        if (!$preview['success']) {
+            $donation->update(['status' => 'failed']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to preview card payment. Please try again.',
+                'error' => $preview['error']
+            ], 400);
+        }
+
+        // Initiate card payment
+        $payment = $this->clickPesaService->initiateCardPayment(
+            $donation->amount,
+            $donation->order_reference,
+            $donation->donor_email ?: $donation->order_reference
+        );
+
+        if (!$payment['success']) {
+            $donation->update(['status' => 'failed']);
+            return response()->json([
+                'success' => false,
+                'message' => 'Unable to initiate card payment. Please try again.',
+                'error' => $payment['error']
+            ], 400);
+        }
+
+        // Update donation with payment details
+        $donation->update([
+            'payment_id' => $payment['data']['id'] ?? null,
+            'status' => 'pending_payment'
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Card payment initiated! Please click the link below to complete your payment.',
+            'data' => [
+                'order_reference' => $donation->order_reference,
+                'amount' => $donation->amount,
+                'currency' => $donation->currency,
+                'payment_link' => $payment['data']['cardPaymentLink'] ?? null,
+                'status' => 'pending_payment',
+                'preview' => $preview['data']
+            ]
+        ]);
+    }
+
     /**
      * Check payment status
      */
     public function checkPaymentStatus($orderReference)
     {
-        $result = $this->clickPesaService->queryPaymentStatus($orderReference);
-        
-        if ($result['success'] && !empty($result['data'])) {
-            $payment = $result['data'][0]; // API returns array
-            
-            // Update session with payment status
-            if (session('donation_details.order_reference') === $orderReference) {
-                session(['donation_details.payment_status' => $payment['status']]);
-                session(['donation_details.payment_data' => $payment]);
+        try {
+            $paymentStatus = $this->clickPesaService->queryPaymentStatus($orderReference);
+
+            if (!$paymentStatus['success']) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unable to fetch payment status',
+                    'error' => $paymentStatus['error']
+                ], 400);
             }
+
+            $paymentData = $paymentStatus['data'];
             
-            Log::info('Payment status checked', [
-                'order_reference' => $orderReference,
-                'status' => $payment['status'],
-                'amount' => $payment['collectedAmount'] ?? null,
-                'currency' => $payment['collectedCurrency'] ?? null
+            // Update donation status if it's an array with data
+            if (is_array($paymentData) && isset($paymentData[0])) {
+                $paymentInfo = $paymentData[0];
+                $donation = \App\Models\Donation::where('order_reference', $orderReference)->first();
+
+                if ($donation) {
+                    $donation->update([
+                        'status' => strtolower($paymentInfo['status'] ?? 'unknown'),
+                        'payment_reference' => $paymentInfo['paymentReference'] ?? null,
+                        'collected_amount' => $paymentInfo['collectedAmount'] ?? null,
+                        'message' => $paymentInfo['message'] ?? null,
+                    ]);
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'data' => $paymentInfo
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $paymentData
             ]);
+
+        } catch (\Exception $e) {
+            Log::error('Payment status check failed', [
+                'error' => $e->getMessage(),
+                'order_reference' => $orderReference
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while checking payment status'
+            ], 500);
         }
-        
-        return response()->json($result);
     }
-    
+
     /**
-     * Payment confirmation page
-     */
-    public function paymentConfirmation($orderReference)
-    {
-        $donationDetails = session('donation_details');
-        
-        if (!$donationDetails || $donationDetails['order_reference'] !== $orderReference) {
-            return redirect()->route('donate')->with('error', 'Donation session expired or not found.');
-        }
-        
-        // Check payment status
-        $statusResult = $this->clickPesaService->queryPaymentStatus($orderReference);
-        
-        if ($statusResult['success'] && !empty($statusResult['data'])) {
-            $payment = $statusResult['data'][0];
-            $donationDetails['payment_status'] = $payment['status'];
-            $donationDetails['payment_data'] = $payment;
-        }
-        
-        return view('payment.confirmation', compact('donationDetails'));
-    }
-    
-    /**
-     * Payment success/cancel webhook handler
+     * Webhook to handle payment notifications
      */
     public function paymentWebhook(Request $request)
     {
-        Log::info('Payment webhook received', [
-            'payload' => $request->all(),
-            'headers' => $request->headers->all()
-        ]);
-        
-        // Process webhook based on ClickPesa webhook format
-        // This would need to be implemented based on actual webhook structure
-        
-        return response()->json(['status' => 'received']);
+        try {
+            $payload = $request->all();
+            
+            Log::info('ClickPesa webhook received', $payload);
+
+            // Extract payment information from webhook
+            if (isset($payload['orderReference']) && isset($payload['status'])) {
+                $donation = \App\Models\Donation::where('order_reference', $payload['orderReference'])->first();
+
+                if ($donation) {
+                    $donation->update([
+                        'status' => strtolower($payload['status']),
+                        'payment_reference' => $payload['paymentReference'] ?? null,
+                        'collected_amount' => $payload['collectedAmount'] ?? null,
+                        'message' => $payload['message'] ?? null,
+                    ]);
+
+                    // Send confirmation email if payment is successful
+                    if (in_array(strtolower($payload['status']), ['success', 'settled'])) {
+                        $this->sendDonationConfirmation($donation);
+                    }
+                }
+            }
+
+            return response()->json(['success' => true]);
+
+        } catch (\Exception $e) {
+            Log::error('Webhook processing failed', [
+                'error' => $e->getMessage(),
+                'payload' => $request->all()
+            ]);
+
+            return response()->json(['success' => false], 500);
+        }
+    }
+
+    /**
+     * Get payment history
+     */
+    public function getPaymentHistory(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'limit' => 'nullable|integer|min:1|max:100',
+                'offset' => 'nullable|integer|min:0',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Invalid parameters',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $limit = $request->get('limit', 20);
+            $offset = $request->get('offset', 0);
+
+            $payments = $this->clickPesaService->queryAllPayments();
+
+            if (!$payments['success']) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Unable to fetch payment history',
+                    'error' => $payments['error']
+                ], 400);
+            }
+
+            $paymentData = $payments['data'];
+            
+            // Apply pagination if data is array
+            if (is_array($paymentData)) {
+                $paginatedData = array_slice($paymentData, $offset, $limit);
+                
+                return response()->json([
+                    'success' => true,
+                    'data' => $paginatedData,
+                    'pagination' => [
+                        'limit' => $limit,
+                        'offset' => $offset,
+                        'total' => count($paymentData)
+                    ]
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'data' => $paymentData
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Payment history fetch failed', [
+                'error' => $e->getMessage()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while fetching payment history'
+            ], 500);
+        }
+    }
+
+    /**
+     * Send donation confirmation email
+     */
+    private function sendDonationConfirmation($donation)
+    {
+        try {
+            if ($donation->donor_email) {
+                // Send email using Laravel's mail system
+                \Mail::to($donation->donor_email)->send(new \App\Mail\DonationConfirmation($donation));
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to send donation confirmation email', [
+                'error' => $e->getMessage(),
+                'donation_id' => $donation->id
+            ]);
+        }
+    }
+
+    /**
+     * Test ClickPesa connection
+     */
+    public function testConnection()
+    {
+        try {
+            $token = $this->clickPesaService->generateToken();
+            
+            if ($token) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'ClickPesa connection successful',
+                    'token_preview' => substr($token, 0, 20) . '...'
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to generate ClickPesa token'
+            ], 400);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Connection test failed: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

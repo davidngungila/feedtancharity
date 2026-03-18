@@ -182,34 +182,17 @@
         <!-- Donation Form -->
         <section id="donate-form" class="py-32 bg-slate-50">
             <div class="max-w-4xl mx-auto px-6">
-                <div class="bg-white rounded-3xl shadow-2xl p-12" x-data="donationForm()">
+                <div class="bg-white rounded-3xl shadow-2xl p-12">
                     <div class="text-center mb-12">
                         <h2 class="text-3xl font-serif font-bold text-slate-900 mb-4">Choose Your Donation</h2>
                         <p class="text-slate-600">Every contribution makes a meaningful difference</p>
-                    </div>
-
-                    <!-- Payment Method Selection -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Payment Method</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <button @click="paymentMethod = 'mobile'; currency = 'TZS'" :class="paymentMethod === 'mobile' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
-                                <i class="ph-bold ph-device-mobile text-2xl mb-3"></i>
-                                <div class="text-lg font-bold">Mobile Money</div>
-                                <div class="text-sm opacity-75">TIGO, M-PESA, AIRTEL</div>
-                            </button>
-                            <button @click="paymentMethod = 'card'; currency = 'USD'" :class="paymentMethod === 'card' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
-                                <i class="ph-bold ph-credit-card text-2xl mb-3"></i>
-                                <div class="text-lg font-bold">Card Payment</div>
-                                <div class="text-sm opacity-75">Visa, Mastercard, etc.</div>
-                            </button>
-                        </div>
                     </div>
 
                     <!-- Donation Type -->
                     <div class="mb-12">
                         <h3 class="text-xl font-bold text-slate-900 mb-6">Donation Type</h3>
                         <div class="grid md:grid-cols-2 gap-6">
-                            <button @click="donationType = 'one_time'" :class="donationType === 'one_time' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
+                            <button @click="donationType = 'one-time'" :class="donationType === 'one-time' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
                                 <i class="ph-bold ph-hand-heart text-2xl mb-3"></i>
                                 <div class="text-lg font-bold">One-Time Donation</div>
                                 <div class="text-sm opacity-75">Make a single gift today</div>
@@ -224,65 +207,62 @@
 
                     <!-- Amount Selection -->
                     <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount (<span x-text="currency"></span>)</h3>
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount</h3>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <template x-if="currency === 'TZS'">
-                                <div>
-                                    <button @click="amount = 10000" :class="amount === 10000 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        10,000
-                                    </button>
-                                    <button @click="amount = 25000" :class="amount === 25000 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        25,000
-                                    </button>
-                                    <button @click="amount = 50000" :class="amount === 50000 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        50,000
-                                    </button>
-                                    <button @click="amount = 100000" :class="amount === 100000 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        100,000
-                                    </button>
-                                </div>
-                            </template>
-                            <template x-if="currency === 'USD'">
-                                <div>
-                                    <button @click="amount = 25" :class="amount === 25 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        $25
-                                    </button>
-                                    <button @click="amount = 50" :class="amount === 50 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        $50
-                                    </button>
-                                    <button @click="amount = 100" :class="amount === 100 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        $100
-                                    </button>
-                                    <button @click="amount = 250" :class="amount === 250 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        $250
-                                    </button>
-                                </div>
-                            </template>
+                            <button @click="amount = 25" :class="amount === 25 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                $25
+                            </button>
+                            <button @click="amount = 50" :class="amount === 50 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                $50
+                            </button>
+                            <button @click="amount = 100" :class="amount === 100 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                $100
+                            </button>
+                            <button @click="amount = 250" :class="amount === 250 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                $250
+                            </button>
                         </div>
                         
                         <div class="relative">
-                            <input x-model="customAmount" type="number" :placeholder="`Enter custom amount (${currency})`" class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                            <input x-model="customAmount" type="number" placeholder="Enter custom amount" class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
                             <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                <span x-text="currency === 'TZS' ? 'TSh' : '$'"></span>
+                                <i class="ph-bold ph-currency-dollar text-xl"></i>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Mobile Money Form (Tanzania) -->
-                    <div x-show="paymentMethod === 'mobile'" x-transition class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Mobile Money Details</h3>
-                        <div class="bg-emerald-50 rounded-xl p-6 mb-6">
-                            <div class="flex items-center gap-3 mb-4">
-                                <i class="ph-bold ph-info text-emerald-600 text-xl"></i>
-                                <div class="text-sm text-emerald-800">
-                                    You will receive a USSD prompt on your phone to complete the payment securely.
+                    <!-- Donation Options -->
+                    <div class="mb-12">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">Designate Your Gift</h3>
+                        <div class="space-y-4">
+                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
+                                <input type="radio" name="designation" value="general" class="text-emerald-600" checked>
+                                <div>
+                                    <div class="font-semibold text-slate-900">General Fund</div>
+                                    <div class="text-sm text-slate-600">Where needed most</div>
                                 </div>
-                            </div>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number *</label>
-                            <input x-model="phoneNumber" type="tel" placeholder="255712345678" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" maxlength="12">
-                            <div class="text-xs text-slate-500 mt-2">Format: 255XXXXXXXXX (no + sign)</div>
+                            </label>
+                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
+                                <input type="radio" name="designation" value="nutrition" class="text-emerald-600">
+                                <div>
+                                    <div class="font-semibold text-slate-900">School Nutrition</div>
+                                    <div class="text-sm text-slate-600">Feed hungry children</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
+                                <input type="radio" name="designation" value="agriculture" class="text-emerald-600">
+                                <div>
+                                    <div class="font-semibold text-slate-900">Community Gardens</div>
+                                    <div class="text-sm text-slate-600">Sustainable food sources</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
+                                <input type="radio" name="designation" value="emergency" class="text-emerald-600">
+                                <div>
+                                    <div class="font-semibold text-slate-900">Emergency Relief</div>
+                                    <div class="text-sm text-slate-600">Crisis response fund</div>
+                                </div>
+                            </label>
                         </div>
                     </div>
 
@@ -291,66 +271,54 @@
                         <h3 class="text-xl font-bold text-slate-900 mb-6">Your Information</h3>
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name</label>
-                                <input x-model="donorName" type="text" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="John Doe">
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name *</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="John Doe">
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address</label>
-                                <input x-model="donorEmail" type="email" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="john@example.com">
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
+                                <input type="email" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="john@example.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number</label>
+                                <input type="tel" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="+1 (555) 123-4567">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Address (Optional)</label>
+                                <input type="text" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="123 Main St, City, State 12345">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Designation -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Designate Your Gift</h3>
-                        <div class="space-y-4">
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="general" x-model="designation" class="text-emerald-600">
+                    <!-- Monthly Options (only show for monthly donations) -->
+                    <div x-show="donationType === 'monthly'" x-transition class="mb-12">
+                        <h3 class="text-xl font-bold text-slate-900 mb-6">Monthly Giving Options</h3>
+                        <div class="bg-emerald-50 rounded-xl p-6">
+                            <label class="flex items-center gap-4 mb-4">
+                                <input type="checkbox" class="text-emerald-600" checked>
                                 <div>
-                                    <div class="font-semibold text-slate-900">General Fund</div>
-                                    <div class="text-sm text-slate-600">Where needed most</div>
+                                    <div class="font-semibold text-slate-900">Automated Monthly Giving</div>
+                                    <div class="text-sm text-slate-600">Continue your support automatically each month</div>
                                 </div>
                             </label>
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="nutrition" x-model="designation" class="text-emerald-600">
-                                <div>
-                                    <div class="font-semibold text-slate-900">School Nutrition</div>
-                                    <div class="text-sm text-slate-600">Feed hungry children</div>
-                                </div>
+                            <label class="flex items-center gap-4">
+                                <select class="px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all bg-white">
+                                    <option>Process donation on 1st of each month</option>
+                                    <option>Process donation on 15th of each month</option>
+                                    <option>Process donation on last day of month</option>
+                                </select>
                             </label>
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="agriculture" x-model="designation" class="text-emerald-600">
-                                <div>
-                                    <div class="font-semibold text-slate-900">Community Gardens</div>
-                                    <div class="text-sm text-slate-600">Sustainable food sources</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Error/Success Messages -->
-                    <div x-show="message" x-transition class="mb-6">
-                        <div :class="messageType === 'error' ? 'bg-red-50 border-red-200 text-red-800' : 'bg-green-50 border-green-200 text-green-800'" class="p-4 rounded-xl border" x-text="message"></div>
-                    </div>
-
-                    <!-- Loading State -->
-                    <div x-show="processing" x-transition class="text-center mb-6">
-                        <div class="inline-flex items-center gap-3 text-emerald-600">
-                            <div class="animate-spin w-5 h-5 border-2 border-emerald-600 border-t-transparent rounded-full"></div>
-                            <span class="font-semibold">Processing your donation...</span>
                         </div>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="text-center">
-                        <button @click="processDonation()" :disabled="processing || !isFormValid()" class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                        <button type="submit" class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg">
                             <i class="ph-bold ph-heart text-xl mr-3"></i>
-                            <span x-text="paymentMethod === 'mobile' ? 'Donate with Mobile Money' : 'Donate with Card'"></span>
+                            Complete Your Donation
                         </button>
                         <p class="mt-6 text-sm text-slate-500">
                             <i class="ph ph-lock text-emerald-500"></i>
-                            Your payment information is secure and encrypted. FeedTan Charity is a registered NGO.
+                            Your payment information is secure and encrypted. FeedTan Charity is a 501(c)(3) tax-exempt organization.
                         </p>
                     </div>
                 </div>
@@ -461,154 +429,6 @@
                     });
                 }
             });
-        });
-    </script>
-
-    <script>
-        function donationForm() {
-            return {
-                paymentMethod: 'mobile',
-                donationType: 'one_time',
-                currency: 'TZS',
-                amount: 10000,
-                customAmount: '',
-                phoneNumber: '',
-                donorName: '',
-                donorEmail: '',
-                designation: 'general',
-                processing: false,
-                message: '',
-                messageType: 'error',
-
-                init() {
-                    // Set active amount button styling
-                    this.$watch('amount', () => {
-                        document.querySelectorAll('.amount-button').forEach(btn => {
-                            btn.classList.remove('bg-emerald-600', 'text-white', 'border-emerald-600');
-                            btn.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
-                        });
-                        const activeBtn = document.querySelector(`.amount-button:contains("${this.amount}")`);
-                        if (activeBtn) {
-                            activeBtn.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
-                            activeBtn.classList.add('bg-emerald-600', 'text-white', 'border-emerald-600');
-                        }
-                    });
-                },
-
-                getFinalAmount() {
-                    return this.customAmount || this.amount;
-                },
-
-                isFormValid() {
-                    const finalAmount = this.getFinalAmount();
-                    if (!finalAmount || finalAmount <= 0) return false;
-                    if (this.paymentMethod === 'mobile' && !this.phoneNumber) return false;
-                    if (this.paymentMethod === 'mobile' && this.phoneNumber.length !== 12) return false;
-                    return true;
-                },
-
-                async processDonation() {
-                    if (!this.isFormValid()) {
-                        this.showMessage('Please fill in all required fields correctly.', 'error');
-                        return;
-                    }
-
-                    this.processing = true;
-                    this.message = '';
-
-                    const finalAmount = this.getFinalAmount();
-                    const payload = {
-                        amount: finalAmount,
-                        donation_type: this.donationType,
-                        donor_name: this.donorName || 'Anonymous',
-                        donor_email: this.donorEmail,
-                        campaign_id: this.designation
-                    };
-
-                    try {
-                        let result;
-                        
-                        if (this.paymentMethod === 'mobile') {
-                            payload.phone_number = this.phoneNumber;
-                            
-                            // First preview the payment
-                            const previewResult = await this.makeRequest('/payment/preview-ussd', payload);
-                            if (!previewResult.success) {
-                                this.showMessage(previewResult.message || 'Payment preview failed', 'error');
-                                return;
-                            }
-
-                            // Then initiate the payment
-                            result = await this.makeRequest('/payment/initiate-ussd', payload);
-                        } else {
-                            // Card payment
-                            result = await this.makeRequest('/payment/initiate-card', payload);
-                        }
-
-                        if (result.success) {
-                            if (this.paymentMethod === 'mobile') {
-                                this.showMessage('USSD prompt sent to your phone! Please complete the payment.', 'success');
-                                // Redirect to confirmation page after a delay
-                                setTimeout(() => {
-                                    window.location.href = `/payment/confirmation/${result.data.id}`;
-                                }, 3000);
-                            } else {
-                                // Redirect to card payment link
-                                if (result.data.cardPaymentLink) {
-                                    window.location.href = result.data.cardPaymentLink;
-                                } else {
-                                    this.showMessage('Card payment link not available', 'error');
-                                }
-                            }
-                        } else {
-                            this.showMessage(result.message || 'Payment failed', 'error');
-                        }
-                    } catch (error) {
-                        console.error('Payment error:', error);
-                        this.showMessage('An error occurred while processing your donation. Please try again.', 'error');
-                    } finally {
-                        this.processing = false;
-                    }
-                },
-
-                async makeRequest(endpoint, payload) {
-                    const response = await fetch(endpoint, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify(payload)
-                    });
-
-                    return await response.json();
-                },
-
-                showMessage(text, type) {
-                    this.message = text;
-                    this.messageType = type;
-                    
-                    // Auto-hide success messages after 5 seconds
-                    if (type === 'success') {
-                        setTimeout(() => {
-                            this.message = '';
-                        }, 5000);
-                    }
-                }
-            }
-        }
-
-        // Add CSS for active amount buttons
-        document.addEventListener('DOMContentLoaded', function() {
-            const style = document.createElement('style');
-            style.textContent = `
-                .amount-button.active {
-                    background-color: rgb(16 185 129) !important;
-                    color: white !important;
-                    border-color: rgb(16 185 129) !important;
-                }
-            `;
-            document.head.appendChild(style);
         });
     </script>
 </body>

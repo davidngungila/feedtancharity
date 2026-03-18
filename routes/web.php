@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,17 +24,6 @@ Route::get('/campaigns/{slug}', function ($slug) {
 // Donate page
 Route::get('/donate', function () {
     return view('donate');
-});
-
-// Payment routes
-Route::prefix('payment')->name('payment.')->group(function () {
-    Route::post('/preview-ussd', [PaymentController::class, 'previewUssdPayment'])->name('preview-ussd');
-    Route::post('/initiate-ussd', [PaymentController::class, 'initiateUssdPayment'])->name('initiate-ussd');
-    Route::post('/preview-card', [PaymentController::class, 'previewCardPayment'])->name('preview-card');
-    Route::post('/initiate-card', [PaymentController::class, 'initiateCardPayment'])->name('initiate-card');
-    Route::get('/status/{orderReference}', [PaymentController::class, 'checkPaymentStatus'])->name('status');
-    Route::get('/confirmation/{orderReference}', [PaymentController::class, 'paymentConfirmation'])->name('confirmation');
-    Route::post('/webhook', [PaymentController::class, 'paymentWebhook'])->name('webhook');
 });
 
 // Impact page
@@ -87,3 +75,6 @@ Route::get('/privacy', function () {
 Route::get('/terms', function () {
     return view('terms');
 });
+
+// Include payment routes
+require __DIR__.'/payments.php';
