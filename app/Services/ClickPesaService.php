@@ -43,19 +43,26 @@ class ClickPesaService
                     // Store token in cache
                     cache(['clickpesa_token' => $this->token], 3600); // 1 hour
                     
-                    Log::info('ClickPesa token generated successfully');
+                    Log::info('ClickPesa token generated successfully', [
+                        'token_length' => strlen($this->token),
+                        'expires_at' => $this->tokenExpiresAt
+                    ]);
                     return $this->token;
                 }
             }
 
-            Log::error('Failed to generate ClickPesa token', [
+            Log::error('ClickPesa token generation failed', [
                 'status' => $response->status(),
-                'response' => $response->json()
+                'response' => $response->json(),
+                'headers' => $response->headers()
             ]);
-            
+
             return null;
         } catch (\Exception $e) {
-            Log::error('Exception generating ClickPesa token', ['error' => $e->getMessage()]);
+            Log::error('ClickPesa token generation exception', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return null;
         }
     }

@@ -107,8 +107,90 @@ class TestController extends Controller
     }
 
     /**
-     * Test ClickPesa payment preview
+     * Test ClickPesa token generation directly (cURL style)
      */
+    public function testDirectToken(Request $request)
+    {
+        try {
+            $clientId = config('services.clickpesa.client_id');
+            $apiKey = config('services.clickpesa.api_key');
+            $baseUrl = config('services.clickpesa.base_url');
+
+            Log::info('Direct ClickPesa token test', [
+                'client_id' => $clientId,
+                'base_url' => $baseUrl,
+                'client_id_length' => strlen($clientId),
+                'api_key_length' => strlen($apiKey)
+            ]);
+
+            // Use the exact same approach as your working cURL
+            $curl = curl_init();
+
+            curl_setopt_array($curl, [
+                CURLOPT_URL => $baseUrl . "/generate-token",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_HTTPHEADER => [
+                    "api-key: " . $apiKey,
+                    "client-id: " . $clientId
+                ],
+            ]);
+
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+            curl_close($curl);
+
+            if ($err) {
+                Log::error('Direct ClickPesa cURL error', ['error' => $err]);
+                
+                return response()->json([
+                    'success' => false,
+                    'message' => 'cURL Error',
+                    'error' => $err,
+                    'http_code' => $httpCode
+                ], 500);
+            }
+
+            Log::info('Direct ClickPesa response', [
+                'http_code' => $httpCode,
+                'response_length' => strlen($response),
+                'response_preview' => substr($response, 0, 200)
+            ]);
+
+            $responseData = json_decode($response, true);
+
+            return response()->json([
+                'success' => $httpCode === 200,
+                'message' => $httpCode === 200 ? 'Direct token generation successful' : 'Direct token generation failed',
+                'data' => [
+                    'http_code' => $httpCode,
+                    'response' => $responseData,
+                    'raw_response' => $response,
+                    'client_id' => $clientId,
+                    'base_url' => $baseUrl
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Direct ClickPesa token test exception', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Direct token test failed',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    }
     public function testPaymentPreview(Request $request)
     {
         try {

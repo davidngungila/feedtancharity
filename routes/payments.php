@@ -14,6 +14,7 @@ Route::prefix('api/payments')->name('api.payments.')->group(function () {
     Route::post('/test-clickpesa-connection', [TestController::class, 'testConnection'])->name('test.clickpesa.connection');
     Route::post('/test-clickpesa-token', [TestController::class, 'testTokenGeneration'])->name('test.clickpesa.token');
     Route::post('/test-clickpesa-payment', [TestController::class, 'testPaymentPreview'])->name('test.clickpesa.payment');
+    Route::post('/test-direct-clickpesa-token', [TestController::class, 'testDirectToken'])->name('test.direct.clickpesa.token');
     
     // Check payment status via AJAX
     Route::get('/status/{orderReference}', [PaymentController::class, 'checkPaymentStatus'])->name('status');

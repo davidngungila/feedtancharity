@@ -46,6 +46,11 @@ Route::get('/api-test', function () {
     ]);
 });
 
+// Direct ClickPesa test page
+Route::get('/test-direct-clickpesa', function () {
+    return view('test-direct-clickpesa');
+});
+
 // Impact page
 Route::get('/impact', function () {
     return view('impact');
