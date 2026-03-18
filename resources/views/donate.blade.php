@@ -382,5 +382,77 @@
             });
         });
     </script>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Automatically generate ClickPesa token on page load
+        generateClickPesaToken();
+        
+        // Initialize payment form
+        if (typeof clickpesaPayment !== 'undefined') {
+            clickpesaPayment.initializePaymentForm();
+        }
+    });
+
+    async function generateClickPesaToken() {
+        try {
+            console.log('Generating ClickPesa token...');
+            
+            const response = await fetch('/api/payments/generate-token-on-load', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                }
+            });
+
+            console.log('Token response status:', response.status);
+            console.log('Token response headers:', response.headers);
+            
+            const contentType = response.headers.get('content-type');
+            console.log('Token response content-type:', contentType);
+
+            let data;
+            if (contentType && contentType.includes('application/json')) {
+                data = await response.json();
+            } else {
+                const text = await response.text();
+                console.error('Non-JSON response received:', text);
+                data = { 
+                    error: 'Non-JSON response received',
+                    status: response.status,
+                    content_type: contentType,
+                    raw_response: text.substring(0, 500) + (text.length > 500 ? '...' : '')
+                };
+            }
+            
+            if (data.success) {
+                console.log('ClickPesa token generated successfully');
+                // Store token for later use
+                window.clickPesaToken = data.data.token;
+                window.tokenExpiresAt = data.data.expires_at;
+                
+                // Show ready status
+                const tokenStatus = document.getElementById('token-status');
+                if (tokenStatus) {
+                    tokenStatus.innerHTML = '<span class="text-green-600">✅ Payment system ready</span>';
+                }
+            } else {
+                console.error('Failed to generate ClickPesa token:', data);
+                const tokenStatus = document.getElementById('token-status');
+                if (tokenStatus) {
+                    tokenStatus.innerHTML = '<span class="text-red-600">❌ Payment system error</span>';
+                }
+            }
+        } catch (error) {
+            console.error('Error generating ClickPesa token:', error);
+            const tokenStatus = document.getElementById('token-status');
+            if (tokenStatus) {
+                tokenStatus.innerHTML = '<span class="text-yellow-600">⚠️ Payment system limited</span>';
+            }
+        }
+    }
+    </script>
 </body>
 </html>

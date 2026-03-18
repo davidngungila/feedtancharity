@@ -197,6 +197,33 @@ class TestController extends Controller
     public function generateTokenOnLoad(Request $request)
     {
         try {
+            // Check credentials first
+            $clientId = config('services.clickpesa.client_id');
+            $apiKey = config('services.clickpesa.api_key');
+            $baseUrl = config('services.clickpesa.base_url');
+            
+            Log::info('ClickPesa token generation attempt', [
+                'client_id' => $clientId,
+                'api_key_set' => !empty($apiKey),
+                'base_url' => $baseUrl,
+                'client_id_length' => strlen($clientId),
+                'is_default_client_id' => $clientId === 'your_client_id_here'
+            ]);
+
+            // If credentials are not set, return error
+            if (empty($clientId) || $clientId === 'your_client_id_here' || empty($apiKey)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'ClickPesa credentials not configured',
+                    'error' => 'Please set CLICKPESA_CLIENT_ID and CLICKPESA_API_KEY in .env file',
+                    'debug' => [
+                        'client_id' => $clientId,
+                        'api_key_set' => !empty($apiKey),
+                        'is_default' => $clientId === 'your_client_id_here'
+                    ]
+                ], 500);
+            }
+
             $token = $this->clickPesaService->generateToken();
             
             if ($token) {
@@ -215,7 +242,12 @@ class TestController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to generate token on page load',
-                'error' => 'Token generation returned null'
+                'error' => 'Token generation returned null',
+                'debug' => [
+                    'client_id' => $clientId,
+                    'base_url' => $baseUrl,
+                    'service_class' => get_class($this->clickPesaService)
+                ]
             ], 500);
         } catch (\Exception $e) {
             Log::error('Token generation on page load failed', [
@@ -226,7 +258,12 @@ class TestController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Token generation failed on page load',
-                'error' => $e->getMessage()
+                'error' => $e->getMessage(),
+                'debug' => [
+                    'exception_type' => get_class($e),
+                    'file' => $e->getFile(),
+                    'line' => $e->getLine()
+                ]
             ], 500);
         }
     }
