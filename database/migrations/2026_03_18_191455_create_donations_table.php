@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('payment_method', ['ussd', 'card']);
             $table->string('phone_number')->nullable();
             $table->enum('donation_type', ['one_time', 'monthly'])->default('one_time');
-            $table->foreignId('campaign_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('campaign_id')->nullable();
             $table->string('payment_id')->nullable();
             $table->string('payment_reference')->nullable();
             $table->decimal('collected_amount', 10, 2)->nullable();
