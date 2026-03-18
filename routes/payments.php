@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 // Payment Routes
@@ -14,6 +15,11 @@ Route::prefix('payments')->name('payments.')->group(function () {
     
     // Get payment history
     Route::get('/history', [PaymentController::class, 'getPaymentHistory'])->name('history');
+    
+    // ClickPesa test routes
+    Route::post('/test-clickpesa-connection', [TestController::class, 'testConnection'])->name('test.clickpesa.connection');
+    Route::post('/test-clickpesa-token', [TestController::class, 'testTokenGeneration'])->name('test.clickpesa.token');
+    Route::post('/test-clickpesa-payment', [TestController::class, 'testPaymentPreview'])->name('test.clickpesa.payment');
     
     // ClickPesa webhook
     Route::post('/webhook/clickpesa', [PaymentController::class, 'paymentWebhook'])->name('webhook.clickpesa');

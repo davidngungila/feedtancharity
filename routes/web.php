@@ -26,6 +26,11 @@ Route::get('/donate', function () {
     return view('donate');
 });
 
+// ClickPesa test page
+Route::get('/test-clickpesa', function () {
+    return view('test-clickpesa');
+});
+
 // Impact page
 Route::get('/impact', function () {
     return view('impact');
