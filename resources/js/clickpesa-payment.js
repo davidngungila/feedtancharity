@@ -294,13 +294,17 @@ class ClickPesaPayment {
                     data.amount = '';
                 }
                 
-                // Get other form fields
+                // Get other form fields including new ones
                 data.donation_type = form.querySelector('input[name="donation_type"]')?.value || '';
                 data.payment_method = form.querySelector('input[name="payment_method"]:checked')?.value || '';
                 data.donor_name = form.querySelector('input[name="donor_name"]')?.value || '';
                 data.donor_email = form.querySelector('input[name="donor_email"]')?.value || '';
                 data.donor_phone = form.querySelector('input[name="donor_phone"]')?.value || '';
                 data.phone_number = form.querySelector('input[name="phone_number"]')?.value || '';
+                
+                // Get the new currency and country fields
+                data.currency = form.querySelector('input[name="currency"]')?.value || '';
+                data.country = form.querySelector('input[name="country"]')?.value || '';
                 
                 console.log('Final form data collected:', data); // Debug log
 
@@ -325,6 +329,13 @@ class ClickPesaPayment {
                 
                 if (!data.donor_email || data.donor_email.trim() === '') {
                     this.showNotification('Please enter your email address', 'error');
+                    return;
+                }
+                
+                // Validate currency
+                if (!data.currency) {
+                    console.log('Currency validation failed');
+                    this.showNotification('Currency not detected. Please refresh the page.', 'error');
                     return;
                 }
 
