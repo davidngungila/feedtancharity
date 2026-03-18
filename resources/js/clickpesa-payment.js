@@ -264,7 +264,7 @@ class ClickPesaPayment {
             const originalText = submitButton.textContent;
 
             try {
-                // Get form data manually for streamlined mobile money form
+                // Get form data for streamlined mobile money form
                 const data = {};
                 
                 // Get amount - try visible input first, then hidden
@@ -279,10 +279,10 @@ class ClickPesaPayment {
                     data.amount = '';
                 }
                 
-                // Get form fields for mobile money
-                data.donation_type = form.querySelector('input[name="donation_type"]')?.value || '';
-                data.payment_method = 'ussd'; // Always USSD for this form
-                data.mobile_provider = form.querySelector('input[name="mobile_provider"]:checked')?.value || 'tigo';
+                // Get form fields - simplified for auto-detect
+                data.donation_type = 'one_time'; // Always one-time
+                data.payment_method = 'ussd'; // Always USSD
+                data.mobile_provider = 'auto'; // Auto-detect provider
                 data.donor_name = form.querySelector('input[name="donor_name"]')?.value || '';
                 data.donor_email = form.querySelector('input[name="donor_email"]')?.value || '';
                 data.phone_number = form.querySelector('input[name="phone_number"]')?.value || '';
@@ -291,7 +291,7 @@ class ClickPesaPayment {
                 data.currency = 'TZS';
                 data.country = 'Tanzania';
                 
-                console.log('Tanzania Mobile Money form data:', data);
+                console.log('Simplified Tanzania Mobile Money form data:', data);
 
                 // Validate required fields
                 if (!data.amount || parseFloat(data.amount) <= 0 || isNaN(parseFloat(data.amount))) {

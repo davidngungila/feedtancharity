@@ -184,11 +184,8 @@
         <section id="donate-form" class="py-32 bg-slate-50">
             <div class="max-w-4xl mx-auto px-6">
                 <form id="donation-form" data-payment-form="donation-form" x-data="{ 
-                    donationType: 'one-time', 
                     amount: 50000, 
                     customAmount: '',
-                    paymentMethod: 'ussd',
-                    phoneNumber: '',
                     init() {
                         console.log('Tanzania Mobile Money form initializing...');
                         // Set default values for Tanzania
@@ -206,24 +203,6 @@
                             <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 rounded-full">
                                 🇹🇿 <span class="text-emerald-700 font-semibold">Tanzania Mobile Money</span>
                             </div>
-                        </div>
-
-                        <!-- Donation Type -->
-                        <div class="mb-12">
-                            <h3 class="text-xl font-bold text-slate-900 mb-6">Donation Type</h3>
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <button type="button" @click="donationType = 'one-time'" :class="donationType === 'one-time' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
-                                    <i class="ph-bold ph-hand-heart text-2xl mb-3"></i>
-                                    <div class="text-lg font-bold">One-Time Donation</div>
-                                    <div class="text-sm opacity-75">Make a single gift today</div>
-                                </button>
-                                <button type="button" @click="donationType = 'monthly'" :class="donationType === 'monthly' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
-                                    <i class="ph-bold ph-calendar-check text-2xl mb-3"></i>
-                                    <div class="text-lg font-bold">Monthly Giving</div>
-                                    <div class="text-sm opacity-75">Provide sustained support</div>
-                                </button>
-                            </div>
-                            <input type="hidden" name="donation_type" :value="donationType">
                         </div>
 
                         <!-- Amount Selection -->
@@ -253,136 +232,43 @@
                             <input type="hidden" name="amount" :value="customAmount || amount">
                             <input type="hidden" name="currency" value="TZS">
                             <input type="hidden" name="country" value="Tanzania">
-                        </div>
-
-                        <!-- Mobile Money Providers -->
-                        <div class="mb-12">
-                            <h3 class="text-xl font-bold text-slate-900 mb-6">Mobile Money Provider</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <label class="relative cursor-pointer">
-                                    <input type="radio" name="mobile_provider" value="tigo" checked class="sr-only peer">
-                                    <div class="p-4 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all text-center">
-                                        <div class="text-2xl mb-2">📱</div>
-                                        <div class="font-semibold text-slate-900">Tigo Pesa</div>
-                                        <div class="text-sm text-slate-600">Fast & Reliable</div>
-                                    </div>
-                                </label>
-                                <label class="relative cursor-pointer">
-                                    <input type="radio" name="mobile_provider" value="mpesa" class="sr-only peer">
-                                    <div class="p-4 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all text-center">
-                                        <div class="text-2xl mb-2">💚</div>
-                                        <div class="font-semibold text-slate-900">M-Pesa</div>
-                                        <div class="text-sm text-slate-600">Most Popular</div>
-                                    </div>
-                                </label>
-                                <label class="relative cursor-pointer">
-                                    <input type="radio" name="mobile_provider" value="airtel" class="sr-only peer">
-                                    <div class="p-4 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all text-center">
-                                        <div class="text-2xl mb-2">🔴</div>
-                                        <div class="font-semibold text-slate-900">Airtel Money</div>
-                                        <div class="text-sm text-slate-600">Quick & Easy</div>
-                                    </div>
-                                </label>
-                                <label class="relative cursor-pointer">
-                                    <input type="radio" name="mobile_provider" value="halotel" class="sr-only peer">
-                                    <div class="p-4 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all text-center">
-                                        <div class="text-2xl mb-2">📞</div>
-                                        <div class="font-semibold text-slate-900">Halotel Money</div>
-                                        <div class="text-sm text-slate-600">Growing Network</div>
-                                    </div>
-                                </label>
-                            </div>
+                            <input type="hidden" name="donation_type" value="one_time">
                             <input type="hidden" name="payment_method" value="ussd">
+                            <input type="hidden" name="mobile_provider" value="auto">
                         </div>
 
-                    <!-- Donation Options -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Designate Your Gift</h3>
-                        <div class="space-y-4">
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="general" class="text-emerald-600" checked>
+                        <!-- Personal Information -->
+                        <div class="mb-12">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">Your Information</h3>
+                            <div class="grid md:grid-cols-2 gap-6">
                                 <div>
-                                    <div class="font-semibold text-slate-900">General Fund</div>
-                                    <div class="text-sm text-slate-600">Where needed most</div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name *</label>
+                                    <input type="text" name="donor_name" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="John Doe">
                                 </div>
-                            </label>
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="nutrition" class="text-emerald-600">
                                 <div>
-                                    <div class="font-semibold text-slate-900">School Nutrition</div>
-                                    <div class="text-sm text-slate-600">Feed hungry children</div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
+                                    <input type="email" name="donor_email" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="john@example.com">
                                 </div>
-                            </label>
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="agriculture" class="text-emerald-600">
-                                <div>
-                                    <div class="font-semibold text-slate-900">Community Gardens</div>
-                                    <div class="text-sm text-slate-600">Sustainable food sources</div>
+                                <div class="md:col-span-2">
+                                    <label class="block text-sm font-semibold text-slate-700 mb-3">Mobile Money Phone Number *</label>
+                                    <input type="tel" name="phone_number" required placeholder="255712345678" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                    <p class="text-sm text-slate-500 mt-2">Enter your Tanzania mobile number for mobile money payment (e.g., 255712345678). We'll auto-detect your provider.</p>
                                 </div>
-                            </label>
-                            <label class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl cursor-pointer hover:bg-emerald-50 transition-colors">
-                                <input type="radio" name="designation" value="emergency" class="text-emerald-600">
-                                <div>
-                                    <div class="font-semibold text-slate-900">Emergency Relief</div>
-                                    <div class="text-sm text-slate-600">Crisis response fund</div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Personal Information -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Your Information</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name *</label>
-                                <input type="text" name="donor_name" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="John Doe">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
-                                <input type="email" name="donor_email" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="john@example.com">
-                            </div>
-                            <div class="md:col-span-2">
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Mobile Money Phone Number *</label>
-                                <input type="tel" name="phone_number" required placeholder="255712345678" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
-                                <p class="text-sm text-slate-500 mt-2">Enter your Tanzania mobile number for mobile money payment (e.g., 255712345678)</p>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Monthly Options (only show for monthly donations) -->
-                    <div x-show="donationType === 'monthly'" x-transition class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Monthly Giving Options</h3>
-                        <div class="bg-emerald-50 rounded-xl p-6">
-                            <label class="flex items-center gap-4 mb-4">
-                                <input type="checkbox" class="text-emerald-600" checked>
-                                <div>
-                                    <div class="font-semibold text-slate-900">Automated Monthly Giving</div>
-                                    <div class="text-sm text-slate-600">Continue your support automatically each month</div>
-                                </div>
-                            </label>
-                            <label class="flex items-center gap-4">
-                                <select class="px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all bg-white">
-                                    <option>Process donation on 1st of each month</option>
-                                    <option>Process donation on 15th of each month</option>
-                                    <option>Process donation on last day of month</option>
-                                </select>
-                            </label>
+                        <!-- Submit Button -->
+                        <div class="text-center">
+                            <button type="submit" class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg">
+                                <i class="ph-bold ph-device-mobile text-xl mr-3"></i>
+                                Donate with Mobile Money
+                            </button>
+                            <p class="mt-6 text-sm text-slate-500">
+                                <i class="ph ph-lock text-emerald-500"></i>
+                                You will receive a USSD prompt on your phone to confirm the payment. All transactions are secure and encrypted.
+                            </p>
                         </div>
                     </div>
-
-                    <!-- Submit Button -->
-                    <div class="text-center">
-                        <button type="submit" class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg">
-                            <i class="ph-bold ph-device-mobile text-xl mr-3"></i>
-                            Donate with Mobile Money
-                        </button>
-                        <p class="mt-6 text-sm text-slate-500">
-                            <i class="ph ph-lock text-emerald-500"></i>
-                            You will receive a USSD prompt on your phone to confirm the payment. All transactions are secure and encrypted.
-                        </p>
-                    </div>
-                </div>
                 </form>
             </div>
         </section>
