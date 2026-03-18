@@ -187,12 +187,115 @@
                     donationType: 'one-time', 
                     amount: 50, 
                     customAmount: '',
-                    paymentMethod: 'card'
+                    paymentMethod: 'card',
+                    selectedCountry: '',
+                    currency: 'USD',
+                    isTanzania: false,
+                    init() {
+                        // Auto-detect country
+                        this.detectCountry();
+                    },
+                    detectCountry() {
+                        // Use browser geolocation or IP detection
+                        fetch('https://ipapi.co/json/')
+                            .then(response => response.json())
+                            .then(data => {
+                                this.selectedCountry = data.country_name || '';
+                                this.isTanzania = data.country_code === 'TZ';
+                                this.currency = this.isTanzania ? 'TZS' : 'USD';
+                                
+                                // Update default amounts based on currency
+                                if (this.isTanzania) {
+                                    this.amount = 50000; // 50,000 TZS
+                                    this.customAmount = 50000;
+                                } else {
+                                    this.amount = 50; // 50 USD
+                                    this.customAmount = 50;
+                                }
+                            })
+                            .catch(error => {
+                                console.log('Could not detect country, defaulting to USD');
+                                this.selectedCountry = 'United States';
+                                this.isTanzania = false;
+                                this.currency = 'USD';
+                            });
+                    },
+                    selectCountry(countryCode, countryName, isTz) {
+                        this.selectedCountry = countryName;
+                        this.isTanzania = isTz;
+                        this.currency = isTz ? 'TZS' : 'USD';
+                        
+                        // Update default amounts
+                        if (isTz) {
+                            this.amount = 50000;
+                            this.customAmount = 50000;
+                        } else {
+                            this.amount = 50;
+                            this.customAmount = 50;
+                        }
+                    },
+                    getCurrencySymbol() {
+                        return this.isTanzania ? 'TSh' : '$';
+                    },
+                    getAmounts() {
+                        if (this.isTanzania) {
+                            return [25000, 50000, 100000, 250000]; // TZS amounts
+                        } else {
+                            return [25, 50, 100, 250]; // USD amounts
+                        }
+                    },
+                    formatAmount(amount) {
+                        const symbol = this.getCurrencySymbol();
+                        return symbol + amount.toLocaleString();
+                    }
                 }">
                     <div class="bg-white rounded-3xl shadow-2xl p-12">
                         <div class="text-center mb-12">
                             <h2 class="text-3xl font-serif font-bold text-slate-900 mb-4">Choose Your Donation</h2>
                             <p class="text-slate-600">Every contribution makes a meaningful difference</p>
+                        </div>
+
+                        <!-- Country Selection -->
+                        <div class="mb-12">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">Select Your Location</h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <button type="button" @click="selectCountry('TZ', 'Tanzania', true)" 
+                                        :class="isTanzania ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" 
+                                        class="p-6 rounded-2xl font-semibold transition-all text-left">
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-3xl">🇹🇿</div>
+                                        <div>
+                                            <div class="text-lg font-bold">Tanzania</div>
+                                            <div class="text-sm opacity-75">Pay in Tanzanian Shillings (TZS)</div>
+                                            <div class="text-xs opacity-75 mt-1">Mobile Money & Card Payments</div>
+                                        </div>
+                                    </div>
+                                </button>
+                                <button type="button" @click="selectCountry('US', 'International', false)" 
+                                        :class="!isTanzania ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" 
+                                        class="p-6 rounded-2xl font-semibold transition-all text-left">
+                                    <div class="flex items-center gap-4">
+                                        <div class="text-3xl">🌍</div>
+                                        <div>
+                                            <div class="text-lg font-bold">International</div>
+                                            <div class="text-sm opacity-75">Pay in US Dollars (USD)</div>
+                                            <div class="text-xs opacity-75 mt-1">Card Payments Worldwide</div>
+                                        </div>
+                                    </div>
+                                </button>
+                            </div>
+                            <input type="hidden" name="currency" :value="currency">
+                            <input type="hidden" name="country" :value="selectedCountry">
+                            
+                            <!-- Current Selection Display -->
+                            <div class="mt-4 p-4 bg-slate-50 rounded-xl text-center">
+                                <span class="text-sm text-slate-600">Currently selected:</span>
+                                <div class="font-semibold text-slate-900">
+                                    <span x-text="selectedCountry || 'Detecting...'"></span> • 
+                                    <span x-text="currency"></span> • 
+                                    <span x-text="getCurrencySymbol()"></span>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Donation Type -->
@@ -215,26 +318,29 @@
 
                         <!-- Amount Selection -->
                         <div class="mb-12">
-                            <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount</h3>
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">
+                                Select Amount (<span x-text="currency"></span>)
+                            </h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                                <button type="button" @click="amount = 25; customAmount = 25" :class="amount === 25 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                    $25
-                                </button>
-                                <button type="button" @click="amount = 50; customAmount = 50" :class="amount === 50 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                    $50
-                                </button>
-                                <button type="button" @click="amount = 100; customAmount = 100" :class="amount === 100 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                    $100
-                                </button>
-                                <button type="button" @click="amount = 250; customAmount = 250" :class="amount === 250 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                    $250
-                                </button>
+                                <template x-for="presetAmount in getAmounts()" :key="presetAmount">
+                                    <button type="button" 
+                                            @click="amount = presetAmount; customAmount = presetAmount" 
+                                            :class="amount === presetAmount ? 'active' : ''" 
+                                            class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                        <span x-text="formatAmount(presetAmount)"></span>
+                                    </button>
+                                </template>
                             </div>
                             
                             <div class="relative">
-                                <input x-model="customAmount" @input="amount = customAmount" type="number" name="amount" placeholder="Enter custom amount" class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                <input x-model="customAmount" 
+                                       @input="amount = customAmount" 
+                                       type="number" 
+                                       name="amount" 
+                                       :placeholder="'Enter custom amount (' + getCurrencySymbol() + ')'"
+                                       class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                    <i class="ph-bold ph-currency-dollar text-xl"></i>
+                                    <span x-text="getCurrencySymbol()"></span>
                                 </div>
                             </div>
                             <input type="hidden" name="amount" :value="customAmount || amount">
@@ -244,6 +350,7 @@
                         <div class="mb-12">
                             <h3 class="text-xl font-bold text-slate-900 mb-6">Payment Method</h3>
                             <div class="grid md:grid-cols-2 gap-6">
+                                <!-- Card Payment (Available for all) -->
                                 <label class="relative cursor-pointer">
                                     <input type="radio" name="payment_method" value="card" x-model="paymentMethod" class="sr-only peer">
                                     <div class="p-6 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all">
@@ -252,11 +359,14 @@
                                             <div>
                                                 <div class="font-semibold text-slate-900">Card Payment</div>
                                                 <div class="text-sm text-slate-600">Credit/Debit Card</div>
+                                                <div class="text-xs text-emerald-600 mt-1">Available Worldwide</div>
                                             </div>
                                         </div>
                                     </div>
                                 </label>
-                                <label class="relative cursor-pointer">
+                                
+                                <!-- USSD Mobile Money (Only for Tanzania) -->
+                                <label x-show="isTanzania" class="relative cursor-pointer">
                                     <input type="radio" name="payment_method" value="ussd" x-model="paymentMethod" class="sr-only peer">
                                     <div class="p-6 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all">
                                         <div class="flex items-center gap-4">
@@ -264,6 +374,7 @@
                                             <div>
                                                 <div class="font-semibold text-slate-900">Mobile Money</div>
                                                 <div class="text-sm text-slate-600">USSD (Tanzania)</div>
+                                                <div class="text-xs text-emerald-600 mt-1">Tigo, M-Pesa, Airtel</div>
                                             </div>
                                         </div>
                                     </div>
