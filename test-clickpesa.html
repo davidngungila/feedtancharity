@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ClickPesa API Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .success { background-color: #d4edda; color: #155724; }
+        .error { background-color: #f8d7da; color: #721c24; }
+        .loading { background-color: #d1ecf1; color: #0c5460; }
+    </style>
+</head>
+<body>
+    <h1>ClickPesa API Connection Test</h1>
+    
+    <div id="test-results"></div>
+    
+    <button onclick="testConnection()">Test Connection</button>
+    <button onclick="testTokenGeneration()">Test Token Generation</button>
+    
+    <script>
+        async function testConnection() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div class="loading">Testing connection...</div>';
+            
+            try {
+                const response = await fetch('/api/clickpesa/test-connection');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    results.innerHTML = `<div class="success">Connection Test: ${data.message} (Status: ${data.status})</div>`;
+                } else {
+                    results.innerHTML = `<div class="error">Connection Test Failed: ${data.error}</div>`;
+                }
+            } catch (error) {
+                results.innerHTML = `<div class="error">Connection Test Error: ${error.message}</div>`;
+            }
+        }
+        
+        async function testTokenGeneration() {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '<div class="loading">Testing token generation...</div>';
+            
+            try {
+                const response = await fetch('/api/clickpesa/generate-token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                    }
+                });
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    results.innerHTML = `<div class="success">Token Generation: SUCCESS - Token starts with: ${data.token.substring(0, 20)}...</div>`;
+                } else {
+                    results.innerHTML = `<div class="error">Token Generation Failed: ${data.error}</div>`;
+                }
+            } catch (error) {
+                results.innerHTML = `<div class="error">Token Generation Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

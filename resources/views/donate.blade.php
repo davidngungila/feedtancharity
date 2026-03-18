@@ -556,12 +556,18 @@
                 async testConnection() {
                     try {
                         console.log('ClickPesa: Testing API connection...');
+                        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                        console.log('ClickPesa: CSRF Token found:', !!csrfToken);
+                        
                         const response = await fetch(`${this.config.baseUrl}/test-connection`, {
                             method: 'GET',
                             headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                                'X-CSRF-TOKEN': csrfToken || '',
+                                'Accept': 'application/json'
                             }
                         });
+                        
+                        console.log('ClickPesa: Connection test response status:', response.status);
                         
                         if (response.ok) {
                             const data = await response.json();
@@ -589,13 +595,25 @@
                         try {
                             console.log(`ClickPesa: Token generation attempt ${attempt}/${this.config.maxRetries}`);
                             
+                            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+                            console.log('ClickPesa: Using CSRF token:', !!csrfToken);
+                            
                             const response = await fetch(`${this.config.baseUrl}/generate-token`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                                    'X-CSRF-TOKEN': csrfToken || '',
+                                    'Accept': 'application/json'
                                 }
                             });
+                            
+                            console.log('ClickPesa: Token response status:', response.status);
+                            
+                            if (!response.ok) {
+                                const errorText = await response.text();
+                                console.error('ClickPesa: Token response error:', errorText);
+                                throw new Error(`HTTP ${response.status}: ${errorText}`);
+                            }
                             
                             const data = await response.json();
                             console.log('ClickPesa: Token response', data);
@@ -616,7 +634,7 @@
                                 console.log(`ClickPesa: Retrying in ${this.config.retryDelay}ms...`);
                                 await new Promise(resolve => setTimeout(resolve, this.config.retryDelay));
                             } else {
-                                this.error = `Payment system initialization failed after ${this.config.maxRetries} attempts. Please refresh the page and try again. If the problem persists, contact support.`;
+                                this.error = `Payment system initialization failed: ${error.message}. Please refresh the page and try again. If the problem persists, contact support.`;
                                 console.error('ClickPesa: All token generation attempts failed', error);
                             }
                         }
