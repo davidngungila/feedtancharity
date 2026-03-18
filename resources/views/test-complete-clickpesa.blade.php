@@ -246,12 +246,32 @@
     }
 
     async function testGenerateToken() {
+        console.log('=== Starting Step 1: Generate Token ===');
         const amount = document.getElementById('testAmount').value;
         const phone = document.getElementById('testPhone').value;
         
+        // Validation
+        if (!amount || !phone) {
+            showResult('test-results', { 
+                error: 'Please enter amount and phone number first',
+                validation: {
+                    amount: !!amount,
+                    phone: !!phone,
+                    amount_value: amount,
+                    phone_value: phone
+                },
+                step: 'Token Generation'
+            }, false);
+            return;
+        }
+        
         try {
             console.log('Testing token generation...');
-            showResult('test-results', { message: 'Generating token...' }, true);
+            showResult('test-results', { 
+                message: '🔄 Generating ClickPesa token...',
+                step: 'Token Generation',
+                progress: 'starting'
+            }, true);
             
             const response = await fetch('/api/payments/test-generate-token', {
                 method: 'POST',
@@ -276,15 +296,36 @@
                     error: 'Non-JSON response received',
                     status: response.status,
                     content_type: contentType,
-                    raw_response: text.substring(0, 500) + (text.length > 500 ? '...' : '')
+                    raw_response: text.substring(0, 500) + (text.length > 500 ? '...' : ''),
+                    step: 'Token Generation'
                 };
             }
             
             if (data.success && data.data.token) {
                 currentToken = data.data.token;
-                showResult('test-results', data, response.ok);
+                showResult('test-results', { 
+                    message: '✅ Token generated successfully!',
+                    success: true,
+                    token_info: {
+                        token_length: data.data.token.length,
+                        token_preview: data.data.token.substring(0, 50) + '...',
+                        generated_at: data.data.generated_at,
+                        expires_at: data.data.expires_at
+                    },
+                    next_step: 'Ready for Step 2: Preview USSD-PUSH',
+                    step: 'Token Generation'
+                }, true);
             } else {
-                showResult('test-results', data, false);
+                showResult('test-results', { 
+                    error: 'Token generation failed',
+                    details: data,
+                    step: 'Token Generation',
+                    troubleshooting: [
+                        'Check ClickPesa credentials in .env file',
+                        'Verify Laravel server is running',
+                        'Check API endpoint accessibility'
+                    ]
+                }, false);
             }
         } catch (error) {
             console.error('Token generation error:', error);
@@ -292,24 +333,60 @@
                 error: error.message,
                 stack: error.stack,
                 type: error.name,
-                step: 'Token Generation'
+                step: 'Token Generation',
+                troubleshooting: [
+                    'Check network connection',
+                    'Verify Laravel server is running on port 8000',
+                    'Check browser console for JavaScript errors'
+                ]
             }, false);
         }
     }
 
     async function testPreviewUssd() {
+        console.log('=== Starting Step 2: Preview USSD-PUSH ===');
+        
+        // Validation
         if (!currentToken) {
-            showResult('test-results', { error: 'Please generate token first (Step 1)', step: 'USSD Preview' }, false);
+            showResult('test-results', { 
+                error: 'Please complete Step 1: Generate Token first',
+                current_status: {
+                    has_token: !!currentToken,
+                    token_length: currentToken ? currentToken.length : 0
+                },
+                step: 'USSD Preview',
+                action_required: 'Click Step 1 button first'
+            }, false);
             return;
         }
 
         const amount = document.getElementById('testAmount').value;
         const phone = document.getElementById('testPhone').value;
+        
+        if (!amount || !phone) {
+            showResult('test-results', { 
+                error: 'Please enter amount and phone number',
+                validation: {
+                    amount: !!amount,
+                    phone: !!phone,
+                    amount_value: amount,
+                    phone_value: phone
+                },
+                step: 'USSD Preview'
+            }, false);
+            return;
+        }
+        
         currentOrderReference = 'TEST-' + Date.now();
         
         try {
             console.log('Testing USSD preview...');
-            showResult('test-results', { message: 'Previewing USSD payment...', step: 'USSD Preview' }, true);
+            showResult('test-results', { 
+                message: '🔄 Previewing USSD payment...',
+                step: 'USSD Preview',
+                progress: 'validating payment details',
+                order_reference: currentOrderReference
+            }, true);
             
             const response = await fetch('/api/payments/test-preview-ussd', {
                 method: 'POST',
@@ -346,30 +423,111 @@
                 };
             }
             
-            showResult('test-results', data, response.ok);
+            if (data.success) {
+                showResult('test-results', { 
+                    message: '✅ USSD preview successful!',
+                    success: true,
+                    preview_details: {
+                        order_reference: currentOrderReference,
+                        amount: amount,
+                        currency: 'TZS',
+                        phone_number: phone,
+                        available_channels: data.data?.payment_methods || 'Not specified',
+                        sender_details: data.data?.sender_details || 'Not fetched'
+                    },
+                    next_step: 'Ready for Step 3: Initiate USSD-PUSH',
+                    step: 'USSD Preview'
+                }, true);
+            } else {
+                showResult('test-results', { 
+                    error: 'USSD preview failed',
+                    details: data,
+                    step: 'USSD Preview',
+                    troubleshooting: [
+                        'Check phone number format (should be 255xxxxxxxx)',
+                        'Verify amount is valid',
+                        'Check ClickPesa API credentials',
+                        'Ensure token is still valid'
+                    ]
+                }, false);
+            }
         } catch (error) {
             console.error('USSD preview error:', error);
             showResult('test-results', { 
                 error: error.message,
                 stack: error.stack,
                 type: error.name,
-                step: 'USSD Preview'
+                step: 'USSD Preview',
+                troubleshooting: [
+                    'Check network connection',
+                    'Verify Laravel server is running',
+                    'Check API endpoint: /api/payments/test-preview-ussd'
+                ]
             }, false);
         }
     }
 
     async function testInitiatePayment() {
-        if (!currentToken || !currentOrderReference) {
-            showResult('test-results', { error: 'Please complete Steps 1 & 2 first', step: 'Payment Initiation' }, false);
+        console.log('=== Starting Step 3: Initiate USSD-PUSH ===');
+        
+        // Validation
+        if (!currentToken) {
+            showResult('test-results', { 
+                error: 'Please complete Step 1: Generate Token first',
+                current_status: {
+                    has_token: !!currentToken,
+                    token_length: currentToken ? currentToken.length : 0
+                },
+                step: 'Payment Initiation',
+                action_required: 'Click Step 1 button first'
+            }, false);
+            return;
+        }
+
+        if (!currentOrderReference) {
+            showResult('test-results', { 
+                error: 'Please complete Step 2: Preview USSD-PUSH first',
+                current_status: {
+                    has_token: !!currentToken,
+                    has_order_reference: !!currentOrderReference,
+                    order_reference: currentOrderReference
+                },
+                step: 'Payment Initiation',
+                action_required: 'Click Step 2 button first'
+            }, false);
             return;
         }
 
         const amount = document.getElementById('testAmount').value;
         const phone = document.getElementById('testPhone').value;
         
+        if (!amount || !phone) {
+            showResult('test-results', { 
+                error: 'Please enter amount and phone number',
+                validation: {
+                    amount: !!amount,
+                    phone: !!phone,
+                    amount_value: amount,
+                    phone_value: phone
+                },
+                step: 'Payment Initiation'
+            }, false);
+            return;
+        }
+        
         try {
             console.log('Testing payment initiation...');
-            showResult('test-results', { message: 'Initiating payment...', step: 'Payment Initiation' }, true);
+            showResult('test-results', { 
+                message: '🔄 Initiating USSD payment...',
+                step: 'Payment Initiation',
+                progress: 'sending payment request',
+                order_reference: currentOrderReference,
+                payment_details: {
+                    amount: amount,
+                    currency: 'TZS',
+                    phone_number: phone
+                }
+            }, true);
             
             const response = await fetch('/api/payments/test-initiate-payment', {
                 method: 'POST',
@@ -405,27 +563,95 @@
                 };
             }
             
-            showResult('test-results', data, response.ok);
+            if (data.success) {
+                showResult('test-results', { 
+                    message: '✅ USSD payment initiated successfully!',
+                    success: true,
+                    payment_details: {
+                        order_reference: currentOrderReference,
+                        amount: amount,
+                        currency: 'TZS',
+                        phone_number: phone,
+                        transaction_id: data.data?.transaction_id || 'Generated',
+                        status: data.data?.status || 'PROCESSING'
+                    },
+                    user_instructions: [
+                        'Check your phone for USSD prompt',
+                        'Enter your PIN to confirm payment',
+                        'Wait for payment completion',
+                        'Use Step 4 to check payment status'
+                    ],
+                    next_step: 'Ready for Step 4: Check Payment Status',
+                    step: 'Payment Initiation'
+                }, true);
+            } else {
+                showResult('test-results', { 
+                    error: 'Payment initiation failed',
+                    details: data,
+                    step: 'Payment Initiation',
+                    troubleshooting: [
+                        'Check phone number format and availability',
+                        'Verify sufficient funds in mobile money account',
+                        'Check ClickPesa API credentials',
+                        'Ensure token and order reference are valid'
+                    ]
+                }, false);
+            }
         } catch (error) {
             console.error('Payment initiation error:', error);
             showResult('test-results', { 
                 error: error.message,
                 stack: error.stack,
                 type: error.name,
-                step: 'Payment Initiation'
+                step: 'Payment Initiation',
+                troubleshooting: [
+                    'Check network connection',
+                    'Verify Laravel server is running',
+                    'Check API endpoint: /api/payments/test-initiate-payment'
+                ]
             }, false);
         }
     }
 
     async function testPaymentStatus() {
-        if (!currentToken || !currentOrderReference) {
-            showResult('test-results', { error: 'Please complete Steps 1-3 first', step: 'Payment Status' }, false);
+        console.log('=== Starting Step 4: Check Payment Status ===');
+        
+        // Validation
+        if (!currentToken) {
+            showResult('test-results', { 
+                error: 'Please complete Step 1: Generate Token first',
+                current_status: {
+                    has_token: !!currentToken,
+                    token_length: currentToken ? currentToken.length : 0
+                },
+                step: 'Payment Status',
+                action_required: 'Click Step 1 button first'
+            }, false);
+            return;
+        }
+
+        if (!currentOrderReference) {
+            showResult('test-results', { 
+                error: 'Please complete Steps 2 & 3 first',
+                current_status: {
+                    has_token: !!currentToken,
+                    has_order_reference: !!currentOrderReference,
+                    order_reference: currentOrderReference
+                },
+                step: 'Payment Status',
+                action_required: 'Click Steps 2 & 3 buttons first'
+            }, false);
             return;
         }
         
         try {
             console.log('Testing payment status...');
-            showResult('test-results', { message: 'Checking payment status...', step: 'Payment Status' }, true);
+            showResult('test-results', { 
+                message: '🔄 Checking payment status...',
+                step: 'Payment Status',
+                progress: 'querying payment completion',
+                order_reference: currentOrderReference
+            }, true);
             
             const response = await fetch('/api/payments/test-payment-status', {
                 method: 'POST',
@@ -458,14 +684,67 @@
                 };
             }
             
-            showResult('test-results', data, response.ok);
+            if (data.success) {
+                const status = data.data?.status || 'UNKNOWN';
+                const statusEmoji = status === 'SUCCESS' ? '✅' : status === 'FAILED' ? '❌' : status === 'PROCESSING' ? '⏳' : '❓';
+                
+                showResult('test-results', { 
+                    message: `${statusEmoji} Payment status retrieved!`,
+                    success: true,
+                    payment_status: {
+                        order_reference: currentOrderReference,
+                        status: status,
+                        status_emoji: statusEmoji,
+                        amount: data.data?.amount || 'Not specified',
+                        currency: data.data?.currency || 'TZS',
+                        transaction_id: data.data?.transaction_id || currentOrderReference,
+                        updated_at: data.data?.updated_at || new Date().toISOString()
+                    },
+                    status_meaning: {
+                        'SUCCESS': 'Payment completed successfully',
+                        'FAILED': 'Payment failed or was declined',
+                        'PROCESSING': 'Payment is still being processed',
+                        'UNKNOWN': 'Status could not be determined'
+                    }[status] || 'Unknown status',
+                    next_actions: status === 'SUCCESS' ? [
+                        'Payment completed successfully!',
+                        'You can now test a new payment flow'
+                    ] : status === 'FAILED' ? [
+                        'Payment failed',
+                        'Check phone number and try again',
+                        'Verify sufficient funds'
+                    ] : [
+                        'Payment still processing',
+                        'Wait a few moments and check again',
+                        'Check your phone for USSD prompts'
+                    ],
+                    step: 'Payment Status'
+                }, true);
+            } else {
+                showResult('test-results', { 
+                    error: 'Payment status check failed',
+                    details: data,
+                    step: 'Payment Status',
+                    troubleshooting: [
+                        'Verify order reference is valid',
+                        'Check ClickPesa API credentials',
+                        'Ensure payment was initiated successfully',
+                        'Try checking status again in a few moments'
+                    ]
+                }, false);
+            }
         } catch (error) {
             console.error('Payment status error:', error);
             showResult('test-results', { 
                 error: error.message,
                 stack: error.stack,
                 type: error.name,
-                step: 'Payment Status'
+                step: 'Payment Status',
+                troubleshooting: [
+                    'Check network connection',
+                    'Verify Laravel server is running',
+                    'Check API endpoint: /api/payments/test-payment-status'
+                ]
             }, false);
         }
     }
@@ -536,43 +815,102 @@
     }
 
     function debugCredentials() {
-        console.log('Debugging ClickPesa credentials...');
+        console.log('=== Starting Debug ClickPesa Credentials ===');
+        
+        showResult('test-results', { 
+            message: '🔍 Debugging ClickPesa credentials...',
+            step: 'Credentials Debug',
+            progress: 'checking configuration'
+        }, true);
         
         fetch('/debug-clickpesa')
             .then(response => {
                 console.log('Debug response status:', response.status);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
                 return response.json();
             })
             .then(data => {
                 console.log('Debug response data:', data);
+                
+                const credentialsStatus = data.credentials?.client_id_empty || data.credentials?.api_key_empty || data.credentials?.is_default_client_id ? '❌ Issues Found' : '✅ All Good';
+                
                 showResult('test-results', {
-                    message: 'ClickPesa Credentials Debug',
+                    message: `${credentialsStatus} ClickPesa Credentials Debug`,
+                    credentials_status: credentialsStatus,
                     ...data,
-                    step: 'Credentials Debug'
-                }, true);
+                    step: 'Credentials Debug',
+                    recommendations: data.credentials?.client_id_empty ? [
+                        'Add CLICKPESA_CLIENT_ID to .env file',
+                        'Copy from .env.example to .env',
+                        'Restart Laravel server after changes'
+                    ] : data.credentials?.api_key_empty ? [
+                        'Add CLICKPESA_API_KEY to .env file',
+                        'Copy from .env.example to .env',
+                        'Restart Laravel server after changes'
+                    ] : data.credentials?.is_default_client_id ? [
+                        'Replace default client_id with real ClickPesa credentials',
+                        'Update CLICKPESA_CLIENT_ID in .env file',
+                        'Restart Laravel server after changes'
+                    ] : [
+                        '✅ Credentials are properly configured',
+                        'Ready to test ClickPesa API calls',
+                        'Proceed with Step 1: Generate Token'
+                    ]
+                }, credentialsStatus === '✅ All Good');
             })
             .catch(error => {
                 console.error('Debug credentials error:', error);
                 showResult('test-results', {
                     error: error.message,
                     step: 'Credentials Debug',
-                    suggestion: 'Check if Laravel server is running and route is accessible'
+                    troubleshooting: [
+                        'Check if Laravel server is running',
+                        'Verify /debug-clickpesa route is accessible',
+                        'Check network connection',
+                        'Try accessing http://127.0.0.1:8000/debug-clickpesa directly'
+                    ]
                 }, false);
             });
     }
 
     function clearResults() {
+        console.log('=== Clearing Results & Starting Over ===');
+        
         // Clear results display
         const resultsDiv = document.getElementById('test-results');
         const contentDiv = document.getElementById('results-content');
-        resultsDiv.classList.add('hidden');
-        contentDiv.innerHTML = '';
+        
+        if (resultsDiv) {
+            resultsDiv.classList.add('hidden');
+            resultsDiv.style.display = 'none';
+        }
+        
+        if (contentDiv) {
+            contentDiv.innerHTML = '';
+        }
         
         // Reset stored data
         currentToken = null;
         currentOrderReference = null;
         
-        console.log('Results cleared, ready to start fresh');
+        // Clear form inputs
+        const amountInput = document.getElementById('testAmount');
+        const phoneInput = document.getElementById('testPhone');
+        
+        if (amountInput) {
+            amountInput.value = '';
+        }
+        
+        if (phoneInput) {
+            phoneInput.value = '';
+        }
+        
+        console.log('✅ Results cleared, ready to start fresh');
+        
+        // Show confirmation
+        alert('✅ All results cleared!\n\nReady to start fresh testing:\n• Token and order reference reset\n• Form inputs cleared\n• Results section hidden\n\nYou can now start a new test flow!');
     }
     </script>
 </body>
