@@ -82,6 +82,14 @@
                 </button>
             </div>
 
+            <!-- Test Display Button -->
+            <div class="mb-6">
+                <button onclick="testDisplay()" class="w-full px-6 py-4 bg-pink-600 text-white font-bold rounded-xl hover:bg-pink-700 transition-all">
+                    <i class="ph-bold ph-monitor text-xl mr-3"></i>
+                    Test Display (Debug Results)
+                </button>
+            </div>
+
             <!-- Clear Results Button -->
             <div class="mb-6">
                 <button onclick="clearResults()" class="w-full px-6 py-4 bg-gray-600 text-white font-bold rounded-xl hover:bg-gray-700 transition-all">
@@ -116,11 +124,56 @@
     let currentToken = null;
     let currentOrderReference = null;
 
+    // Test page load
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Page loaded, testing JavaScript...');
+        
+        // Test basic functionality
+        const resultsElement = document.getElementById('test-results');
+        const contentElement = document.getElementById('results-content');
+        
+        console.log('Page elements found:', {
+            resultsElement: !!resultsElement,
+            contentElement: !!contentElement,
+            testAmount: !!document.getElementById('testAmount'),
+            testPhone: !!document.getElementById('testPhone')
+        });
+        
+        if (resultsElement && contentElement) {
+            console.log('✅ All elements found, JavaScript is working!');
+        } else {
+            console.error('❌ Missing elements, check HTML structure');
+        }
+    });
+
     function showResult(elementId, content, isSuccess = true) {
+        console.log('showResult called with:', { elementId, content, isSuccess });
+        
         const element = document.getElementById(elementId);
         const contentDiv = document.getElementById(elementId.replace('-results', '-content'));
         
+        console.log('Elements found:', { 
+            element: !!element, 
+            contentDiv: !!contentDiv,
+            elementId: elementId,
+            contentDivId: elementId.replace('-results', '-content')
+        });
+        
+        if (!element) {
+            console.error('Results element not found:', elementId);
+            alert('Error: Results container not found. Check browser console for details.');
+            return;
+        }
+        
+        if (!contentDiv) {
+            console.error('Results content element not found:', elementId.replace('-results', '-content'));
+            alert('Error: Results content container not found. Check browser console for details.');
+            return;
+        }
+        
+        // Make sure element is visible
         element.classList.remove('hidden');
+        element.style.display = 'block';
         
         // Add step information if available
         let displayContent = content;
@@ -135,7 +188,7 @@
         displayContent.timestamp = new Date().toISOString();
         displayContent.user_agent = navigator.userAgent.substring(0, 100);
         
-        contentDiv.innerHTML = `
+        const html = `
             <div class="mb-4">
                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
                     isSuccess ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
@@ -149,11 +202,20 @@
             <div class="mb-2 text-xs text-slate-500">
                 🕒 ${new Date().toLocaleString()}
             </div>
-            <pre class="whitespace-pre-wrap text-xs bg-white p-4 rounded border border-slate-200">${JSON.stringify(displayContent, null, 2)}</pre>
+            <pre class="whitespace-pre-wrap text-xs bg-white p-4 rounded border border-slate-200 max-h-96 overflow-y-auto">${JSON.stringify(displayContent, null, 2)}</pre>
         `;
         
+        console.log('Setting HTML content:', html);
+        contentDiv.innerHTML = html;
+        
         // Scroll to results
-        element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        try {
+            element.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } catch (e) {
+            console.warn('Scroll to results failed:', e);
+        }
+        
+        console.log('showResult completed successfully');
     }
 
     async function testGenerateToken() {
@@ -379,6 +441,28 @@
                 step: 'Payment Status'
             }, false);
         }
+    }
+
+    function testDisplay() {
+        console.log('Testing display function...');
+        
+        const testData = {
+            message: 'Test display is working!',
+            timestamp: new Date().toISOString(),
+            test_data: {
+                amount: 50000,
+                phone: '255712345678',
+                currency: 'TZS'
+            },
+            debug_info: {
+                page_url: window.location.href,
+                user_agent: navigator.userAgent,
+                screen_resolution: `${screen.width}x${screen.height}`,
+                viewport_size: `${window.innerWidth}x${window.innerHeight}`
+            }
+        };
+        
+        showResult('test-results', testData, true);
     }
 
     function clearResults() {
