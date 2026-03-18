@@ -306,6 +306,23 @@ class ClickPesaPayment {
                 data.currency = form.querySelector('input[name="currency"]')?.value || '';
                 data.country = form.querySelector('input[name="country"]')?.value || '';
                 
+                // Fallback: if currency is empty, try to detect from selected country
+                if (!data.currency && data.country) {
+                    console.log('Currency field empty, using fallback detection');
+                    if (data.country.toLowerCase().includes('tanzania') || data.country === 'TZ') {
+                        data.currency = 'TZS';
+                    } else {
+                        data.currency = 'USD';
+                    }
+                    console.log('Fallback currency set to:', data.currency);
+                }
+                
+                // Final fallback: if still no currency, default to USD
+                if (!data.currency) {
+                    console.log('No currency detected, defaulting to USD');
+                    data.currency = 'USD';
+                }
+                
                 console.log('Final form data collected:', data); // Debug log
 
                 // Validate required fields
@@ -332,12 +349,8 @@ class ClickPesaPayment {
                     return;
                 }
                 
-                // Validate currency
-                if (!data.currency) {
-                    console.log('Currency validation failed');
-                    this.showNotification('Currency not detected. Please refresh the page.', 'error');
-                    return;
-                }
+                // Currency is now handled with fallbacks, so no need for strict validation
+                console.log('Currency detected:', data.currency);
 
                 // Validate phone number for USSD payments
                 if (data.payment_method === 'ussd') {
