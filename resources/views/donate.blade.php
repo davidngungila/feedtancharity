@@ -188,19 +188,31 @@
                     amount: 50, 
                     customAmount: '',
                     paymentMethod: 'card',
-                    selectedCountry: '',
+                    selectedCountry: 'International',
                     currency: 'USD',
                     isTanzania: false,
                     init() {
-                        // Auto-detect country
-                        this.detectCountry();
+                        console.log('Form initializing...');
+                        // Set default values immediately
+                        this.selectedCountry = 'International';
+                        this.currency = 'USD';
+                        this.isTanzania = false;
+                        this.amount = 50;
+                        this.customAmount = 50;
+                        
+                        // Try to detect country after a short delay
+                        setTimeout(() => {
+                            this.detectCountry();
+                        }, 500);
                     },
                     detectCountry() {
+                        console.log('Detecting country...');
                         // Use browser geolocation or IP detection
                         fetch('https://ipapi.co/json/')
                             .then(response => response.json())
                             .then(data => {
-                                this.selectedCountry = data.country_name || '';
+                                console.log('Country data:', data);
+                                this.selectedCountry = data.country_name || 'International';
                                 this.isTanzania = data.country_code === 'TZ';
                                 this.currency = this.isTanzania ? 'TZS' : 'USD';
                                 
@@ -212,15 +224,15 @@
                                     this.amount = 50; // 50 USD
                                     this.customAmount = 50;
                                 }
+                                console.log('Country detected:', this.selectedCountry, 'Currency:', this.currency);
                             })
                             .catch(error => {
-                                console.log('Could not detect country, defaulting to USD');
-                                this.selectedCountry = 'United States';
-                                this.isTanzania = false;
-                                this.currency = 'USD';
+                                console.log('Could not detect country, using default:', error);
+                                // Keep default values (International/USD)
                             });
                     },
                     selectCountry(countryCode, countryName, isTz) {
+                        console.log('Manual country selection:', countryName, isTz);
                         this.selectedCountry = countryName;
                         this.isTanzania = isTz;
                         this.currency = isTz ? 'TZS' : 'USD';
@@ -232,6 +244,11 @@
                         } else {
                             this.amount = 50;
                             this.customAmount = 50;
+                        }
+                        
+                        // Reset payment method if switching away from Tanzania and was using USSD
+                        if (!isTz && this.paymentMethod === 'ussd') {
+                            this.paymentMethod = 'card';
                         }
                     },
                     getCurrencySymbol() {
