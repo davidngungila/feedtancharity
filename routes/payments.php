@@ -22,6 +22,9 @@ Route::prefix('api/payments')->name('api.payments.')->group(function () {
     Route::post('/test-initiate-payment', [TestController::class, 'testInitiatePayment'])->name('test.initiate.payment');
     Route::post('/test-payment-status', [TestController::class, 'testPaymentStatus'])->name('test.payment.status');
     
+    // Generate token on page load
+    Route::post('/generate-token-on-load', [TestController::class, 'generateTokenOnLoad'])->name('generate.token.on.load');
+    
     // Check payment status via AJAX
     Route::get('/status/{orderReference}', [PaymentController::class, 'checkPaymentStatus'])->name('status');
     

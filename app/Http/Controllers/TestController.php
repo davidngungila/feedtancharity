@@ -192,6 +192,46 @@ class TestController extends Controller
         }
     }
     /**
+     * Generate token on page load
+     */
+    public function generateTokenOnLoad(Request $request)
+    {
+        try {
+            $token = $this->clickPesaService->generateToken();
+            
+            if ($token) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Token generated successfully on page load',
+                    'data' => [
+                        'token' => $token,
+                        'token_length' => strlen($token),
+                        'generated_at' => now()->toISOString(),
+                        'expires_at' => now()->addHour()->toISOString()
+                    ]
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to generate token on page load',
+                'error' => 'Token generation returned null'
+            ], 500);
+        } catch (\Exception $e) {
+            Log::error('Token generation on page load failed', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            return response()->json([
+                'success' => false,
+                'message' => 'Token generation failed on page load',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Test complete ClickPesa token generation
      */
     public function testGenerateToken(Request $request)

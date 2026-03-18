@@ -49,17 +49,13 @@ class PaymentController extends Controller
             // TODO: Remove this bypass and configure real ClickPesa credentials
             $clientId = env('CLICKPESA_CLIENT_ID');
             $apiKey = env('CLICKPESA_API_KEY');
-            
             Log::info('ClickPesa credentials check:', [
-                'client_id' => $clientId,
-                'api_key' => $apiKey ? 'SET' : 'NOT_SET',
-                'is_default' => $clientId === 'your_client_id_here'
+                'client_id' => env('CLICKPESA_CLIENT_ID'),
+                'api_key' => env('CLICKPESA_API_KEY') ? 'SET' : 'NOT_SET',
+                'is_default' => env('CLICKPESA_CLIENT_ID') === 'your_client_id_here'
             ]);
-            
-            // More robust bypass - check for default values or empty values
-            if (empty($clientId) || $clientId === 'your_client_id_here' || empty($apiKey)) {
-                Log::info('Using test mode bypass for ClickPesa API');
-                
+
+            if (env('CLICKPESA_CLIENT_ID') === 'your_client_id_here') {
                 // Return mock success for testing
                 return response()->json([
                     'success' => true,
@@ -76,25 +72,62 @@ class PaymentController extends Controller
                 ]);
             }
 
+            // REAL CLICKPESA FLOW - Step 1: Generate Token (should already be cached)
+            $token = $this->clickPesaService->getAuthToken();
+            if (!$token) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to generate authentication token'
+                ], 500);
+            }
+
+            // Step 2: Preview USSD-PUSH to validate payment details
+            $previewResult = $this->clickPesaService->previewUssdPush(
+                $amount,
+                $request->currency ?? 'TZS',
+                $orderReference,
+                $request->phone_number,
+                true // fetch sender details
+            );
+
+            // Step 3: Initiate USSD-PUSH payment
+            $paymentResult = $this->clickPesaService->initiateUssdPush(
+                $amount,
+                $request->currency ?? 'TZS',
+                $orderReference,
+                $request->phone_number
+            );
+
             // Save donation record
             $donation = \App\Models\Donation::create([
                 'order_reference' => $orderReference,
                 'donor_name' => $request->donor_name,
                 'donor_email' => $request->donor_email,
                 'amount' => $amount,
-                'currency' => $paymentMethod === 'ussd' ? 'TZS' : 'USD',
+                'currency' => $request->currency ?? 'TZS',
                 'payment_method' => $paymentMethod,
-                'phone_number' => $paymentMethod === 'ussd' ? $this->clickPesaService->validatePhoneNumber($request->phone_number) : null,
+                'phone_number' => $request->phone_number,
                 'donation_type' => $request->donation_type,
                 'campaign_id' => $request->campaign_id,
-                'status' => 'pending',
+                'status' => 'processing'
             ]);
 
-            if ($paymentMethod === 'ussd') {
-                return $this->processUssdPayment($donation, $request->phone_number);
-            } else {
-                return $this->processCardPayment($donation);
-            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment initiated successfully',
+                'data' => [
+                    'order_reference' => $orderReference,
+                    'amount' => $amount,
+                    'currency' => $request->currency ?? 'TZS',
+                    'payment_method' => $paymentMethod,
+                    'phone_number' => $request->phone_number,
+                    'preview_result' => $previewResult,
+                    'payment_result' => $paymentResult,
+                    'donation_id' => $donation->id,
+                    'status' => 'processing',
+                    'next_step' => 'Check your phone for USSD prompt'
+                ]
+            ]);
 
         } catch (\Exception $e) {
             Log::error('Donation processing failed', [

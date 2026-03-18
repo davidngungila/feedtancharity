@@ -203,6 +203,9 @@
                             <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 rounded-full">
                                 🇹🇿 <span class="text-emerald-700 font-semibold">Tanzania Mobile Money</span>
                             </div>
+                            <div class="mt-2" id="token-status">
+                                <span class="text-yellow-600">⏳ Initializing payment system...</span>
+                            </div>
                         </div>
 
                         <!-- Amount Selection -->
