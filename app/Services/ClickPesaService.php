@@ -68,8 +68,129 @@ class ClickPesaService
     }
 
     /**
-     * Get valid authorization token
+     * Preview USSD-PUSH request
      */
+    public function previewUssdPush($amount, $currency, $orderReference, $phoneNumber, $fetchSenderDetails = false)
+    {
+        try {
+            $token = $this->getAuthToken();
+            
+            if (!$token) {
+                throw new \Exception('Failed to get authentication token');
+            }
+
+            $payload = [
+                'amount' => (string) $amount,
+                'currency' => $currency,
+                'orderReference' => $orderReference,
+                'phoneNumber' => $phoneNumber,
+                'fetchSenderDetails' => $fetchSenderDetails
+            ];
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/json'
+            ])->post($this->baseUrl . '/payments/preview-ussd-push-request', $payload);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::error('ClickPesa USSD preview failed', [
+                'status' => $response->status(),
+                'response' => $response->json(),
+                'payload' => $payload
+            ]);
+
+            throw new \Exception('USSD preview failed: ' . $response->json()['message'] ?? 'Unknown error');
+        } catch (\Exception $e) {
+            Log::error('ClickPesa USSD preview exception', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Initiate USSD-PUSH request
+     */
+    public function initiateUssdPush($amount, $currency, $orderReference, $phoneNumber)
+    {
+        try {
+            $token = $this->getAuthToken();
+            
+            if (!$token) {
+                throw new \Exception('Failed to get authentication token');
+            }
+
+            $payload = [
+                'amount' => (string) $amount,
+                'currency' => $currency,
+                'orderReference' => $orderReference,
+                'phoneNumber' => $phoneNumber
+            ];
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token,
+                'Content-Type' => 'application/json'
+            ])->post($this->baseUrl . '/payments/initiate-ussd-push-request', $payload);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::error('ClickPesa USSD initiation failed', [
+                'status' => $response->status(),
+                'response' => $response->json(),
+                'payload' => $payload
+            ]);
+
+            throw new \Exception('USSD initiation failed: ' . $response->json()['message'] ?? 'Unknown error');
+        } catch (\Exception $e) {
+            Log::error('ClickPesa USSD initiation exception', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Query payment status by order reference
+     */
+    public function queryPaymentStatus($orderReference)
+    {
+        try {
+            $token = $this->getAuthToken();
+            
+            if (!$token) {
+                throw new \Exception('Failed to get authentication token');
+            }
+
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $token
+            ])->get($this->baseUrl . '/payments/' . $orderReference);
+
+            if ($response->successful()) {
+                return $response->json();
+            }
+
+            Log::error('ClickPesa payment status query failed', [
+                'status' => $response->status(),
+                'response' => $response->json(),
+                'orderReference' => $orderReference
+            ]);
+
+            throw new \Exception('Payment status query failed: ' . $response->json()['message'] ?? 'Unknown error');
+        } catch (\Exception $e) {
+            Log::error('ClickPesa payment status query exception', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
+        }
+    }
     public function getAuthToken()
     {
         // Check if we have a valid cached token

@@ -16,6 +16,12 @@ Route::prefix('api/payments')->name('api.payments.')->group(function () {
     Route::post('/test-clickpesa-payment', [TestController::class, 'testPaymentPreview'])->name('test.clickpesa.payment');
     Route::post('/test-direct-clickpesa-token', [TestController::class, 'testDirectToken'])->name('test.direct.clickpesa.token');
     
+    // Complete ClickPesa flow tests
+    Route::post('/test-generate-token', [TestController::class, 'testGenerateToken'])->name('test.generate.token');
+    Route::post('/test-preview-ussd', [TestController::class, 'testPreviewUssd'])->name('test.preview.ussd');
+    Route::post('/test-initiate-payment', [TestController::class, 'testInitiatePayment'])->name('test.initiate.payment');
+    Route::post('/test-payment-status', [TestController::class, 'testPaymentStatus'])->name('test.payment.status');
+    
     // Check payment status via AJAX
     Route::get('/status/{orderReference}', [PaymentController::class, 'checkPaymentStatus'])->name('status');
     

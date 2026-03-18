@@ -51,6 +51,11 @@ Route::get('/test-direct-clickpesa', function () {
     return view('test-direct-clickpesa');
 });
 
+// Complete ClickPesa test page
+Route::get('/test-complete-clickpesa', function () {
+    return view('test-complete-clickpesa');
+});
+
 // Impact page
 Route::get('/impact', function () {
     return view('impact');

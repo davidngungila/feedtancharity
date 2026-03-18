@@ -191,7 +191,139 @@ class TestController extends Controller
             ], 500);
         }
     }
-    public function testPaymentPreview(Request $request)
+    /**
+     * Test complete ClickPesa token generation
+     */
+    public function testGenerateToken(Request $request)
+    {
+        try {
+            $token = $this->clickPesaService->generateToken();
+            
+            if ($token) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Token generated successfully',
+                    'data' => [
+                        'token' => $token,
+                        'token_length' => strlen($token),
+                        'generated_at' => now()->toISOString()
+                    ]
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to generate token',
+                'error' => 'Token generation returned null'
+            ], 500);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Token generation failed',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    }
+
+    /**
+     * Test USSD preview
+     */
+    public function testPreviewUssd(Request $request)
+    {
+        try {
+            $request->validate([
+                'amount' => 'required|numeric|min:1000',
+                'currency' => 'required|string',
+                'orderReference' => 'required|string',
+                'phoneNumber' => 'required|string|regex:/^[0-9]{12}$/',
+                'fetchSenderDetails' => 'boolean'
+            ]);
+
+            $result = $this->clickPesaService->previewUssdPush(
+                $request->amount,
+                $request->currency,
+                $request->orderReference,
+                $request->phoneNumber,
+                $request->fetchSenderDetails ?? false
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'USSD preview successful',
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'USSD preview failed',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    }
+
+    /**
+     * Test payment initiation
+     */
+    public function testInitiatePayment(Request $request)
+    {
+        try {
+            $request->validate([
+                'amount' => 'required|numeric|min:1000',
+                'currency' => 'required|string',
+                'orderReference' => 'required|string',
+                'phoneNumber' => 'required|string|regex:/^[0-9]{12}$/'
+            ]);
+
+            $result = $this->clickPesaService->initiateUssdPush(
+                $request->amount,
+                $request->currency,
+                $request->orderReference,
+                $request->phoneNumber
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment initiated successfully',
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment initiation failed',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    }
+
+    /**
+     * Test payment status
+     */
+    public function testPaymentStatus(Request $request)
+    {
+        try {
+            $request->validate([
+                'orderReference' => 'required|string'
+            ]);
+
+            $result = $this->clickPesaService->queryPaymentStatus($request->orderReference);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment status retrieved successfully',
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Payment status query failed',
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    }
     {
         try {
             $amount = $request->amount;
