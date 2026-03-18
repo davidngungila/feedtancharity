@@ -267,14 +267,31 @@ class ClickPesaPayment {
                 // Get form data manually to handle duplicate inputs
                 const data = {};
                 
-                // Get amount from the hidden input (has the correct value)
-                const amountInput = form.querySelector('input[name="amount"][type="hidden"]');
-                if (amountInput) {
-                    data.amount = amountInput.value;
+                // Debug: Check all amount inputs
+                const allAmountInputs = form.querySelectorAll('input[name="amount"]');
+                console.log('All amount inputs found:', allAmountInputs);
+                allAmountInputs.forEach((input, index) => {
+                    console.log(`Amount input ${index}:`, {
+                        type: input.type,
+                        value: input.value,
+                        visible: input.offsetParent !== null
+                    });
+                });
+                
+                // Get amount - try visible input first, then hidden
+                const visibleAmountInput = form.querySelector('input[name="amount"]:not([type="hidden"])');
+                const hiddenAmountInput = form.querySelector('input[name="amount"][type="hidden"]');
+                
+                console.log('Visible amount input:', visibleAmountInput?.value);
+                console.log('Hidden amount input:', hiddenAmountInput?.value);
+                
+                // Use visible input value if it exists and has value, otherwise use hidden
+                if (visibleAmountInput && visibleAmountInput.value) {
+                    data.amount = visibleAmountInput.value;
+                } else if (hiddenAmountInput && hiddenAmountInput.value) {
+                    data.amount = hiddenAmountInput.value;
                 } else {
-                    // Fallback to visible amount input
-                    const visibleAmountInput = form.querySelector('input[name="amount"]:not([type="hidden"])');
-                    data.amount = visibleAmountInput?.value || '';
+                    data.amount = '';
                 }
                 
                 // Get other form fields
@@ -285,10 +302,13 @@ class ClickPesaPayment {
                 data.donor_phone = form.querySelector('input[name="donor_phone"]')?.value || '';
                 data.phone_number = form.querySelector('input[name="phone_number"]')?.value || '';
                 
-                console.log('Form data collected:', data); // Debug log
+                console.log('Final form data collected:', data); // Debug log
 
                 // Validate required fields
-                if (!data.amount || parseFloat(data.amount) <= 0) {
+                console.log('Validating amount:', data.amount, 'Type:', typeof data.amount, 'Is number:', !isNaN(parseFloat(data.amount)));
+                
+                if (!data.amount || parseFloat(data.amount) <= 0 || isNaN(parseFloat(data.amount))) {
+                    console.log('Amount validation failed');
                     this.showNotification('Please enter a valid donation amount', 'error');
                     return;
                 }
