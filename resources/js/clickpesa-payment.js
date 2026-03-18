@@ -264,20 +264,61 @@ class ClickPesaPayment {
             const originalText = submitButton.textContent;
 
             try {
-                // Get form data
-                const formData = new FormData(form);
-                const data = Object.fromEntries(formData.entries());
+                // Get form data manually to handle duplicate inputs
+                const data = {};
+                
+                // Get amount from the hidden input (has the correct value)
+                const amountInput = form.querySelector('input[name="amount"][type="hidden"]');
+                if (amountInput) {
+                    data.amount = amountInput.value;
+                } else {
+                    // Fallback to visible amount input
+                    const visibleAmountInput = form.querySelector('input[name="amount"]:not([type="hidden"])');
+                    data.amount = visibleAmountInput?.value || '';
+                }
+                
+                // Get other form fields
+                data.donation_type = form.querySelector('input[name="donation_type"]')?.value || '';
+                data.payment_method = form.querySelector('input[name="payment_method"]:checked')?.value || '';
+                data.donor_name = form.querySelector('input[name="donor_name"]')?.value || '';
+                data.donor_email = form.querySelector('input[name="donor_email"]')?.value || '';
+                data.donor_phone = form.querySelector('input[name="donor_phone"]')?.value || '';
+                data.phone_number = form.querySelector('input[name="phone_number"]')?.value || '';
+                
+                console.log('Form data collected:', data); // Debug log
 
                 // Validate required fields
-                if (!data.amount || !data.payment_method || !data.donor_name) {
-                    this.showNotification('Please fill in all required fields', 'error');
+                if (!data.amount || parseFloat(data.amount) <= 0) {
+                    this.showNotification('Please enter a valid donation amount', 'error');
+                    return;
+                }
+                
+                if (!data.payment_method) {
+                    this.showNotification('Please select a payment method', 'error');
+                    return;
+                }
+                
+                if (!data.donor_name || data.donor_name.trim() === '') {
+                    this.showNotification('Please enter your full name', 'error');
+                    return;
+                }
+                
+                if (!data.donor_email || data.donor_email.trim() === '') {
+                    this.showNotification('Please enter your email address', 'error');
                     return;
                 }
 
                 // Validate phone number for USSD payments
-                if (data.payment_method === 'ussd' && !this.validatePhoneNumber(data.phone_number)) {
-                    this.showNotification('Please enter a valid phone number', 'error');
-                    return;
+                if (data.payment_method === 'ussd') {
+                    if (!data.phone_number || data.phone_number.trim() === '') {
+                        this.showNotification('Please enter your phone number for mobile money payment', 'error');
+                        return;
+                    }
+                    
+                    if (!this.validatePhoneNumber(data.phone_number)) {
+                        this.showNotification('Please enter a valid Tanzania phone number (e.g., 255712345678)', 'error');
+                        return;
+                    }
                 }
 
                 // Show loading
