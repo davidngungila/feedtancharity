@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Donate - FeedTan Charity | Make a Difference Today</title>
     <meta name="description" content="Support FeedTan Charity's mission with a secure donation. Help provide nutritious meals and sustainable food solutions to communities in need.">
     
@@ -182,54 +183,100 @@
         <!-- Donation Form -->
         <section id="donate-form" class="py-32 bg-slate-50">
             <div class="max-w-4xl mx-auto px-6">
-                <div class="bg-white rounded-3xl shadow-2xl p-12">
-                    <div class="text-center mb-12">
-                        <h2 class="text-3xl font-serif font-bold text-slate-900 mb-4">Choose Your Donation</h2>
-                        <p class="text-slate-600">Every contribution makes a meaningful difference</p>
-                    </div>
-
-                    <!-- Donation Type -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Donation Type</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <button @click="donationType = 'one-time'" :class="donationType === 'one-time' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
-                                <i class="ph-bold ph-hand-heart text-2xl mb-3"></i>
-                                <div class="text-lg font-bold">One-Time Donation</div>
-                                <div class="text-sm opacity-75">Make a single gift today</div>
-                            </button>
-                            <button @click="donationType = 'monthly'" :class="donationType === 'monthly' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
-                                <i class="ph-bold ph-calendar-check text-2xl mb-3"></i>
-                                <div class="text-lg font-bold">Monthly Giving</div>
-                                <div class="text-sm opacity-75">Provide sustained support</div>
-                            </button>
+                <form id="donation-form" data-payment-form="donation-form" x-data="{ 
+                    donationType: 'one-time', 
+                    amount: 50, 
+                    customAmount: '',
+                    paymentMethod: 'card'
+                }">
+                    <div class="bg-white rounded-3xl shadow-2xl p-12">
+                        <div class="text-center mb-12">
+                            <h2 class="text-3xl font-serif font-bold text-slate-900 mb-4">Choose Your Donation</h2>
+                            <p class="text-slate-600">Every contribution makes a meaningful difference</p>
                         </div>
-                    </div>
 
-                    <!-- Amount Selection -->
-                    <div class="mb-12">
-                        <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                            <button @click="amount = 25" :class="amount === 25 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                $25
-                            </button>
-                            <button @click="amount = 50" :class="amount === 50 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                $50
-                            </button>
-                            <button @click="amount = 100" :class="amount === 100 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                $100
-                            </button>
-                            <button @click="amount = 250" :class="amount === 250 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                $250
-                            </button>
+                        <!-- Donation Type -->
+                        <div class="mb-12">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">Donation Type</h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <button type="button" @click="donationType = 'one-time'" :class="donationType === 'one-time' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
+                                    <i class="ph-bold ph-hand-heart text-2xl mb-3"></i>
+                                    <div class="text-lg font-bold">One-Time Donation</div>
+                                    <div class="text-sm opacity-75">Make a single gift today</div>
+                                </button>
+                                <button type="button" @click="donationType = 'monthly'" :class="donationType === 'monthly' ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" class="p-6 rounded-2xl font-semibold transition-all">
+                                    <i class="ph-bold ph-calendar-check text-2xl mb-3"></i>
+                                    <div class="text-lg font-bold">Monthly Giving</div>
+                                    <div class="text-sm opacity-75">Provide sustained support</div>
+                                </button>
+                            </div>
+                            <input type="hidden" name="donation_type" :value="donationType">
                         </div>
-                        
-                        <div class="relative">
-                            <input x-model="customAmount" type="number" placeholder="Enter custom amount" class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
-                            <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                <i class="ph-bold ph-currency-dollar text-xl"></i>
+
+                        <!-- Amount Selection -->
+                        <div class="mb-12">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount</h3>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                                <button type="button" @click="amount = 25" :class="amount === 25 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                    $25
+                                </button>
+                                <button type="button" @click="amount = 50" :class="amount === 50 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                    $50
+                                </button>
+                                <button type="button" @click="amount = 100" :class="amount === 100 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                    $100
+                                </button>
+                                <button type="button" @click="amount = 250" :class="amount === 250 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                    $250
+                                </button>
+                            </div>
+                            
+                            <div class="relative">
+                                <input x-model="customAmount" @input="amount = customAmount" type="number" name="amount" placeholder="Enter custom amount" class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                    <i class="ph-bold ph-currency-dollar text-xl"></i>
+                                </div>
+                            </div>
+                            <input type="hidden" name="amount" :value="customAmount || amount">
+                        </div>
+
+                        <!-- Payment Method -->
+                        <div class="mb-12">
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">Payment Method</h3>
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="payment_method" value="card" x-model="paymentMethod" class="sr-only peer">
+                                    <div class="p-6 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all">
+                                        <div class="flex items-center gap-4">
+                                            <i class="ph-bold ph-credit-card text-2xl text-slate-600 peer-checked:text-emerald-600"></i>
+                                            <div>
+                                                <div class="font-semibold text-slate-900">Card Payment</div>
+                                                <div class="text-sm text-slate-600">Credit/Debit Card</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="payment_method" value="ussd" x-model="paymentMethod" class="sr-only peer">
+                                    <div class="p-6 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all">
+                                        <div class="flex items-center gap-4">
+                                            <i class="ph-bold ph-device-mobile text-2xl text-slate-600 peer-checked:text-emerald-600"></i>
+                                            <div>
+                                                <div class="font-semibold text-slate-900">Mobile Money</div>
+                                                <div class="text-sm text-slate-600">USSD (Tanzania)</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                            
+                            <!-- Phone Number Field (only for USSD) -->
+                            <div x-show="paymentMethod === 'ussd'" x-transition class="mt-6">
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number *</label>
+                                <input type="tel" name="phone_number" placeholder="255712345678" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                <p class="text-sm text-slate-500 mt-2">Enter your Tanzania mobile number (e.g., 255712345678)</p>
                             </div>
                         </div>
-                    </div>
 
                     <!-- Donation Options -->
                     <div class="mb-12">
@@ -272,19 +319,19 @@
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name *</label>
-                                <input type="text" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="John Doe">
+                                <input type="text" name="donor_name" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="John Doe">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
-                                <input type="email" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="john@example.com">
+                                <input type="email" name="donor_email" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="john@example.com">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number</label>
-                                <input type="tel" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="+1 (555) 123-4567">
+                                <input type="tel" name="donor_phone" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="+1 (555) 123-4567">
                             </div>
                             <div>
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">Address (Optional)</label>
-                                <input type="text" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="123 Main St, City, State 12345">
+                                <input type="text" name="donor_address" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="123 Main St, City, State 12345">
                             </div>
                         </div>
                     </div>
@@ -322,6 +369,7 @@
                         </p>
                     </div>
                 </div>
+                </form>
             </div>
         </section>
 
