@@ -207,7 +207,16 @@
                                 </div>
                                 <div class="flex-1">
                                     <h4 class="font-bold text-rose-900 mb-2">Payment Error</h4>
-                                    <p class="text-rose-700" x-text="error"></p>
+                                    <p class="text-rose-700 mb-4" x-text="error"></p>
+                                    <div class="flex gap-3">
+                                        <button @click="retryInitialization()" class="px-4 py-2 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors text-sm font-semibold">
+                                            <i class="ph-bold ph-arrow-clockwise mr-2"></i>
+                                            Retry
+                                        </button>
+                                        <button @click="error = null" class="px-4 py-2 border border-rose-300 text-rose-700 rounded-lg hover:bg-rose-100 transition-colors text-sm font-semibold">
+                                            Dismiss
+                                        </button>
+                                    </div>
                                 </div>
                                 <button @click="error = null" class="text-rose-400 hover:text-rose-600">
                                     <i class="ph-bold ph-x text-xl"></i>
@@ -492,7 +501,9 @@
             return {
                 // Configuration - now using our server proxy
                 config: {
-                    baseUrl: window.location.origin + '/api/clickpesa'
+                    baseUrl: window.location.origin + '/api/clickpesa',
+                    maxRetries: 3,
+                    retryDelay: 2000
                 },
                 
                 // State
@@ -502,6 +513,8 @@
                 error: null,
                 pollingPayment: false,
                 authToken: null,
+                retryCount: 0,
+                connectionTested: false,
                 
                 // Form data
                 amount: 100000,
@@ -528,36 +541,86 @@
                 
                 // Initialize
                 async init() {
+                    console.log('ClickPesa: Initializing payment system...');
+                    
+                    // Test connection first
+                    await this.testConnection();
+                    
                     // Generate auth token through our proxy
                     await this.generateToken();
                 },
                 
-                // Generate authentication token
-                async generateToken() {
-                    this.loading = true;
+                // Test API connection
+                async testConnection() {
                     try {
-                        const response = await fetch(`${this.config.baseUrl}/generate-token`, {
-                            method: 'POST',
+                        console.log('ClickPesa: Testing API connection...');
+                        const response = await fetch(`${this.config.baseUrl}/test-connection`, {
+                            method: 'GET',
                             headers: {
-                                'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
                             }
                         });
                         
-                        const data = await response.json();
-                        
-                        if (data.success && data.token) {
-                            this.authToken = data.token;
-                            this.error = null;
+                        if (response.ok) {
+                            const data = await response.json();
+                            console.log('ClickPesa: Connection test result', data);
+                            this.connectionTested = true;
+                            return true;
                         } else {
-                            throw new Error(data.error || 'Failed to generate authentication token');
+                            console.warn('ClickPesa: Connection test failed', response.status);
+                            this.connectionTested = false;
+                            return false;
                         }
                     } catch (error) {
-                        this.error = 'Unable to initialize payment system. Please refresh the page and try again.';
-                        console.error('Token generation error:', error);
-                    } finally {
-                        this.loading = false;
+                        console.error('ClickPesa: Connection test error', error);
+                        this.connectionTested = false;
+                        return false;
                     }
+                },
+                
+                // Generate authentication token with retry logic
+                async generateToken() {
+                    this.loading = true;
+                    this.error = null;
+                    
+                    for (let attempt = 1; attempt <= this.config.maxRetries; attempt++) {
+                        try {
+                            console.log(`ClickPesa: Token generation attempt ${attempt}/${this.config.maxRetries}`);
+                            
+                            const response = await fetch(`${this.config.baseUrl}/generate-token`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                                }
+                            });
+                            
+                            const data = await response.json();
+                            console.log('ClickPesa: Token response', data);
+                            
+                            if (data.success && data.token) {
+                                this.authToken = data.token;
+                                this.error = null;
+                                this.retryCount = 0;
+                                console.log('ClickPesa: Token generated successfully');
+                                return;
+                            } else {
+                                throw new Error(data.error || 'Failed to generate authentication token');
+                            }
+                        } catch (error) {
+                            console.error(`ClickPesa: Token generation attempt ${attempt} failed`, error);
+                            
+                            if (attempt < this.config.maxRetries) {
+                                console.log(`ClickPesa: Retrying in ${this.config.retryDelay}ms...`);
+                                await new Promise(resolve => setTimeout(resolve, this.config.retryDelay));
+                            } else {
+                                this.error = `Payment system initialization failed after ${this.config.maxRetries} attempts. Please refresh the page and try again. If the problem persists, contact support.`;
+                                console.error('ClickPesa: All token generation attempts failed', error);
+                            }
+                        }
+                    }
+                    
+                    this.loading = false;
                 },
                 
                 // Format currency
@@ -630,6 +693,7 @@
                     
                     try {
                         const orderReference = this.generateOrderReference();
+                        console.log('ClickPesa: Processing payment', { orderReference, amount: this.amount, method: this.paymentMethod });
                         
                         if (this.paymentMethod === 'mobile') {
                             await this.processMobilePayment(orderReference);
@@ -638,7 +702,7 @@
                         }
                     } catch (error) {
                         this.error = error.message || 'Payment processing failed. Please try again.';
-                        console.error('Payment error:', error);
+                        console.error('ClickPesa: Payment processing error', error);
                     } finally {
                         this.processing = false;
                     }
@@ -646,93 +710,112 @@
                 
                 // Process mobile money payment
                 async processMobilePayment(orderReference) {
-                    // First preview the payment
-                    const previewResponse = await fetch(`${this.config.baseUrl}/preview-ussd-push`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': this.authToken,
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            amount: this.amount.toString(),
-                            currency: 'TZS',
-                            orderReference: orderReference,
-                            phoneNumber: this.phoneNumber,
-                            fetchSenderDetails: false
-                        })
-                    });
-                    
-                    const previewData = await previewResponse.json();
-                    
-                    if (!previewData.success) {
-                        throw new Error(previewData.error || 'Unable to preview payment. Please check your phone number and try again.');
+                    try {
+                        // First preview the payment
+                        console.log('ClickPesa: Previewing mobile payment...');
+                        const previewResponse = await fetch(`${this.config.baseUrl}/preview-ussd-push`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': this.authToken,
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                amount: this.amount.toString(),
+                                currency: 'TZS',
+                                orderReference: orderReference,
+                                phoneNumber: this.phoneNumber,
+                                fetchSenderDetails: false
+                            })
+                        });
+                        
+                        const previewData = await previewResponse.json();
+                        console.log('ClickPesa: Preview response', previewData);
+                        
+                        if (!previewData.success) {
+                            throw new Error(previewData.error || 'Unable to preview payment. Please check your phone number and try again.');
+                        }
+                        
+                        // Initiate the payment
+                        console.log('ClickPesa: Initiating mobile payment...');
+                        const initiateResponse = await fetch(`${this.config.baseUrl}/initiate-ussd-push`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': this.authToken,
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                amount: this.amount.toString(),
+                                currency: 'TZS',
+                                orderReference: orderReference,
+                                phoneNumber: this.phoneNumber
+                            })
+                        });
+                        
+                        const initiateData = await initiateResponse.json();
+                        console.log('ClickPesa: Initiate response', initiateData);
+                        
+                        if (!initiateData.success) {
+                            throw new Error(initiateData.error || 'Unable to initiate payment. Please try again.');
+                        }
+                        
+                        // Start polling for payment status
+                        this.pollingPayment = true;
+                        this.pollPaymentStatus(orderReference);
+                    } catch (error) {
+                        console.error('ClickPesa: Mobile payment error', error);
+                        throw error;
                     }
-                    
-                    // Initiate the payment
-                    const initiateResponse = await fetch(`${this.config.baseUrl}/initiate-ussd-push`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': this.authToken,
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            amount: this.amount.toString(),
-                            currency: 'TZS',
-                            orderReference: orderReference,
-                            phoneNumber: this.phoneNumber
-                        })
-                    });
-                    
-                    const initiateData = await initiateResponse.json();
-                    
-                    if (!initiateData.success) {
-                        throw new Error(initiateData.error || 'Unable to initiate payment. Please try again.');
-                    }
-                    
-                    // Start polling for payment status
-                    this.pollingPayment = true;
-                    this.pollPaymentStatus(orderReference);
                 },
                 
                 // Process card payment
                 async processCardPayment(orderReference) {
-                    const response = await fetch(`${this.config.baseUrl}/initiate-card-payment`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': this.authToken,
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
-                        },
-                        body: JSON.stringify({
-                            amount: this.amount.toString(),
-                            currency: 'USD',
-                            orderReference: orderReference,
-                            customer: {
-                                id: this.email,
-                                name: this.fullName,
-                                email: this.email
-                            }
-                        })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (!data.success) {
-                        throw new Error(data.error || 'Unable to initiate card payment. Please try again.');
-                    }
-                    
-                    // Redirect to card payment page
-                    if (data.cardPaymentLink) {
-                        window.location.href = data.cardPaymentLink;
-                    } else {
-                        throw new Error('Card payment link not available');
+                    try {
+                        console.log('ClickPesa: Processing card payment...');
+                        const response = await fetch(`${this.config.baseUrl}/initiate-card-payment`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': this.authToken,
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                amount: this.amount.toString(),
+                                currency: 'USD',
+                                orderReference: orderReference,
+                                customer: {
+                                    id: this.email,
+                                    name: this.fullName,
+                                    email: this.email
+                                }
+                            })
+                        });
+                        
+                        const data = await response.json();
+                        console.log('ClickPesa: Card payment response', data);
+                        
+                        if (!data.success) {
+                            throw new Error(data.error || 'Unable to initiate card payment. Please try again.');
+                        }
+                        
+                        // Redirect to card payment page
+                        if (data.cardPaymentLink) {
+                            console.log('ClickPesa: Redirecting to card payment page...');
+                            window.location.href = data.cardPaymentLink;
+                        } else {
+                            throw new Error('Card payment link not available');
+                        }
+                    } catch (error) {
+                        console.error('ClickPesa: Card payment error', error);
+                        throw error;
                     }
                 },
                 
                 // Poll payment status
                 async pollPaymentStatus(orderReference) {
+                    console.log('ClickPesa: Starting payment status polling...');
+                    
                     this.pollInterval = setInterval(async () => {
                         try {
                             const response = await fetch(`${this.config.baseUrl}/payment-status/${orderReference}`, {
@@ -745,6 +828,7 @@
                             
                             if (response.ok) {
                                 const data = await response.json();
+                                console.log('ClickPesa: Payment status update', data);
                                 
                                 if (data && data.length > 0) {
                                     const payment = data[0];
@@ -757,7 +841,7 @@
                                 }
                             }
                         } catch (error) {
-                            console.error('Polling error:', error);
+                            console.error('ClickPesa: Polling error', error);
                         }
                     }, 5000); // Poll every 5 seconds
                     
@@ -769,6 +853,7 @@
                 
                 // Handle payment success
                 handlePaymentSuccess(payment) {
+                    console.log('ClickPesa: Payment successful!', payment);
                     this.stopPolling();
                     this.pollingPayment = false;
                     this.success = true;
@@ -784,6 +869,7 @@
                 
                 // Handle payment failure
                 handlePaymentFailure(payment) {
+                    console.error('ClickPesa: Payment failed', payment);
                     this.stopPolling();
                     this.pollingPayment = false;
                     this.error = `Payment failed: ${payment.message || 'Unknown error'}`;
@@ -791,6 +877,7 @@
                 
                 // Cancel payment
                 cancelPayment() {
+                    console.log('ClickPesa: Payment cancelled by user');
                     this.stopPolling();
                     this.pollingPayment = false;
                 },
@@ -800,6 +887,7 @@
                     if (this.pollInterval) {
                         clearInterval(this.pollInterval);
                         this.pollInterval = null;
+                        console.log('ClickPesa: Polling stopped');
                     }
                 },
                 
@@ -813,7 +901,15 @@
                 // Send confirmation email (placeholder)
                 async sendConfirmationEmail(payment) {
                     // This would typically call your backend to send a confirmation email
-                    console.log('Confirmation email sent for payment:', payment);
+                    console.log('ClickPesa: Confirmation email sent for payment:', payment);
+                },
+                
+                // Retry initialization
+                async retryInitialization() {
+                    console.log('ClickPesa: Retrying initialization...');
+                    this.error = null;
+                    this.loading = true;
+                    await this.init();
                 }
             }
         }

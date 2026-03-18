@@ -34,6 +34,7 @@ Route::prefix('api/clickpesa')->group(function () {
     Route::post('/initiate-ussd-push', [ClickPesaController::class, 'initiateUssdPush']);
     Route::post('/initiate-card-payment', [ClickPesaController::class, 'initiateCardPayment']);
     Route::get('/payment-status/{orderReference}', [ClickPesaController::class, 'queryPaymentStatus']);
+    Route::get('/test-connection', [ClickPesaController::class, 'testConnection']);
 });
 
 // Impact page

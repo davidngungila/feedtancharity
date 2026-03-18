@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class ClickPesaController extends Controller
 {
@@ -18,26 +19,34 @@ class ClickPesaController extends Controller
     public function generateToken()
     {
         try {
-            $response = Http::withHeaders([
+            Log::info('ClickPesa: Attempting to generate token');
+            
+            $response = Http::timeout(30)->withHeaders([
                 'Content-Type' => 'application/json',
                 'client-id' => $this->clientId,
                 'api-key' => $this->apiKey,
             ])->post($this->baseUrl . '/generate-token');
 
+            Log::info('ClickPesa: Token response status', ['status' => $response->status()]);
+            
             $data = $response->json();
+            Log::info('ClickPesa: Token response data', ['data' => $data]);
 
             if ($response->successful() && isset($data['success']) && $data['success'] && isset($data['token'])) {
+                Log::info('ClickPesa: Token generated successfully');
                 return response()->json([
                     'success' => true,
                     'token' => $data['token']
                 ]);
             } else {
+                Log::error('ClickPesa: Token generation failed', ['data' => $data]);
                 return response()->json([
                     'success' => false,
-                    'error' => 'Failed to generate token: ' . ($data['message'] ?? 'Unknown error')
+                    'error' => 'Failed to generate token: ' . ($data['message'] ?? 'Invalid API response')
                 ], 400);
             }
         } catch (\Exception $e) {
+            Log::error('ClickPesa: Token generation exception', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'error' => 'API connection error: ' . $e->getMessage()
@@ -67,12 +76,14 @@ class ClickPesaController extends Controller
         }
 
         try {
+            Log::info('ClickPesa: Preview USSD Push', ['orderReference' => $request->orderReference]);
+            
             $token = $request->header('Authorization');
             if (!$token) {
                 return response()->json(['success' => false, 'error' => 'Authorization token required'], 401);
             }
 
-            $response = Http::withHeaders([
+            $response = Http::timeout(30)->withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => $token,
             ])->post($this->baseUrl . '/payments/preview-ussd-push-request', [
@@ -84,6 +95,7 @@ class ClickPesaController extends Controller
             ]);
 
             $data = $response->json();
+            Log::info('ClickPesa: Preview USSD response', ['status' => $response->status(), 'data' => $data]);
 
             if ($response->successful()) {
                 return response()->json($data);
@@ -94,6 +106,7 @@ class ClickPesaController extends Controller
                 ], $response->status());
             }
         } catch (\Exception $e) {
+            Log::error('ClickPesa: Preview USSD exception', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'error' => 'API connection error: ' . $e->getMessage()
@@ -122,12 +135,14 @@ class ClickPesaController extends Controller
         }
 
         try {
+            Log::info('ClickPesa: Initiate USSD Push', ['orderReference' => $request->orderReference]);
+            
             $token = $request->header('Authorization');
             if (!$token) {
                 return response()->json(['success' => false, 'error' => 'Authorization token required'], 401);
             }
 
-            $response = Http::withHeaders([
+            $response = Http::timeout(30)->withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => $token,
             ])->post($this->baseUrl . '/payments/initiate-ussd-push-request', [
@@ -138,6 +153,7 @@ class ClickPesaController extends Controller
             ]);
 
             $data = $response->json();
+            Log::info('ClickPesa: Initiate USSD response', ['status' => $response->status(), 'data' => $data]);
 
             if ($response->successful()) {
                 return response()->json($data);
@@ -148,6 +164,7 @@ class ClickPesaController extends Controller
                 ], $response->status());
             }
         } catch (\Exception $e) {
+            Log::error('ClickPesa: Initiate USSD exception', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'error' => 'API connection error: ' . $e->getMessage()
@@ -178,12 +195,14 @@ class ClickPesaController extends Controller
         }
 
         try {
+            Log::info('ClickPesa: Initiate Card Payment', ['orderReference' => $request->orderReference]);
+            
             $token = $request->header('Authorization');
             if (!$token) {
                 return response()->json(['success' => false, 'error' => 'Authorization token required'], 401);
             }
 
-            $response = Http::withHeaders([
+            $response = Http::timeout(30)->withHeaders([
                 'Content-Type' => 'application/json',
                 'Authorization' => $token,
             ])->post($this->baseUrl . '/payments/initiate-card-payment', [
@@ -194,6 +213,7 @@ class ClickPesaController extends Controller
             ]);
 
             $data = $response->json();
+            Log::info('ClickPesa: Card payment response', ['status' => $response->status(), 'data' => $data]);
 
             if ($response->successful()) {
                 return response()->json($data);
@@ -204,6 +224,7 @@ class ClickPesaController extends Controller
                 ], $response->status());
             }
         } catch (\Exception $e) {
+            Log::error('ClickPesa: Card payment exception', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'error' => 'API connection error: ' . $e->getMessage()
@@ -217,16 +238,19 @@ class ClickPesaController extends Controller
     public function queryPaymentStatus($orderReference, Request $request)
     {
         try {
+            Log::info('ClickPesa: Query payment status', ['orderReference' => $orderReference]);
+            
             $token = $request->header('Authorization');
             if (!$token) {
                 return response()->json(['success' => false, 'error' => 'Authorization token required'], 401);
             }
 
-            $response = Http::withHeaders([
+            $response = Http::timeout(30)->withHeaders([
                 'Authorization' => $token,
             ])->get($this->baseUrl . '/payments/' . $orderReference);
 
             $data = $response->json();
+            Log::info('ClickPesa: Query status response', ['status' => $response->status(), 'data' => $data]);
 
             if ($response->successful()) {
                 return response()->json($data);
@@ -237,9 +261,31 @@ class ClickPesaController extends Controller
                 ], $response->status());
             }
         } catch (\Exception $e) {
+            Log::error('ClickPesa: Query status exception', ['error' => $e->getMessage()]);
             return response()->json([
                 'success' => false,
                 'error' => 'API connection error: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Test API connectivity
+     */
+    public function testConnection()
+    {
+        try {
+            $response = Http::timeout(10)->get($this->baseUrl . '/health');
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'API connection successful',
+                'status' => $response->status()
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'API connection failed: ' . $e->getMessage()
             ], 500);
         }
     }
