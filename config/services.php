@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'clickpesa' => [
+        'client_id' => env('CLICKPESA_CLIENT_ID', 'ID6t2Itw6oIepcDEYGQORZNaAcEvqIGZ'),
+        'api_key' => env('CLICKPESA_API_KEY', 'SKmOjYqsWbDcROwxdDiC7XpLavqpbMjcyE33JHcvl2'),
+        'base_url' => env('CLICKPESA_BASE_URL', 'https://api.clickpesa.com/third-parties'),
+    ],
+
 ];

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClickPesaController;
+use App\Http\Controllers\PaymentController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,14 +27,15 @@ Route::get('/donate', function () {
     return view('donate');
 });
 
-// ClickPesa API Routes
-Route::prefix('api/clickpesa')->group(function () {
-    Route::post('/generate-token', [ClickPesaController::class, 'generateToken']);
-    Route::post('/preview-ussd-push', [ClickPesaController::class, 'previewUssdPush']);
-    Route::post('/initiate-ussd-push', [ClickPesaController::class, 'initiateUssdPush']);
-    Route::post('/initiate-card-payment', [ClickPesaController::class, 'initiateCardPayment']);
-    Route::get('/payment-status/{orderReference}', [ClickPesaController::class, 'queryPaymentStatus']);
-    Route::get('/test-connection', [ClickPesaController::class, 'testConnection']);
+// Payment routes
+Route::prefix('payment')->name('payment.')->group(function () {
+    Route::post('/preview-ussd', [PaymentController::class, 'previewUssdPayment'])->name('preview-ussd');
+    Route::post('/initiate-ussd', [PaymentController::class, 'initiateUssdPayment'])->name('initiate-ussd');
+    Route::post('/preview-card', [PaymentController::class, 'previewCardPayment'])->name('preview-card');
+    Route::post('/initiate-card', [PaymentController::class, 'initiateCardPayment'])->name('initiate-card');
+    Route::get('/status/{orderReference}', [PaymentController::class, 'checkPaymentStatus'])->name('status');
+    Route::get('/confirmation/{orderReference}', [PaymentController::class, 'paymentConfirmation'])->name('confirmation');
+    Route::post('/webhook', [PaymentController::class, 'paymentWebhook'])->name('webhook');
 });
 
 // Impact page
