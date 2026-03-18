@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClickPesaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -24,6 +25,15 @@ Route::get('/campaigns/{slug}', function ($slug) {
 // Donate page
 Route::get('/donate', function () {
     return view('donate');
+});
+
+// ClickPesa API Routes
+Route::prefix('api/clickpesa')->group(function () {
+    Route::post('/generate-token', [ClickPesaController::class, 'generateToken']);
+    Route::post('/preview-ussd-push', [ClickPesaController::class, 'previewUssdPush']);
+    Route::post('/initiate-ussd-push', [ClickPesaController::class, 'initiateUssdPush']);
+    Route::post('/initiate-card-payment', [ClickPesaController::class, 'initiateCardPayment']);
+    Route::get('/payment-status/{orderReference}', [ClickPesaController::class, 'queryPaymentStatus']);
 });
 
 // Impact page

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Donate - FeedTan Charity | Make a Difference Today</title>
     <meta name="description" content="Support FeedTan Charity's mission with a secure donation. Help provide nutritious meals and sustainable food solutions to communities in need.">
     
@@ -489,11 +490,9 @@
         // ClickPesa Payment Integration
         function clickPesaPayment() {
             return {
-                // Configuration
+                // Configuration - now using our server proxy
                 config: {
-                    clientId: 'ID6t2Itw6oIepcDEYGQORZNaAcEvqIGZ',
-                    apiKey: 'SKmOjYqsWbDcROwxdDiC7XpLavqpbMjcyE33JHcvl2',
-                    baseUrl: 'https://api.clickpesa.com/third-parties'
+                    baseUrl: window.location.origin + '/api/clickpesa'
                 },
                 
                 // State
@@ -529,7 +528,7 @@
                 
                 // Initialize
                 async init() {
-                    // Generate auth token
+                    // Generate auth token through our proxy
                     await this.generateToken();
                 },
                 
@@ -541,8 +540,7 @@
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'client-id': this.config.clientId,
-                                'api-key': this.config.apiKey
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
                             }
                         });
                         
@@ -552,7 +550,7 @@
                             this.authToken = data.token;
                             this.error = null;
                         } else {
-                            throw new Error('Failed to generate authentication token');
+                            throw new Error(data.error || 'Failed to generate authentication token');
                         }
                     } catch (error) {
                         this.error = 'Unable to initialize payment system. Please refresh the page and try again.';
@@ -649,11 +647,12 @@
                 // Process mobile money payment
                 async processMobilePayment(orderReference) {
                     // First preview the payment
-                    const previewResponse = await fetch(`${this.config.baseUrl}/payments/preview-ussd-push-request`, {
+                    const previewResponse = await fetch(`${this.config.baseUrl}/preview-ussd-push`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': this.authToken
+                            'Authorization': this.authToken,
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
                         },
                         body: JSON.stringify({
                             amount: this.amount.toString(),
@@ -664,18 +663,19 @@
                         })
                     });
                     
-                    if (!previewResponse.ok) {
-                        throw new Error('Unable to preview payment. Please check your phone number and try again.');
-                    }
-                    
                     const previewData = await previewResponse.json();
                     
+                    if (!previewData.success) {
+                        throw new Error(previewData.error || 'Unable to preview payment. Please check your phone number and try again.');
+                    }
+                    
                     // Initiate the payment
-                    const initiateResponse = await fetch(`${this.config.baseUrl}/payments/initiate-ussd-push-request`, {
+                    const initiateResponse = await fetch(`${this.config.baseUrl}/initiate-ussd-push`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': this.authToken
+                            'Authorization': this.authToken,
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
                         },
                         body: JSON.stringify({
                             amount: this.amount.toString(),
@@ -685,11 +685,11 @@
                         })
                     });
                     
-                    if (!initiateResponse.ok) {
-                        throw new Error('Unable to initiate payment. Please try again.');
-                    }
-                    
                     const initiateData = await initiateResponse.json();
+                    
+                    if (!initiateData.success) {
+                        throw new Error(initiateData.error || 'Unable to initiate payment. Please try again.');
+                    }
                     
                     // Start polling for payment status
                     this.pollingPayment = true;
@@ -698,11 +698,12 @@
                 
                 // Process card payment
                 async processCardPayment(orderReference) {
-                    const response = await fetch(`${this.config.baseUrl}/payments/initiate-card-payment`, {
+                    const response = await fetch(`${this.config.baseUrl}/initiate-card-payment`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
-                            'Authorization': this.authToken
+                            'Authorization': this.authToken,
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
                         },
                         body: JSON.stringify({
                             amount: this.amount.toString(),
@@ -716,11 +717,11 @@
                         })
                     });
                     
-                    if (!response.ok) {
-                        throw new Error('Unable to initiate card payment. Please try again.');
-                    }
-                    
                     const data = await response.json();
+                    
+                    if (!data.success) {
+                        throw new Error(data.error || 'Unable to initiate card payment. Please try again.');
+                    }
                     
                     // Redirect to card payment page
                     if (data.cardPaymentLink) {
@@ -734,16 +735,17 @@
                 async pollPaymentStatus(orderReference) {
                     this.pollInterval = setInterval(async () => {
                         try {
-                            const response = await fetch(`${this.config.baseUrl}/payments/${orderReference}`, {
+                            const response = await fetch(`${this.config.baseUrl}/payment-status/${orderReference}`, {
                                 method: 'GET',
                                 headers: {
-                                    'Authorization': this.authToken
+                                    'Authorization': this.authToken,
+                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
                                 }
                             });
-                             
+                            
                             if (response.ok) {
                                 const data = await response.json();
-                                 
+                                
                                 if (data && data.length > 0) {
                                     const payment = data[0];
                                     
