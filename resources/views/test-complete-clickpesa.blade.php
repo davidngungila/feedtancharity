@@ -169,8 +169,14 @@
         console.log('showResult called with:', { elementId, content, isSuccess });
         
         const element = document.getElementById(elementId);
-        const contentDivId = elementId.replace('-results', '-content');
-        const contentDiv = document.getElementById(contentDivId);
+        let contentDivId = elementId.replace('-results', '-content');
+        
+        // Special case for test-results
+        if (elementId === 'test-results') {
+            contentDivId = 'results-content';
+        }
+        
+        let contentDiv = document.getElementById(contentDivId);
         
         console.log('Elements found:', { 
             element: !!element, 
