@@ -35,6 +35,14 @@
                 </div>
             </div>
 
+            <!-- Simple API Test -->
+            <div class="mb-8">
+                <button onclick="testSimpleAPI()" class="w-full px-6 py-4 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all">
+                    <i class="ph-bold ph-globe text-xl mr-3"></i>
+                    Test Simple API (Basic Connectivity)
+                </button>
+            </div>
+
             <!-- Server Status Check -->
             <div class="mb-8">
                 <button onclick="checkServerStatus()" class="w-full px-6 py-4 bg-gray-600 text-white font-bold rounded-xl hover:bg-gray-700 transition-all">
@@ -120,6 +128,44 @@
             </div>
             <pre class="whitespace-pre-wrap text-xs">${JSON.stringify(content, null, 2)}</pre>
         `;
+    }
+
+    async function testSimpleAPI() {
+        const resultsDiv = document.getElementById('test-results');
+        const contentDiv = document.getElementById('results-content');
+        
+        resultsDiv.classList.remove('hidden');
+        contentDiv.innerHTML = '<div class="text-center">Testing simple API...</div>';
+
+        try {
+            console.log('Testing simple API...');
+            
+            const response = await fetch('/api-test', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            console.log('Simple API response status:', response.status);
+            
+            const data = await response.json();
+            console.log('Simple API response data:', data);
+            
+            showResult('test-results', data, response.ok);
+        } catch (error) {
+            console.error('Simple API test error:', error);
+            showResult('test-results', { 
+                error: error.message,
+                stack: error.stack,
+                type: error.name,
+                suggestions: [
+                    'Make sure Laravel server is running on port 8000',
+                    'Check if you can access: http://127.0.0.1:8000/api-test',
+                    'Try refreshing the page'
+                ]
+            }, false);
+        }
     }
 
     async function checkServerStatus() {

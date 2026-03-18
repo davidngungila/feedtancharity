@@ -36,6 +36,16 @@ Route::get('/test-clickpesa-simple', function () {
     return view('test-clickpesa-simple');
 });
 
+// Simple API test route
+Route::get('/api-test', function () {
+    return response()->json([
+        'success' => true,
+        'message' => 'API is working!',
+        'timestamp' => now()->toISOString(),
+        'server' => 'Laravel ' . app()->version()
+    ]);
+});
+
 // Impact page
 Route::get('/impact', function () {
     return view('impact');
