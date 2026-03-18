@@ -264,28 +264,13 @@ class ClickPesaPayment {
             const originalText = submitButton.textContent;
 
             try {
-                // Get form data manually to handle duplicate inputs
+                // Get form data manually for streamlined mobile money form
                 const data = {};
-                
-                // Debug: Check all amount inputs
-                const allAmountInputs = form.querySelectorAll('input[name="amount"]');
-                console.log('All amount inputs found:', allAmountInputs);
-                allAmountInputs.forEach((input, index) => {
-                    console.log(`Amount input ${index}:`, {
-                        type: input.type,
-                        value: input.value,
-                        visible: input.offsetParent !== null
-                    });
-                });
                 
                 // Get amount - try visible input first, then hidden
                 const visibleAmountInput = form.querySelector('input[name="amount"]:not([type="hidden"])');
                 const hiddenAmountInput = form.querySelector('input[name="amount"][type="hidden"]');
                 
-                console.log('Visible amount input:', visibleAmountInput?.value);
-                console.log('Hidden amount input:', hiddenAmountInput?.value);
-                
-                // Use visible input value if it exists and has value, otherwise use hidden
                 if (visibleAmountInput && visibleAmountInput.value) {
                     data.amount = visibleAmountInput.value;
                 } else if (hiddenAmountInput && hiddenAmountInput.value) {
@@ -294,48 +279,23 @@ class ClickPesaPayment {
                     data.amount = '';
                 }
                 
-                // Get other form fields including new ones
+                // Get form fields for mobile money
                 data.donation_type = form.querySelector('input[name="donation_type"]')?.value || '';
-                data.payment_method = form.querySelector('input[name="payment_method"]:checked')?.value || '';
+                data.payment_method = 'ussd'; // Always USSD for this form
+                data.mobile_provider = form.querySelector('input[name="mobile_provider"]:checked')?.value || 'tigo';
                 data.donor_name = form.querySelector('input[name="donor_name"]')?.value || '';
                 data.donor_email = form.querySelector('input[name="donor_email"]')?.value || '';
-                data.donor_phone = form.querySelector('input[name="donor_phone"]')?.value || '';
                 data.phone_number = form.querySelector('input[name="phone_number"]')?.value || '';
                 
-                // Get the new currency and country fields
-                data.currency = form.querySelector('input[name="currency"]')?.value || '';
-                data.country = form.querySelector('input[name="country"]')?.value || '';
+                // Fixed currency and country for Tanzania
+                data.currency = 'TZS';
+                data.country = 'Tanzania';
                 
-                // Fallback: if currency is empty, try to detect from selected country
-                if (!data.currency && data.country) {
-                    console.log('Currency field empty, using fallback detection');
-                    if (data.country.toLowerCase().includes('tanzania') || data.country === 'TZ') {
-                        data.currency = 'TZS';
-                    } else {
-                        data.currency = 'USD';
-                    }
-                    console.log('Fallback currency set to:', data.currency);
-                }
-                
-                // Final fallback: if still no currency, default to USD
-                if (!data.currency) {
-                    console.log('No currency detected, defaulting to USD');
-                    data.currency = 'USD';
-                }
-                
-                console.log('Final form data collected:', data); // Debug log
+                console.log('Tanzania Mobile Money form data:', data);
 
                 // Validate required fields
-                console.log('Validating amount:', data.amount, 'Type:', typeof data.amount, 'Is number:', !isNaN(parseFloat(data.amount)));
-                
                 if (!data.amount || parseFloat(data.amount) <= 0 || isNaN(parseFloat(data.amount))) {
-                    console.log('Amount validation failed');
                     this.showNotification('Please enter a valid donation amount', 'error');
-                    return;
-                }
-                
-                if (!data.payment_method) {
-                    this.showNotification('Please select a payment method', 'error');
                     return;
                 }
                 
@@ -349,20 +309,15 @@ class ClickPesaPayment {
                     return;
                 }
                 
-                // Currency is now handled with fallbacks, so no need for strict validation
-                console.log('Currency detected:', data.currency);
-
-                // Validate phone number for USSD payments
-                if (data.payment_method === 'ussd') {
-                    if (!data.phone_number || data.phone_number.trim() === '') {
-                        this.showNotification('Please enter your phone number for mobile money payment', 'error');
-                        return;
-                    }
-                    
-                    if (!this.validatePhoneNumber(data.phone_number)) {
-                        this.showNotification('Please enter a valid Tanzania phone number (e.g., 255712345678)', 'error');
-                        return;
-                    }
+                // Validate phone number for mobile money
+                if (!data.phone_number || data.phone_number.trim() === '') {
+                    this.showNotification('Please enter your mobile money phone number', 'error');
+                    return;
+                }
+                
+                if (!this.validatePhoneNumber(data.phone_number)) {
+                    this.showNotification('Please enter a valid Tanzania phone number (e.g., 255712345678)', 'error');
+                    return;
                 }
 
                 // Show loading

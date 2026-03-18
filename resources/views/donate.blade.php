@@ -185,133 +185,26 @@
             <div class="max-w-4xl mx-auto px-6">
                 <form id="donation-form" data-payment-form="donation-form" x-data="{ 
                     donationType: 'one-time', 
-                    amount: 50, 
+                    amount: 50000, 
                     customAmount: '',
-                    paymentMethod: 'card',
-                    selectedCountry: 'International',
-                    currency: 'USD',
-                    isTanzania: false,
+                    paymentMethod: 'ussd',
+                    phoneNumber: '',
                     init() {
-                        console.log('Form initializing...');
-                        // Set default values immediately
-                        this.selectedCountry = 'International';
-                        this.currency = 'USD';
-                        this.isTanzania = false;
-                        this.amount = 50;
-                        this.customAmount = 50;
-                        
-                        // Try to detect country after a short delay
-                        setTimeout(() => {
-                            this.detectCountry();
-                        }, 500);
-                    },
-                    detectCountry() {
-                        console.log('Detecting country...');
-                        // Use browser geolocation or IP detection
-                        fetch('https://ipapi.co/json/')
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log('Country data:', data);
-                                this.selectedCountry = data.country_name || 'International';
-                                this.isTanzania = data.country_code === 'TZ';
-                                this.currency = this.isTanzania ? 'TZS' : 'USD';
-                                
-                                // Update default amounts based on currency
-                                if (this.isTanzania) {
-                                    this.amount = 50000; // 50,000 TZS
-                                    this.customAmount = 50000;
-                                } else {
-                                    this.amount = 50; // 50 USD
-                                    this.customAmount = 50;
-                                }
-                                console.log('Country detected:', this.selectedCountry, 'Currency:', this.currency);
-                            })
-                            .catch(error => {
-                                console.log('Could not detect country, using default:', error);
-                                // Keep default values (International/USD)
-                            });
-                    },
-                    selectCountry(countryCode, countryName, isTz) {
-                        console.log('Manual country selection:', countryName, isTz);
-                        this.selectedCountry = countryName;
-                        this.isTanzania = isTz;
-                        this.currency = isTz ? 'TZS' : 'USD';
-                        
-                        // Update default amounts
-                        if (isTz) {
-                            this.amount = 50000;
-                            this.customAmount = 50000;
-                        } else {
-                            this.amount = 50;
-                            this.customAmount = 50;
-                        }
-                        
-                        // Reset payment method if switching away from Tanzania and was using USSD
-                        if (!isTz && this.paymentMethod === 'ussd') {
-                            this.paymentMethod = 'card';
-                        }
-                    },
-                    getCurrencySymbol() {
-                        return this.isTanzania ? 'TSh' : '$';
-                    },
-                    getAmounts() {
-                        if (this.isTanzania) {
-                            return [25000, 50000, 100000, 250000]; // TZS amounts
-                        } else {
-                            return [25, 50, 100, 250]; // USD amounts
-                        }
+                        console.log('Tanzania Mobile Money form initializing...');
+                        // Set default values for Tanzania
+                        this.amount = 50000; // 50,000 TZS default
+                        this.customAmount = 50000;
                     },
                     formatAmount(amount) {
-                        const symbol = this.getCurrencySymbol();
-                        return symbol + amount.toLocaleString();
+                        return 'TSh ' + amount.toLocaleString();
                     }
                 }">
                     <div class="bg-white rounded-3xl shadow-2xl p-12">
                         <div class="text-center mb-12">
-                            <h2 class="text-3xl font-serif font-bold text-slate-900 mb-4">Choose Your Donation</h2>
-                            <p class="text-slate-600">Every contribution makes a meaningful difference</p>
-                        </div>
-
-                        <!-- Country Selection -->
-                        <div class="mb-12">
-                            <h3 class="text-xl font-bold text-slate-900 mb-6">Select Your Location</h3>
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <button type="button" @click="selectCountry('TZ', 'Tanzania', true)" 
-                                        :class="isTanzania ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" 
-                                        class="p-6 rounded-2xl font-semibold transition-all text-left">
-                                    <div class="flex items-center gap-4">
-                                        <div class="text-3xl">🇹🇿</div>
-                                        <div>
-                                            <div class="text-lg font-bold">Tanzania</div>
-                                            <div class="text-sm opacity-75">Pay in Tanzanian Shillings (TZS)</div>
-                                            <div class="text-xs opacity-75 mt-1">Mobile Money & Card Payments</div>
-                                        </div>
-                                    </div>
-                                </button>
-                                <button type="button" @click="selectCountry('US', 'International', false)" 
-                                        :class="!isTanzania ? 'bg-emerald-600 text-white' : 'bg-white text-slate-700 border border-slate-200'" 
-                                        class="p-6 rounded-2xl font-semibold transition-all text-left">
-                                    <div class="flex items-center gap-4">
-                                        <div class="text-3xl">🌍</div>
-                                        <div>
-                                            <div class="text-lg font-bold">International</div>
-                                            <div class="text-sm opacity-75">Pay in US Dollars (USD)</div>
-                                            <div class="text-xs opacity-75 mt-1">Card Payments Worldwide</div>
-                                        </div>
-                                    </div>
-                                </button>
-                            </div>
-                            <input type="hidden" name="currency" :value="currency">
-                            <input type="hidden" name="country" :value="selectedCountry">
-                            
-                            <!-- Current Selection Display -->
-                            <div class="mt-4 p-4 bg-slate-50 rounded-xl text-center">
-                                <span class="text-sm text-slate-600">Currently selected:</span>
-                                <div class="font-semibold text-slate-900">
-                                    <span x-text="selectedCountry || 'Detecting...'"></span> • 
-                                    <span x-text="currency"></span> • 
-                                    <span x-text="getCurrencySymbol()"></span>
-                                </div>
+                            <h2 class="text-3xl font-serif font-bold text-slate-900 mb-4">Support FeedTan Charity</h2>
+                            <p class="text-slate-600">Your generous donation helps communities in need across Tanzania</p>
+                            <div class="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-emerald-100 rounded-full">
+                                🇹🇿 <span class="text-emerald-700 font-semibold">Tanzania Mobile Money</span>
                             </div>
                         </div>
 
@@ -335,75 +228,71 @@
 
                         <!-- Amount Selection -->
                         <div class="mb-12">
-                            <h3 class="text-xl font-bold text-slate-900 mb-6">
-                                Select Amount (<span x-text="currency"></span>)
-                            </h3>
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount (TZS)</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                                <template x-for="presetAmount in getAmounts()" :key="presetAmount">
-                                    <button type="button" 
-                                            @click="amount = presetAmount; customAmount = presetAmount" 
-                                            :class="amount === presetAmount ? 'active' : ''" 
-                                            class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
-                                        <span x-text="formatAmount(presetAmount)"></span>
-                                    </button>
-                                </template>
+                                <button type="button" @click="amount = 25000; customAmount = 25000" :class="amount === 25000 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                    TSh 25,000
+                                </button>
+                                <button type="button" @click="amount = 50000; customAmount = 50000" :class="amount === 50000 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                    TSh 50,000
+                                </button>
+                                <button type="button" @click="amount = 100000; customAmount = 100000" :class="amount === 100000 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                    TSh 100,000
+                                </button>
+                                <button type="button" @click="amount = 250000; customAmount = 250000" :class="amount === 250000 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                    TSh 250,000
+                                </button>
                             </div>
                             
                             <div class="relative">
-                                <input x-model="customAmount" 
-                                       @input="amount = customAmount" 
-                                       type="number" 
-                                       name="amount" 
-                                       :placeholder="'Enter custom amount (' + getCurrencySymbol() + ')'"
-                                       class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                <input x-model="customAmount" @input="amount = customAmount" type="number" name="amount" placeholder="Enter custom amount (TSh)" class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
                                 <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                    <span x-text="getCurrencySymbol()"></span>
+                                    TSh
                                 </div>
                             </div>
                             <input type="hidden" name="amount" :value="customAmount || amount">
+                            <input type="hidden" name="currency" value="TZS">
+                            <input type="hidden" name="country" value="Tanzania">
                         </div>
 
-                        <!-- Payment Method -->
+                        <!-- Mobile Money Providers -->
                         <div class="mb-12">
-                            <h3 class="text-xl font-bold text-slate-900 mb-6">Payment Method</h3>
-                            <div class="grid md:grid-cols-2 gap-6">
-                                <!-- Card Payment (Available for all) -->
+                            <h3 class="text-xl font-bold text-slate-900 mb-6">Mobile Money Provider</h3>
+                            <div class="grid grid-cols-2 gap-4">
                                 <label class="relative cursor-pointer">
-                                    <input type="radio" name="payment_method" value="card" x-model="paymentMethod" class="sr-only peer">
-                                    <div class="p-6 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all">
-                                        <div class="flex items-center gap-4">
-                                            <i class="ph-bold ph-credit-card text-2xl text-slate-600 peer-checked:text-emerald-600"></i>
-                                            <div>
-                                                <div class="font-semibold text-slate-900">Card Payment</div>
-                                                <div class="text-sm text-slate-600">Credit/Debit Card</div>
-                                                <div class="text-xs text-emerald-600 mt-1">Available Worldwide</div>
-                                            </div>
-                                        </div>
+                                    <input type="radio" name="mobile_provider" value="tigo" checked class="sr-only peer">
+                                    <div class="p-4 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all text-center">
+                                        <div class="text-2xl mb-2">📱</div>
+                                        <div class="font-semibold text-slate-900">Tigo Pesa</div>
+                                        <div class="text-sm text-slate-600">Fast & Reliable</div>
                                     </div>
                                 </label>
-                                
-                                <!-- USSD Mobile Money (Only for Tanzania) -->
-                                <label x-show="isTanzania" class="relative cursor-pointer">
-                                    <input type="radio" name="payment_method" value="ussd" x-model="paymentMethod" class="sr-only peer">
-                                    <div class="p-6 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all">
-                                        <div class="flex items-center gap-4">
-                                            <i class="ph-bold ph-device-mobile text-2xl text-slate-600 peer-checked:text-emerald-600"></i>
-                                            <div>
-                                                <div class="font-semibold text-slate-900">Mobile Money</div>
-                                                <div class="text-sm text-slate-600">USSD (Tanzania)</div>
-                                                <div class="text-xs text-emerald-600 mt-1">Tigo, M-Pesa, Airtel</div>
-                                            </div>
-                                        </div>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="mobile_provider" value="mpesa" class="sr-only peer">
+                                    <div class="p-4 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all text-center">
+                                        <div class="text-2xl mb-2">💚</div>
+                                        <div class="font-semibold text-slate-900">M-Pesa</div>
+                                        <div class="text-sm text-slate-600">Most Popular</div>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="mobile_provider" value="airtel" class="sr-only peer">
+                                    <div class="p-4 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all text-center">
+                                        <div class="text-2xl mb-2">🔴</div>
+                                        <div class="font-semibold text-slate-900">Airtel Money</div>
+                                        <div class="text-sm text-slate-600">Quick & Easy</div>
+                                    </div>
+                                </label>
+                                <label class="relative cursor-pointer">
+                                    <input type="radio" name="mobile_provider" value="halotel" class="sr-only peer">
+                                    <div class="p-4 rounded-2xl border-2 border-slate-200 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 transition-all text-center">
+                                        <div class="text-2xl mb-2">📞</div>
+                                        <div class="font-semibold text-slate-900">Halotel Money</div>
+                                        <div class="text-sm text-slate-600">Growing Network</div>
                                     </div>
                                 </label>
                             </div>
-                            
-                            <!-- Phone Number Field (only for USSD) -->
-                            <div x-show="paymentMethod === 'ussd'" x-transition class="mt-6">
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number *</label>
-                                <input type="tel" name="phone_number" placeholder="255712345678" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
-                                <p class="text-sm text-slate-500 mt-2">Enter your Tanzania mobile number (e.g., 255712345678)</p>
-                            </div>
+                            <input type="hidden" name="payment_method" value="ussd">
                         </div>
 
                     <!-- Donation Options -->
@@ -453,13 +342,10 @@
                                 <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
                                 <input type="email" name="donor_email" required class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="john@example.com">
                             </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number</label>
-                                <input type="tel" name="donor_phone" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="+1 (555) 123-4567">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-slate-700 mb-3">Address (Optional)</label>
-                                <input type="text" name="donor_address" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all" placeholder="123 Main St, City, State 12345">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">Mobile Money Phone Number *</label>
+                                <input type="tel" name="phone_number" required placeholder="255712345678" class="w-full px-4 py-3 border border-slate-200 rounded-xl focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                <p class="text-sm text-slate-500 mt-2">Enter your Tanzania mobile number for mobile money payment (e.g., 255712345678)</p>
                             </div>
                         </div>
                     </div>
@@ -488,12 +374,12 @@
                     <!-- Submit Button -->
                     <div class="text-center">
                         <button type="submit" class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg">
-                            <i class="ph-bold ph-heart text-xl mr-3"></i>
-                            Complete Your Donation
+                            <i class="ph-bold ph-device-mobile text-xl mr-3"></i>
+                            Donate with Mobile Money
                         </button>
                         <p class="mt-6 text-sm text-slate-500">
                             <i class="ph ph-lock text-emerald-500"></i>
-                            Your payment information is secure and encrypted. FeedTan Charity is a 501(c)(3) tax-exempt organization.
+                            You will receive a USSD prompt on your phone to confirm the payment. All transactions are secure and encrypted.
                         </p>
                     </div>
                 </div>
