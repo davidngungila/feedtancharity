@@ -217,16 +217,16 @@
                         <div class="mb-12">
                             <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount</h3>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                                <button type="button" @click="amount = 25" :class="amount === 25 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                <button type="button" @click="amount = 25; customAmount = 25" :class="amount === 25 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
                                     $25
                                 </button>
-                                <button type="button" @click="amount = 50" :class="amount === 50 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                <button type="button" @click="amount = 50; customAmount = 50" :class="amount === 50 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
                                     $50
                                 </button>
-                                <button type="button" @click="amount = 100" :class="amount === 100 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                <button type="button" @click="amount = 100; customAmount = 100" :class="amount === 100 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
                                     $100
                                 </button>
-                                <button type="button" @click="amount = 250" :class="amount === 250 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
+                                <button type="button" @click="amount = 250; customAmount = 250" :class="amount === 250 ? 'active' : ''" class="amount-button bg-white border-2 border-slate-200 rounded-xl p-4 font-semibold text-slate-700">
                                     $250
                                 </button>
                             </div>
