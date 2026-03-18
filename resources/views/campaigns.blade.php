@@ -73,86 +73,10 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-white text-slate-900 antialiased font-medium" x-data="{ mobileMenuOpen: false }">`n        @include('components.header')
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-            <a href="/" class="flex items-center gap-3 group/logo">
-                <div class="h-14 w-14 rounded-2xl object-contain bg-gradient-to-br from-emerald-500 to-emerald-600 p-3 transition-transform group-hover/logo:scale-105">
-                    <i class="ph-bold ph-seedling text-white text-2xl"></i>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-2xl font-black tracking-tighter text-slate-900 leading-none">FeedTan</span>
-                    <span class="text-xs font-bold text-slate-500 leading-none mt-1">Growing Hope, Feeding Futures</span>
-                </div>
-            </a>
+<body class="min-h-screen bg-white text-slate-900 antialiased font-medium" x-data="{ mobileMenuOpen: false }">
+        @include('components.header')
 
-            <div class="hidden lg:flex items-center gap-10">
-                <a href="/" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Home</a>
-                <a href="/about" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">About</a>
-                <a href="/campaigns" class="nav-link font-bold text-emerald-600 transition-colors py-8">Campaigns</a>
-                <a href="/impact" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Impact</a>
-                <a href="/get-involved" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Get Involved</a>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <a href="/donate" class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 px-5 py-2.5 rounded-full hover:bg-slate-50 transition-all">Donate</a>
-                <a href="/get-involved" class="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-white bg-emerald-600 px-6 py-2.5 rounded-full hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 transition-all">Join Us</a>
-
-                <button @click="mobileMenuOpen = true" class="lg:hidden w-12 h-12 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all" type="button">
-                    <i class="ph ph-list text-2xl"></i>
-                </button>
-            </div>
-        </div>
-        <div class="nav-border-animate"></div>
-    </nav>
-
-    <!-- Mobile menu -->
-    <div x-cloak x-show="mobileMenuOpen"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0 translate-x-full"
-         x-transition:enter-end="opacity-100 translate-x-0"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100 translate-x-0"
-         x-transition:leave-end="opacity-0 translate-x-full"
-         class="fixed inset-0 z-[100] lg:hidden">
-
-        <div class="absolute inset-0 bg-slate-950/60 backdrop-blur-md" @click="mobileMenuOpen = false"></div>
-
-        <div class="absolute right-0 top-0 bottom-0 w-[85%] max-w-sm bg-white shadow-2xl overflow-y-auto">
-            <div class="p-8">
-                <div class="flex items-center justify-between mb-12">
-                    <div class="flex items-center gap-3">
-                        <div class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white font-black">
-                            <i class="ph-bold ph-seedling"></i>
-                        </div>
-                        <span class="font-black text-slate-900">FEEDTAN</span>
-                    </div>
-                    <button @click="mobileMenuOpen = false" class="w-10 h-10 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 transition-all" type="button">
-                        <i class="ph ph-x text-2xl"></i>
-                    </button>
-                </div>
-
-                <div class="space-y-6">
-                    <a href="/" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Home</a>
-                    <a href="/about" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">About</a>
-                    <a href="/campaigns" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Campaigns</a>
-                    <a href="/impact" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Impact</a>
-                    <a href="/get-involved" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Get Involved</a>
-                </div>
-
-                <div class="mt-20 pt-10 border-t border-slate-100">
-                    <div class="bg-emerald-950 p-8 rounded-[2.5rem] text-white">
-                        <h4 class="text-lg font-serif font-black mb-2">Ready to help?</h4>
-                        <p class="text-sm text-emerald-100/60 mb-8 leading-relaxed">Join our mission to grow hope and feed futures.</p>
-                        <a href="/donate" class="w-full inline-block py-4 bg-emerald-500 text-white font-black text-xs uppercase tracking-widest text-center rounded-2xl shadow-xl shadow-emerald-500/20">Donate Now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <main class="pt-24 lg:pt-28">
+        <main class="pt-24 lg:pt-28">
         <!-- Hero Section -->
         <section class="relative py-32 bg-gradient-to-br from-emerald-600 to-emerald-700 overflow-hidden">
             <div class="absolute inset-0 opacity-10">

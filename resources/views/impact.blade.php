@@ -114,6 +114,251 @@
                 </div>
             </section>
 
+            <!-- Upcoming Events -->
+            <section class="py-32 bg-slate-50">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="text-center mb-20">
+                        <span class="text-emerald-600 font-black text-xs uppercase tracking-[0.4em] mb-6 inline-block">Events</span>
+                        <h2 class="text-4xl md:text-5xl font-serif text-slate-900 mb-8 font-bold">Upcoming Events</h2>
+                        <p class="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed">
+                            Join our fundraising events and community gatherings to support our mission while connecting with like-minded supporters.
+                        </p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <!-- Event 1: Annual Gala -->
+                        <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=800&q=80" alt="Annual Gala Dinner" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-emerald-600 text-white text-xs font-bold px-3 py-1 rounded-full">Featured</span>
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="text-white">
+                                        <div class="text-sm font-semibold mb-1">March 25, 2024</div>
+                                        <div class="text-xs opacity-90">6:00 PM - 10:00 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-slate-900 mb-4">Annual Gala Dinner</h3>
+                                <p class="text-slate-600 mb-6 leading-relaxed">Join us for an elegant evening of dining, entertainment, and celebration as we honor our supporters and showcase our impact.</p>
+                                <div class="flex items-center gap-4 mb-6 text-sm text-slate-600">
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-map-pin text-emerald-600"></i>
+                                        <span>Grand Hotel</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-users text-emerald-600"></i>
+                                        <span>200 Guests</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex-1 px-6 py-3 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-all">Register Now</button>
+                                    <button class="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition-all">Learn More</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 2: Community Garden Day -->
+                        <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=800&q=80" alt="Community Garden Day" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">Family Friendly</span>
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="text-white">
+                                        <div class="text-sm font-semibold mb-1">April 2, 2024</div>
+                                        <div class="text-xs opacity-90">9:00 AM - 2:00 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-slate-900 mb-4">Community Garden Day</h3>
+                                <p class="text-slate-600 mb-6 leading-relaxed">Get your hands dirty and help us plant seeds for the future. Perfect for families and volunteers of all ages.</p>
+                                <div class="flex items-center gap-4 mb-6 text-sm text-slate-600">
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-map-pin text-emerald-600"></i>
+                                        <span>Community Garden</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-users text-emerald-600"></i>
+                                        <span>All Ages</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex-1 px-6 py-3 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-all">Sign Up</button>
+                                    <button class="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition-all">Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 3: Food Drive Marathon -->
+                        <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=800&q=80" alt="Food Drive Marathon" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-full">Active</span>
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="text-white">
+                                        <div class="text-sm font-semibold mb-1">April 15-16, 2024</div>
+                                        <div class="text-xs opacity-90">All Day Event</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-slate-900 mb-4">Food Drive Marathon</h3>
+                                <p class="text-slate-600 mb-6 leading-relaxed">Join our 48-hour food collection marathon. Help us gather non-perishable items for families in need across our community.</p>
+                                <div class="flex items-center gap-4 mb-6 text-sm text-slate-600">
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-map-pin text-emerald-600"></i>
+                                        <span>Multiple Locations</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-users text-emerald-600"></i>
+                                        <span>500+ Volunteers</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex-1 px-6 py-3 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-all">Volunteer</button>
+                                    <button class="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition-all">Donate Items</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 4: Youth Leadership Workshop -->
+                        <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=80" alt="Youth Leadership Workshop" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-purple-600 text-white text-xs font-bold px-3 py-1 rounded-full">Education</span>
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="text-white">
+                                        <div class="text-sm font-semibold mb-1">April 8, 2024</div>
+                                        <div class="text-xs opacity-90">10:00 AM - 4:00 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-slate-900 mb-4">Youth Leadership Workshop</h3>
+                                <p class="text-slate-600 mb-6 leading-relaxed">Empowering the next generation of community leaders through interactive workshops and service learning activities.</p>
+                                <div class="flex items-center gap-4 mb-6 text-sm text-slate-600">
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-map-pin text-emerald-600"></i>
+                                        <span>Community Center</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-users text-emerald-600"></i>
+                                        <span>Ages 14-18</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex-1 px-6 py-3 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-all">Register</button>
+                                    <button class="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition-all">Info</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 5: Harvest Festival -->
+                        <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=800&q=80" alt="Harvest Festival" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-amber-600 text-white text-xs font-bold px-3 py-1 rounded-full">Celebration</span>
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="text-white">
+                                        <div class="text-sm font-semibold mb-1">May 20, 2024</div>
+                                        <div class="text-xs opacity-90">11:00 AM - 6:00 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-slate-900 mb-4">Harvest Festival</h3>
+                                <p class="text-slate-600 mb-6 leading-relaxed">Celebrate the bounty of our community gardens with fresh produce, live music, cooking demonstrations, and family activities.</p>
+                                <div class="flex items-center gap-4 mb-6 text-sm text-slate-600">
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-map-pin text-emerald-600"></i>
+                                        <span>Urban Farm</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-users text-emerald-600"></i>
+                                        <span>Free Entry</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex-1 px-6 py-3 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-all">Attend</button>
+                                    <button class="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition-all">Schedule</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Event 6: Corporate Partnership Summit -->
+                        <div class="bg-white rounded-3xl shadow-lg overflow-hidden border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="relative h-48 overflow-hidden">
+                                <img src="https://images.unsplash.com/photo-1497366214047-405e70d91621?auto=format&fit=crop&w=800&q=80" alt="Corporate Partnership Summit" class="w-full h-full object-cover">
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                                <div class="absolute top-4 left-4">
+                                    <span class="bg-slate-600 text-white text-xs font-bold px-3 py-1 rounded-full">Business</span>
+                                </div>
+                                <div class="absolute bottom-4 left-4 right-4">
+                                    <div class="text-white">
+                                        <div class="text-sm font-semibold mb-1">May 10, 2024</div>
+                                        <div class="text-xs opacity-90">8:00 AM - 5:00 PM</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-8">
+                                <h3 class="text-2xl font-bold text-slate-900 mb-4">Corporate Partnership Summit</h3>
+                                <p class="text-slate-600 mb-6 leading-relaxed">Connect with business leaders and explore partnership opportunities to maximize our collective impact on food security.</p>
+                                <div class="flex items-center gap-4 mb-6 text-sm text-slate-600">
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-map-pin text-emerald-600"></i>
+                                        <span>Business Center</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="ph-bold ph-users text-emerald-600"></i>
+                                        <span>B2B Event</span>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <button class="flex-1 px-6 py-3 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 transition-all">RSVP</button>
+                                    <button class="px-6 py-3 border-2 border-emerald-600 text-emerald-600 font-bold rounded-full hover:bg-emerald-50 transition-all">Sponsor</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="text-center mt-16">
+                        <div class="bg-gradient-to-r from-emerald-600 to-emerald-700 rounded-3xl p-12 text-white">
+                            <h3 class="text-3xl font-serif font-bold mb-6">Host Your Own Event</h3>
+                            <p class="text-emerald-100 mb-8 max-w-2xl mx-auto">
+                                Want to organize a fundraising event for FeedTan? We'll provide the support, resources, and guidance to make your event a success.
+                            </p>
+                            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+                                <button class="px-12 py-5 bg-white text-emerald-600 font-bold rounded-full shadow-2xl hover:scale-105 transition-all text-lg">
+                                    <i class="ph-bold ph-calendar-plus mr-3"></i>
+                                    Plan an Event
+                                </button>
+                                <button class="px-12 py-5 border-2 border-white text-white font-bold rounded-full hover:bg-white/10 transition-all text-lg">
+                                    <i class="ph-bold ph-envelope mr-3"></i>
+                                    Contact Events Team
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
         <!-- Key Stats -->
         <section id="impact-stats" class="py-32 bg-white">
             <div class="max-w-7xl mx-auto px-6">

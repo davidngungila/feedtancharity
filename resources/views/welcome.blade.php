@@ -65,7 +65,6 @@
     </head>
     <body class="min-h-screen bg-white text-slate-900 antialiased font-medium" x-data="{ mobileMenuOpen: false }">
         @include('components.header')
-        </div>
 
         <main class="pt-24 lg:pt-28">
 
