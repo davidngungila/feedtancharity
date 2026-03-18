@@ -192,7 +192,7 @@
                     <!-- ClickPesa Payment Form -->
                     <div x-data="clickPesaPayment()" x-init="init()">
                         <!-- Loading State -->
-                        <div x-show="loading" x-transition class="text-center py-12">
+                        <div x-show="loading && !error && !success" x-transition class="text-center py-12">
                             <div class="inline-flex items-center gap-3 text-emerald-600">
                                 <div class="w-8 h-8 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin"></div>
                                 <span class="text-lg font-semibold">Initializing payment system...</span>
@@ -200,7 +200,7 @@
                         </div>
 
                         <!-- Error State -->
-                        <div x-show="error" x-transition class="bg-rose-50 border border-rose-200 rounded-2xl p-6 mb-8">
+                        <div x-show="error && !loading && !success" x-transition class="bg-rose-50 border border-rose-200 rounded-2xl p-6 mb-8">
                             <div class="flex items-start gap-4">
                                 <div class="bg-rose-100 rounded-full p-2">
                                     <i class="ph-bold ph-warning text-rose-600 text-xl"></i>
@@ -225,7 +225,7 @@
                         </div>
 
                         <!-- Success State -->
-                        <div x-show="success" x-transition class="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 mb-8">
+                        <div x-show="success && !loading && !error" x-transition class="bg-emerald-50 border border-emerald-200 rounded-2xl p-8 mb-8">
                             <div class="text-center">
                                 <div class="bg-emerald-100 rounded-full p-4 w-20 h-20 mx-auto mb-4">
                                     <i class="ph-bold ph-check-circle text-emerald-600 text-4xl"></i>
@@ -250,142 +250,144 @@
                         </div>
 
                         <!-- Payment Form -->
-                        <form x-show="!loading && !success" @submit.prevent="processPayment()" class="space-y-8">
-                            <!-- Donation Amount -->
-                            <div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount (TZS)</h3>
-                                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                                    <template x-for="preset in [50000, 100000, 250000, 500000]" :key="preset">
-                                        <button type="button" 
-                                                @click="amount = preset; customAmount = ''"
-                                                :class="amount === preset ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
-                                                class="p-4 rounded-xl font-semibold border-2 transition-all">
-                                            <span x-text="formatCurrency(preset)"></span>
-                                        </button>
-                                    </template>
-                                </div>
-                                
-                                <div class="relative">
-                                    <input x-model="customAmount" 
-                                           @input="amount = customAmount; validateAmount()"
-                                           type="number" 
-                                           placeholder="Enter custom amount (TZS)" 
-                                           class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
-                                    <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
-                                        <i class="ph-bold ph-currency-tanzanian-shilling text-xl"></i>
-                                    </div>
-                                </div>
-                                <p x-show="amountError" class="text-rose-600 text-sm mt-2" x-text="amountError"></p>
-                            </div>
-
-                            <!-- Payment Method -->
-                            <div>
-                                <h3 class="text-xl font-bold text-slate-900 mb-6">Payment Method</h3>
-                                <div class="grid md:grid-cols-2 gap-6">
-                                    <button type="button" 
-                                            @click="paymentMethod = 'mobile'"
-                                            :class="paymentMethod === 'mobile' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
-                                            class="p-6 rounded-2xl font-semibold border-2 transition-all">
-                                        <i class="ph-bold ph-device-mobile text-3xl mb-3"></i>
-                                        <div class="text-lg font-bold">Mobile Money</div>
-                                        <div class="text-sm opacity-75">M-Pesa, Tigo Pesa, Airtel Money</div>
-                                    </button>
-                                    <button type="button" 
-                                            @click="paymentMethod = 'card'"
-                                            :class="paymentMethod === 'card' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
-                                            class="p-6 rounded-2xl font-semibold border-2 transition-all">
-                                        <i class="ph-bold ph-credit-card text-3xl mb-3"></i>
-                                        <div class="text-lg font-bold">Card Payment</div>
-                                        <div class="text-sm opacity-75">Visa, Mastercard, American Express</div>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Mobile Money Form -->
-                            <div x-show="paymentMethod === 'mobile'" x-transition class="space-y-6">
+                        <div x-show="!loading && !error && !success && !pollingPayment">
+                            <form @submit.prevent="processPayment()" class="space-y-8">
+                                <!-- Donation Amount -->
                                 <div>
-                                    <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number *</label>
-                                    <input x-model="phoneNumber" 
-                                           @input="validatePhoneNumber()"
-                                           type="tel" 
-                                           placeholder="255712345678" 
-                                           class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
-                                    <p class="text-slate-500 text-sm mt-2">Enter phone number with country code (e.g., 255712345678)</p>
-                                    <p x-show="phoneError" class="text-rose-600 text-sm mt-2" x-text="phoneError"></p>
-                                </div>
-                            </div>
-
-                            <!-- Personal Information -->
-                            <div class="space-y-6">
-                                <h3 class="text-xl font-bold text-slate-900">Your Information</h3>
-                                <div class="grid md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name *</label>
-                                        <input x-model="fullName" 
-                                               type="text" 
-                                               placeholder="John Doe" 
-                                               class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
-                                               required>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-6">Select Amount (TZS)</h3>
+                                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                        <template x-for="preset in [50000, 100000, 250000, 500000]" :key="preset">
+                                            <button type="button" 
+                                                    @click="amount = preset; customAmount = ''"
+                                                    :class="amount === preset ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
+                                                    class="p-4 rounded-xl font-semibold border-2 transition-all">
+                                                <span x-text="formatCurrency(preset)"></span>
+                                            </button>
+                                        </template>
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
-                                        <input x-model="email" 
-                                               type="email" 
-                                               placeholder="john@example.com" 
-                                               class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
-                                               required>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Terms and Conditions -->
-                            <div class="bg-slate-50 rounded-xl p-6">
-                                <label class="flex items-start gap-4 cursor-pointer">
-                                    <input x-model="agreeTerms" type="checkbox" class="text-emerald-600 mt-1" required>
-                                    <div>
-                                        <div class="font-semibold text-slate-900">I agree to the terms and conditions</div>
-                                        <div class="text-sm text-slate-600 mt-1">
-                                            By proceeding, you authorize FeedTan Charity to process this donation through ClickPesa's secure payment system.
-                                            Your payment information is encrypted and secure. All donations are tax-deductible as permitted by law.
+                                    
+                                    <div class="relative">
+                                        <input x-model="customAmount" 
+                                               @input="amount = customAmount; validateAmount()"
+                                               type="number" 
+                                               placeholder="Enter custom amount (TZS)" 
+                                               class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                        <div class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                                            <i class="ph-bold ph-currency-tanzanian-shilling text-xl"></i>
                                         </div>
                                     </div>
-                                </label>
-                            </div>
+                                    <p x-show="amountError" class="text-rose-600 text-sm mt-2" x-text="amountError"></p>
+                                </div>
 
-                            <!-- Submit Button -->
-                            <div class="text-center">
-                                <button type="submit" 
-                                        :disabled="processing || !isFormValid()"
-                                        class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
-                                    <span x-show="!processing">
-                                        <i class="ph-bold ph-heart text-xl mr-3"></i>
-                                        Complete Donation - <span x-text="formatCurrency(amount || 0)"></span>
-                                    </span>
-                                    <span x-show="processing" class="flex items-center gap-3">
-                                        <div class="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
-                                        Processing Payment...
-                                    </span>
-                                </button>
-                                
-                                <div class="mt-6 flex items-center justify-center gap-6 text-sm text-slate-500">
-                                    <div class="flex items-center gap-2">
-                                        <i class="ph ph-lock text-emerald-500"></i>
-                                        <span>Secure Payment</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <i class="ph ph-shield-check text-emerald-500"></i>
-                                        <span>SSL Encrypted</span>
-                                    </div>
-                                    <div class="flex items-center gap-2">
-                                        <i class="ph ph-certificate text-emerald-500"></i>
-                                        <span>501(c)(3) Certified</span>
+                                <!-- Payment Method -->
+                                <div>
+                                    <h3 class="text-xl font-bold text-slate-900 mb-6">Payment Method</h3>
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <button type="button" 
+                                                @click="paymentMethod = 'mobile'"
+                                                :class="paymentMethod === 'mobile' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
+                                                class="p-6 rounded-2xl font-semibold border-2 transition-all">
+                                            <i class="ph-bold ph-device-mobile text-3xl mb-3"></i>
+                                            <div class="text-lg font-bold">Mobile Money</div>
+                                            <div class="text-sm opacity-75">M-Pesa, Tigo Pesa, Airtel Money</div>
+                                        </button>
+                                        <button type="button" 
+                                                @click="paymentMethod = 'card'"
+                                                :class="paymentMethod === 'card' ? 'bg-emerald-600 text-white border-emerald-600' : 'bg-white text-slate-700 border-slate-200 hover:border-emerald-500'"
+                                                class="p-6 rounded-2xl font-semibold border-2 transition-all">
+                                            <i class="ph-bold ph-credit-card text-3xl mb-3"></i>
+                                            <div class="text-lg font-bold">Card Payment</div>
+                                            <div class="text-sm opacity-75">Visa, Mastercard, American Express</div>
+                                        </button>
                                     </div>
                                 </div>
-                            </div>
-                        </form>
+
+                                <!-- Mobile Money Form -->
+                                <div x-show="paymentMethod === 'mobile'" x-transition class="space-y-6">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-3">Phone Number *</label>
+                                        <input x-model="phoneNumber" 
+                                               @input="validatePhoneNumber()"
+                                               type="tel" 
+                                               placeholder="255712345678" 
+                                               class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all">
+                                        <p class="text-slate-500 text-sm mt-2">Enter phone number with country code (e.g., 255712345678)</p>
+                                        <p x-show="phoneError" class="text-rose-600 text-sm mt-2" x-text="phoneError"></p>
+                                    </div>
+                                </div>
+
+                                <!-- Personal Information -->
+                                <div class="space-y-6">
+                                    <h3 class="text-xl font-bold text-slate-900">Your Information</h3>
+                                    <div class="grid md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-semibold text-slate-700 mb-3">Full Name *</label>
+                                            <input x-model="fullName" 
+                                                   type="text" 
+                                                   placeholder="John Doe" 
+                                                   class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                                                   required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-semibold text-slate-700 mb-3">Email Address *</label>
+                                            <input x-model="email" 
+                                                   type="email" 
+                                                   placeholder="john@example.com" 
+                                                   class="w-full px-6 py-4 border-2 border-slate-200 rounded-xl text-lg font-semibold focus:ring-4 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all"
+                                                   required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Terms and Conditions -->
+                                <div class="bg-slate-50 rounded-xl p-6">
+                                    <label class="flex items-start gap-4 cursor-pointer">
+                                        <input x-model="agreeTerms" type="checkbox" class="text-emerald-600 mt-1" required>
+                                        <div>
+                                            <div class="font-semibold text-slate-900">I agree to the terms and conditions</div>
+                                            <div class="text-sm text-slate-600 mt-1">
+                                                By proceeding, you authorize FeedTan Charity to process this donation through ClickPesa's secure payment system.
+                                                Your payment information is encrypted and secure. All donations are tax-deductible as permitted by law.
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="text-center">
+                                    <button type="submit" 
+                                            :disabled="processing || !isFormValid()"
+                                            class="px-12 py-5 bg-gradient-to-r from-emerald-600 to-emerald-500 text-white font-bold rounded-full shadow-2xl hover:shadow-emerald-600/50 transition-all hover:scale-105 text-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+                                        <span x-show="!processing">
+                                            <i class="ph-bold ph-heart text-xl mr-3"></i>
+                                            Complete Donation - <span x-text="formatCurrency(amount || 0)"></span>
+                                        </span>
+                                        <span x-show="processing" class="flex items-center gap-3">
+                                            <div class="w-6 h-6 border-3 border-white border-t-transparent rounded-full animate-spin"></div>
+                                            Processing Payment...
+                                        </span>
+                                    </button>
+                                    
+                                    <div class="mt-6 flex items-center justify-center gap-6 text-sm text-slate-500">
+                                        <div class="flex items-center gap-2">
+                                            <i class="ph ph-lock text-emerald-500"></i>
+                                            <span>Secure Payment</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i class="ph ph-shield-check text-emerald-500"></i>
+                                            <span>SSL Encrypted</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <i class="ph ph-certificate text-emerald-500"></i>
+                                            <span>501(c)(3) Certified</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
 
                         <!-- Payment Status Polling -->
-                        <div x-show="pollingPayment" x-transition class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
+                        <div x-show="pollingPayment && !loading && !error && !success" x-transition class="bg-blue-50 border border-blue-200 rounded-2xl p-6">
                             <div class="flex items-center gap-4">
                                 <div class="bg-blue-100 rounded-full p-3">
                                     <div class="w-6 h-6 border-3 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
