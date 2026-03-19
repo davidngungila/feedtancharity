@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Events - FeedTan Community Microfinance Group | Growing Hope, Feeding Futures</title>
-    <meta name="description" content="Join FeedTan Community Microfinance Group's events and activities. Participate in community outreach, fundraising events, and volunteer opportunities to make a difference.">
+    <title>Events - FeedTan Hope Foundation | Growing Hope, Feeding Futures</title>
+    <meta name="description" content="Join FeedTan Hope Foundation's events and activities. Participate in community outreach, fundraising events, and volunteer opportunities to make a difference.">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

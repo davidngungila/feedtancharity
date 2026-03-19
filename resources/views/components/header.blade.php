@@ -7,7 +7,7 @@
             </div>
             <div class="flex flex-col">
                 <span class="text-2xl font-black tracking-tighter text-slate-900 leading-none">FeedTan</span>
-                <span class="text-xs font-bold text-slate-500 leading-none mt-1">Community Microfinance Group</span>
+                <span class="text-xs font-bold text-slate-500 leading-none mt-1">Hope Foundation</span>
             </div>
         </a>
 
@@ -99,7 +99,7 @@
                     </div>
                     <div class="flex flex-col">
                         <span class="text-lg font-black tracking-tighter text-slate-900 leading-none">FeedTan</span>
-                        <span class="text-xs font-bold text-slate-500 leading-none mt-1">Community Microfinance Group</span>
+                        <span class="text-xs font-bold text-slate-500 leading-none mt-1">Hope Foundation</span>
                     </div>
                 </a>
                 <button @click="mobileMenuOpen = false" class="w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center hover:bg-slate-200 transition-colors">

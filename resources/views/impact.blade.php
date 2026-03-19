@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Impact - FeedTan Community Microfinance Group | Growing Hope, Feeding Futures</title>
-    <meta name="description" content="Discover FeedTan Community Microfinance Group's impact since 2009. See how we've served 125,000+ meals, helped 3,500+ families, and built sustainable communities.">
+    <title>Our Impact - FeedTan Hope Foundation | Growing Hope, Feeding Futures</title>
+    <meta name="description" content="Discover FeedTan Hope Foundation's impact since 2009. See how we've served 125,000+ meals, helped 3,500+ families, and built sustainable communities.">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Annual Charity Gala 2024 - FeedTan Community Microfinance Group | Growing Hope, Feeding Futures</title>
+    <title>Annual Charity Gala 2024 - FeedTan Hope Foundation | Growing Hope, Feeding Futures</title>
     <meta name="description" content="Join us for an elegant evening of fundraising, dinner, and celebration at the Annual Charity Gala 2024. Live auction, entertainment, and networking for a great cause.">
     
     <!-- Fonts -->

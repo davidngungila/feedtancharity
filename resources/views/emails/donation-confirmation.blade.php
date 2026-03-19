@@ -203,7 +203,7 @@
         </div>
 
         <p style="margin-bottom: 10px;">
-            <strong>FeedTan Community Microfinance Group</strong><br>
+            <strong>FeedTan Hope Foundation</strong><br>
             Celebrating 10 Years of Service
         </p>
 
@@ -213,7 +213,7 @@
         </p>
 
         <p style="font-size: 12px; color: #9ca3af;">
-            © 2024 FeedTan Community Microfinance Group. All rights reserved.<br>
+            © 2024 FeedTan Hope Foundation. All rights reserved.<br>
             You received this email because you made a donation to FeedTan Charity.
         </p>
     </div>

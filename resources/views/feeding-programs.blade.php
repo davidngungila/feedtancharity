@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Feeding Programs - FeedTan Community Microfinance Group | Nourishing Communities, Changing Lives</title>
+    <title>Feeding Programs - FeedTan Hope Foundation | Nourishing Communities, Changing Lives</title>
     <meta name="description" content="FeedTan's comprehensive feeding programs provide nutritious meals to children, families, and communities in need. Join us in fighting hunger and building healthier futures.">
     
     <!-- Fonts -->

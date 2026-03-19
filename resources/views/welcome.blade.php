@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-        <title>FeedTan Community Microfinance Group — Growing Hope, Feeding Futures</title>
+        <title>FeedTan Hope Foundation — Growing Hope, Feeding Futures</title>
 
         <link rel="icon" href="/favicon.ico">
 
@@ -404,7 +404,7 @@
                         <span class="inline-block px-4 py-2 bg-amber-100 text-amber-700 rounded-full text-sm font-bold tracking-widest uppercase mb-6">10 Year Milestone</span>
                         <h2 class="text-4xl md:text-6xl font-serif text-slate-900 mb-8 font-bold">Celebrating a Decade of <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-emerald-600">Growing Hope</span></h2>
                         <p class="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-12">
-                            For 10 years, FeedTan Community Microfinance Group has been transforming lives and building sustainable communities. Join us as we celebrate this incredible milestone and look forward to the next decade of impact.
+                            For 10 years, FeedTan Hope Foundation has been transforming lives and building sustainable communities. Join us as we celebrate this incredible milestone and look forward to the next decade of impact.
                         </p>
                     </div>
 

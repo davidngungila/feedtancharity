@@ -8,7 +8,7 @@
                 </div>
                 <div class="flex flex-col">
                     <span class="text-lg font-black tracking-tighter text-white leading-none">FeedTan</span>
-                    <span class="text-xs font-bold text-slate-400 leading-none mt-1">Community Microfinance Group</span>
+                    <span class="text-xs font-bold text-slate-400 leading-none mt-1">Hope Foundation</span>
                 </div>
             </a>
             <p class="text-slate-400 leading-relaxed text-sm mb-6">
@@ -50,7 +50,7 @@
                 <li class="flex items-start gap-3">
                     <i class="ph ph-map-pin text-emerald-500 mt-0.5"></i>
                     <span>
-                        FeedTan Community Microfinance Group<br>
+                        FeedTan Hope Foundation<br>
                         P.O.Box 7744, Ushirika Sokoine Road<br>
                         Moshi, Kilimanjaro, Tanzania<br>
                         <br>
@@ -70,7 +70,7 @@
                 <a href="{{ url('privacy') }}" class="hover:text-emerald-500 transition-colors">Privacy Policy</a>
                 <a href="{{ url('faq') }}" class="hover:text-emerald-500 transition-colors">FAQ</a>
             </div>
-            <p class="text-sm text-slate-500">© 2024 FeedTan Community Microfinance Group. All rights reserved. | Celebrating 10 Years of Service</p>
+            <p class="text-sm text-slate-500">© 2024 FeedTan Hope Foundation. All rights reserved. | Celebrating 10 Years of Service</p>
         </div>
     </div>
 </footer>

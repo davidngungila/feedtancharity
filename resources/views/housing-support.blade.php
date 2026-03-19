@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Housing Support - FeedTan Community Microfinance Group | Building Homes, Restoring Dignity</title>
+    <title>Housing Support - FeedTan Hope Foundation | Building Homes, Restoring Dignity</title>
     <meta name="description" content="FeedTan's housing support programs provide shelter, housing assistance, and community housing solutions for families in need. Help us build safe homes and sustainable communities.">
     
     <!-- Fonts -->
