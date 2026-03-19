@@ -563,6 +563,46 @@
         </div>
     </div>
 
+    <!-- Lightbox Gallery Modal -->
+    <div id="lightboxModal" class="fixed inset-0 bg-black bg-opacity-95 z-50 hidden flex items-center justify-center">
+        <div class="relative w-full h-full flex flex-col">
+            <!-- Gallery Header -->
+            <div class="flex justify-between items-center p-6 text-white">
+                <h3 id="galleryTitle" class="text-2xl font-bold">Event Gallery</h3>
+                <button onclick="closeLightbox()" class="text-white hover:text-gray-300 transition">
+                    <i class="ph ph-x text-3xl"></i>
+                </button>
+            </div>
+            
+            <!-- Main Image Display -->
+            <div class="flex-1 flex items-center justify-center p-4">
+                <div class="relative max-w-6xl w-full">
+                    <img id="lightboxImage" src="" alt="" class="w-full h-auto max-h-[70vh] object-contain rounded-lg">
+                    
+                    <!-- Navigation Arrows -->
+                    <button onclick="previousImage()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition">
+                        <i class="ph ph-caret-left text-2xl"></i>
+                    </button>
+                    <button onclick="nextImage()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 backdrop-blur-sm text-white p-3 rounded-full hover:bg-white/30 transition">
+                        <i class="ph ph-caret-right text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Thumbnail Strip -->
+            <div class="p-6">
+                <div id="thumbnailStrip" class="flex gap-2 overflow-x-auto justify-center">
+                    <!-- Thumbnails will be dynamically inserted here -->
+                </div>
+            </div>
+            
+            <!-- Image Counter -->
+            <div class="text-center pb-4">
+                <span id="imageCounter" class="text-white/70 text-sm">1 / 1</span>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Smooth scroll to section
         function scrollToSection(sectionId) {
@@ -584,13 +624,165 @@
         }
 
         // Gallery functions
+        let currentGallery = [];
+        let currentImageIndex = 0;
+
         function openEventGallery(eventType) {
-            alert(`Opening photo gallery for ${eventType}. This would display a beautiful lightbox gallery with photos from the event, including attendee photos, activities, and highlights.`);
+            const galleries = {
+                'charity-gala': {
+                    title: 'Annual Charity Gala 2024',
+                    images: [
+                        'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1519452575417-564c1401ecc7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1540555700478-4be289fbecef?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80'
+                    ]
+                },
+                'food-drive': {
+                    title: 'Community Food Drive',
+                    images: [
+                        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80',
+                        'https://images.unsplash.com/photo-1488229297570-58520851e868?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1530589199503-359925994b11?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80'
+                    ]
+                },
+                'workshop': {
+                    title: 'Educational Workshop',
+                    images: [
+                        'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1581078426770-6d336e5de7bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1577896851231-70ef18881754?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1589571894960-20bbe2828d0a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80'
+                    ]
+                },
+                'fun-fair': {
+                    title: 'Summer Fun Fair',
+                    images: [
+                        'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80'
+                    ]
+                },
+                'cleanup': {
+                    title: 'Community Clean-Up Day',
+                    images: [
+                        'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1588421357574-87938a86fa28?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1593115057322-e94b77572e20?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                        'https://images.unsplash.com/photo-1542601906990-b4d3fb7d793e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80'
+                    ]
+                }
+            };
+
+            const gallery = galleries[eventType];
+            if (gallery) {
+                currentGallery = gallery.images;
+                currentImageIndex = 0;
+                openLightbox(gallery.title);
+            }
         }
 
         function openFullGallery() {
-            alert('Opening complete event gallery. This would show a comprehensive gallery with photos from all our past events, organized by event type and date.');
+            // Combine all galleries for full gallery view
+            const allImages = [
+                'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80',
+                'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                'https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                'https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                'https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                'https://images.unsplash.com/photo-1519452575417-564c1401ecc7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
+                'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80'
+            ];
+            
+            currentGallery = allImages;
+            currentImageIndex = 0;
+            openLightbox('Complete Event Gallery');
         }
+
+        function openLightbox(title) {
+            document.getElementById('galleryTitle').textContent = title;
+            document.getElementById('lightboxModal').classList.remove('hidden');
+            updateLightboxImage();
+            createThumbnails();
+            
+            // Prevent body scroll when lightbox is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightboxModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateLightboxImage() {
+            const image = document.getElementById('lightboxImage');
+            image.src = currentGallery[currentImageIndex];
+            image.alt = `Event photo ${currentImageIndex + 1}`;
+            
+            // Update counter
+            document.getElementById('imageCounter').textContent = 
+                `${currentImageIndex + 1} / ${currentGallery.length}`;
+            
+            // Update thumbnail selection
+            updateThumbnailSelection();
+        }
+
+        function createThumbnails() {
+            const thumbnailStrip = document.getElementById('thumbnailStrip');
+            thumbnailStrip.innerHTML = '';
+            
+            currentGallery.forEach((imageUrl, index) => {
+                const thumbnail = document.createElement('img');
+                thumbnail.src = imageUrl;
+                thumbnail.alt = `Thumbnail ${index + 1}`;
+                thumbnail.className = `w-20 h-20 object-cover rounded cursor-pointer transition-all ${
+                    index === currentImageIndex ? 'ring-2 ring-white scale-110' : 'opacity-70 hover:opacity-100'
+                }`;
+                thumbnail.onclick = () => {
+                    currentImageIndex = index;
+                    updateLightboxImage();
+                };
+                thumbnailStrip.appendChild(thumbnail);
+            });
+        }
+
+        function updateThumbnailSelection() {
+            const thumbnails = document.querySelectorAll('#thumbnailStrip img');
+            thumbnails.forEach((thumb, index) => {
+                if (index === currentImageIndex) {
+                    thumb.className = 'w-20 h-20 object-cover rounded cursor-pointer transition-all ring-2 ring-white scale-110';
+                } else {
+                    thumb.className = 'w-20 h-20 object-cover rounded cursor-pointer transition-all opacity-70 hover:opacity-100';
+                }
+            });
+        }
+
+        function previousImage() {
+            currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+            updateLightboxImage();
+        }
+
+        function nextImage() {
+            currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
+            updateLightboxImage();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            const lightboxModal = document.getElementById('lightboxModal');
+            if (!lightboxModal.classList.contains('hidden')) {
+                if (e.key === 'ArrowLeft') previousImage();
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'Escape') closeLightbox();
+            }
+        });
 
         // Animated statistics
         function animateStats() {
