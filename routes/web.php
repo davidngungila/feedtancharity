@@ -104,6 +104,19 @@ Route::get('/get-involved', function () {
     return view('get-involved');
 });
 
+// Campaign pages
+Route::get('/feeding-programs', function () {
+    return view('feeding-programs');
+});
+
+Route::get('/emergency-support', function () {
+    return view('emergency-support');
+});
+
+Route::get('/housing-support', function () {
+    return view('housing-support');
+});
+
 // Events page
 Route::get('/events', function () {
     return view('events');

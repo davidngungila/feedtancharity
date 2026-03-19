@@ -24,34 +24,34 @@
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <div>
                             <h3 class="font-black text-slate-900 mb-4 flex items-center gap-2">
-                                <i class="ph ph-bowl-food text-emerald-600"></i> School Nutrition
+                                <i class="ph ph-bowl-food text-emerald-600"></i> Feeding Programs
                             </h3>
                             <ul class="space-y-3">
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Daily Meal Programs</a></li>
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Weekend Backpacks</a></li>
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Summer Feeding</a></li>
+                                <li><a href="{{ url('/feeding-programs') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">School Nutrition</a></li>
+                                <li><a href="{{ url('/feeding-programs') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Daily Meal Programs</a></li>
+                                <li><a href="{{ url('/feeding-programs') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Weekend Backpacks</a></li>
                             </ul>
                         </div>
                         
                         <div>
                             <h3 class="font-black text-slate-900 mb-4 flex items-center gap-2">
-                                <i class="ph ph-first-aid-kit text-blue-600"></i> Emergency Relief
+                                <i class="ph ph-first-aid-kit text-blue-600"></i> Emergency Support
                             </h3>
                             <ul class="space-y-3">
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Disaster Response</a></li>
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Food Distribution</a></li>
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Emergency Supplies</a></li>
+                                <li><a href="{{ url('/emergency-support') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Disaster Response</a></li>
+                                <li><a href="{{ url('/emergency-support') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Food Distribution</a></li>
+                                <li><a href="{{ url('/emergency-support') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Emergency Supplies</a></li>
                             </ul>
                         </div>
                         
                         <div>
                             <h3 class="font-black text-slate-900 mb-4 flex items-center gap-2">
-                                <i class="ph ph-plant text-green-600"></i> Community Gardens
+                                <i class="ph ph-house text-green-600"></i> Housing Support
                             </h3>
                             <ul class="space-y-3">
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Urban Gardens</a></li>
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">School Gardens</a></li>
-                                <li><a href="{{ url('/campaigns') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Community Workshops</a></li>
+                                <li><a href="{{ url('/housing-support') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Shelter Programs</a></li>
+                                <li><a href="{{ url('/housing-support') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Housing Assistance</a></li>
+                                <li><a href="{{ url('/housing-support') }}" class="text-slate-600 hover:text-emerald-600 transition-colors">Community Housing</a></li>
                             </ul>
                         </div>
                     </div>
@@ -60,9 +60,9 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <h4 class="font-bold text-slate-900 mb-2">Support Our Mission</h4>
-                                <p class="text-slate-600 text-sm">Help us continue providing nutritious meals to families in need.</p>
+                                <p class="text-slate-600 text-sm">Help us continue providing essential services to families in need.</p>
                             </div>
-                            <a href="{{ url('/campaigns') }}" class="px-6 py-3 bg-emerald-600 text-white rounded-full font-semibold hover:bg-emerald-700 transition-colors">
+                            <a href="{{ url('/donate') }}" class="px-6 py-3 bg-emerald-600 text-white rounded-full font-semibold hover:bg-emerald-700 transition-colors">
                                 <i class="ph ph-heart mr-2"></i> Donate Now
                             </a>
                         </div>
@@ -113,25 +113,25 @@
                 <div class="py-4">
                     <h3 class="font-black text-slate-900 mb-4">Campaigns</h3>
                     <ul class="space-y-3 ml-4">
-                        <li><a href="{{ url('/campaigns') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                        <li><a href="{{ url('/feeding-programs') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
                             <i class="ph ph-bowl-food text-emerald-600"></i>
                             <div>
-                                <div class="font-bold text-slate-900">School Nutrition</div>
-                                <div class="text-sm text-slate-600">Daily meal programs</div>
+                                <div class="font-bold text-slate-900">Feeding Programs</div>
+                                <div class="text-sm text-slate-600">School nutrition & daily meals</div>
                             </div>
                         </a></li>
-                        <li><a href="{{ url('/campaigns') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                        <li><a href="{{ url('/emergency-support') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
                             <i class="ph ph-first-aid-kit text-blue-600"></i>
                             <div>
-                                <div class="font-bold text-slate-900">Emergency Relief</div>
-                                <div class="text-sm text-slate-600">Crisis assistance</div>
+                                <div class="font-bold text-slate-900">Emergency Support</div>
+                                <div class="text-sm text-slate-600">Disaster response & relief</div>
                             </div>
                         </a></li>
-                        <li><a href="{{ url('/campaigns') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
-                            <i class="ph ph-plant text-green-600"></i>
+                        <li><a href="{{ url('/housing-support') }}" class="flex items-center gap-4 group/item p-3 rounded-2xl hover:bg-emerald-50 transition-all">
+                            <i class="ph ph-house text-green-600"></i>
                             <div>
-                                <div class="font-bold text-slate-900">Community Gardens</div>
-                                <div class="text-sm text-slate-600">Sustainable food sources</div>
+                                <div class="font-bold text-slate-900">Housing Support</div>
+                                <div class="text-sm text-slate-600">Shelter & housing assistance</div>
                             </div>
                         </a></li>
                     </ul>
