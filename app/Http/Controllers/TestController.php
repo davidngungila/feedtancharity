@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ClickPesaService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+use App\Services\ClickPesaAPIService;
 use Illuminate\Support\Facades\Log;
 
 class TestController extends Controller
 {
     protected $clickPesaService;
 
-    public function __construct(ClickPesaService $clickPesaService)
+    public function __construct(ClickPesaAPIService $clickPesaService)
     {
         $this->clickPesaService = $clickPesaService;
     }

@@ -59,18 +59,26 @@ Route::get('/test-complete-clickpesa', function () {
 // Debug ClickPesa credentials
 Route::get('/debug-clickpesa', function () {
     $clientId = config('services.clickpesa.client_id');
+    $clientSecret = config('services.clickpesa.client_secret');
     $apiKey = config('services.clickpesa.api_key');
     $baseUrl = config('services.clickpesa.base_url');
     
     return response()->json([
         'credentials' => [
             'client_id' => $clientId,
+            'client_secret' => $clientSecret,
+            'client_secret_set' => !empty($clientSecret),
+            'client_secret_length' => strlen($clientSecret ?? ''),
+            'api_key' => $apiKey,
             'api_key_set' => !empty($apiKey),
             'api_key_length' => strlen($apiKey ?? ''),
             'base_url' => $baseUrl,
             'is_default_client_id' => $clientId === 'your_client_id_here',
             'client_id_empty' => empty($clientId),
-            'api_key_empty' => empty($apiKey)
+            'client_secret_empty' => empty($clientSecret),
+            'api_key_empty' => empty($apiKey),
+            'using_new_format' => !empty($clientSecret),
+            'using_legacy_format' => empty($clientSecret) && !empty($apiKey)
         ],
         'environment' => [
             'app_env' => config('app.env'),
@@ -80,7 +88,8 @@ Route::get('/debug-clickpesa', function () {
         'next_steps' => [
             'if credentials are missing' => 'Copy credentials from .env.example to .env file',
             'if client_id is "your_client_id_here"' => 'Update .env with real ClickPesa credentials',
-            'if api_key is empty' => 'Add CLICKPESA_API_KEY to .env file'
+            'if using new format' => 'Make sure CLICKPESA_CLIENT_SECRET is set',
+            'if using legacy format' => 'Make sure CLICKPESA_API_KEY is set'
         ]
     ]);
 });

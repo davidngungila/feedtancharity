@@ -33,6 +33,9 @@ echo "<pre style='background: #f5f5f5; padding: 10px; border-radius: 5px;'>";
 echo implode("\n", $clickpesaCredentials);
 echo "</pre>";
 
+echo "<p><strong>New Format:</strong> Using CLICKPESA_CLIENT_SECRET (Official API)</p>";
+echo "<p><strong>Legacy Format:</strong> Using CLICKPESA_API_KEY (Backward Compatible)</p>";
+
 // Remove existing ClickPesa credentials from .env
 $envLines = explode("\n", $envContent);
 $newEnvLines = [];

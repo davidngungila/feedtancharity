@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ClickPesaService;
+use App\Services\ClickPesaAPIService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -12,7 +12,7 @@ class PaymentController extends Controller
 {
     protected $clickPesaService;
 
-    public function __construct(ClickPesaService $clickPesaService)
+    public function __construct(ClickPesaAPIService $clickPesaService)
     {
         $this->clickPesaService = $clickPesaService;
     }
