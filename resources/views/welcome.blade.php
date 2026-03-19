@@ -450,6 +450,139 @@
                 <div class="absolute bottom-20 right-1/4 text-4xl animate-pulse" style="animation-delay: 1s;">🎉</div>
             </section>
 
+            <!-- Advanced Features Section -->
+            <section class="py-20 bg-gradient-to-br from-slate-50 to-white">
+                <div class="max-w-7xl mx-auto px-6">
+                    <div class="text-center mb-16">
+                        <span class="inline-block px-4 py-2 bg-gradient-to-r from-purple-100 to-blue-100 text-purple-700 rounded-full text-sm font-bold tracking-widest uppercase mb-6">Advanced Impact</span>
+                        <h2 class="text-4xl md:text-5xl font-serif text-slate-900 mb-6 font-bold">Innovative Solutions for <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">Lasting Change</span></h2>
+                        <p class="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+                            Leveraging cutting-edge technology and data-driven approaches to maximize our impact and create sustainable transformation across Tanzania.
+                        </p>
+                    </div>
+
+                    <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                        <!-- Advanced Analytics -->
+                        <div class="bg-white rounded-2xl p-8 shadow-xl border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="ph-bold ph-chart-line text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Data-Driven Impact</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">
+                                Advanced analytics and real-time monitoring systems that track program effectiveness and optimize resource allocation for maximum community benefit.
+                            </p>
+                            <ul class="space-y-3 text-sm">
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-purple-500 mr-3"></i>
+                                    Real-time impact metrics
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-purple-500 mr-3"></i>
+                                    Predictive analytics for needs assessment
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-purple-500 mr-3"></i>
+                                    Automated reporting systems
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Mobile Technology -->
+                        <div class="bg-white rounded-2xl p-8 shadow-xl border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="ph-bold ph-devices text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Mobile Innovation</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">
+                                Cutting-edge mobile applications and digital platforms that connect communities with essential services and enable seamless program participation.
+                            </p>
+                            <ul class="space-y-3 text-sm">
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-blue-500 mr-3"></i>
+                                    Mobile food distribution tracking
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-blue-500 mr-3"></i>
+                                    Digital beneficiary management
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-blue-500 mr-3"></i>
+                                    SMS-based emergency alerts
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Sustainable Solutions -->
+                        <div class="bg-white rounded-2xl p-8 shadow-xl border border-slate-100 hover:shadow-2xl transition-all duration-300">
+                            <div class="w-16 h-16 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6">
+                                <i class="ph-bold ph-leaf text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-900 mb-4">Green Technology</h3>
+                            <p class="text-slate-600 mb-6 leading-relaxed">
+                                Sustainable and eco-friendly solutions that reduce environmental impact while increasing efficiency and long-term viability of our programs.
+                            </p>
+                            <ul class="space-y-3 text-sm">
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-emerald-500 mr-3"></i>
+                                    Solar-powered community centers
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-emerald-500 mr-3"></i>
+                                    Sustainable farming technology
+                                </li>
+                                <li class="flex items-center text-slate-600">
+                                    <i class="ph-bold ph-check-circle text-emerald-500 mr-3"></i>
+                                    Water conservation systems
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Statistics -->
+                    <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl p-12 text-white mb-16">
+                        <div class="text-center mb-12">
+                            <h3 class="text-3xl font-bold mb-4">Advanced Impact Metrics</h3>
+                            <p class="text-slate-300 text-lg">Real-time data showing our progressive impact across communities</p>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-4 gap-8">
+                            <div class="text-center">
+                                <div class="text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-300">98%</div>
+                                <div class="text-slate-300 mb-1">Program Efficiency</div>
+                                <div class="text-slate-400 text-sm">Resource optimization rate</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-blue-300">24/7</div>
+                                <div class="text-slate-300 mb-1">Monitoring</div>
+                                <div class="text-slate-400 text-sm">Real-time impact tracking</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-emerald-300">15min</div>
+                                <div class="text-slate-300 mb-1">Response Time</div>
+                                <div class="text-slate-400 text-sm">Emergency assistance delivery</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-300">AI</div>
+                                <div class="text-slate-300 mb-1">Powered</div>
+                                <div class="text-slate-400 text-sm">Predictive needs analysis</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technology Partners -->
+                    <div class="text-center">
+                        <h3 class="text-2xl font-bold text-slate-900 mb-8">Technology Partners</h3>
+                        <div class="flex flex-wrap items-center justify-center gap-8 opacity-60">
+                            <div class="text-2xl font-bold text-slate-600">CloudTech</div>
+                            <div class="text-2xl font-bold text-slate-600">DataFlow</div>
+                            <div class="text-2xl font-bold text-slate-600">MobileFirst</div>
+                            <div class="text-2xl font-bold text-slate-600">GreenTech</div>
+                            <div class="text-2xl font-bold text-slate-600">AI Solutions</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             
             <section class="py-24 bg-emerald-600">
                 <div class="max-w-7xl mx-auto px-6 text-center">
