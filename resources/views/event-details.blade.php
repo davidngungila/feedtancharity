@@ -457,39 +457,223 @@
 
     <!-- Registration Modal -->
     <div id="registrationModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-xl max-w-md w-full p-6">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-xl font-bold">Event Registration</h3>
-                <button onclick="closeRegistrationModal()" class="text-gray-500 hover:text-gray-700">
-                    <i class="ph ph-x text-2xl"></i>
-                </button>
+        <div class="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <!-- Modal Header -->
+            <div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-6 rounded-t-xl">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-2">Event Registration</h3>
+                        <p class="text-emerald-100">Annual Charity Gala 2024 - March 25, 2024</p>
+                    </div>
+                    <button onclick="closeRegistrationModal()" class="text-white hover:text-emerald-200 transition">
+                        <i class="ph ph-x text-3xl"></i>
+                    </button>
+                </div>
             </div>
-            <form class="space-y-4">
-                <input type="hidden" id="ticketType">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                    <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
-                    <input type="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-                    <input type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Company (Optional)</label>
-                    <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Dietary Restrictions</label>
-                    <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500" rows="2" placeholder="Any dietary requirements or allergies"></textarea>
-                </div>
-                <button type="submit" class="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition">
-                    Complete Registration
-                </button>
-            </form>
+
+            <!-- Modal Body -->
+            <div class="p-8">
+                <form class="space-y-6">
+                    <input type="hidden" id="ticketType">
+                    
+                    <!-- Registration Type Display -->
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <i class="ph ph-ticket text-emerald-600 text-2xl"></i>
+                                <div>
+                                    <span class="font-semibold text-emerald-900">Registration Type:</span>
+                                    <span id="ticketTypeDisplay" class="ml-2 text-emerald-700 font-bold">Individual Ticket</span>
+                                </div>
+                            </div>
+                            <button type="button" onclick="scrollToSection('registration')" class="text-emerald-600 hover:text-emerald-700 text-sm font-semibold">
+                                Change Package
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information Section -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="ph ph-user text-emerald-600"></i>
+                            Personal Information
+                        </h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                                <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="John">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                                <input type="text" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Doe">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                                <input type="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="john.doe@example.com">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                                <input type="tel" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="+255 712 345 678">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Attendees (for Couple/Corporate) -->
+                    <div id="additionalAttendees" class="border-b border-gray-200 pb-6 hidden">
+                        <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="ph ph-users text-emerald-600"></i>
+                            Additional Attendees
+                        </h4>
+                        
+                        <div class="space-y-4" id="attendeesList">
+                            <!-- Attendee fields will be dynamically added here -->
+                        </div>
+                        
+                        <button type="button" onclick="addAttendee()" class="mt-4 text-emerald-600 hover:text-emerald-700 font-semibold text-sm flex items-center gap-2">
+                            <i class="ph ph-plus-circle"></i> Add Another Attendee
+                        </button>
+                    </div>
+
+                    <!-- Professional Information -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="ph ph-briefcase text-emerald-600"></i>
+                            Professional Information
+                        </h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Company/Organization</label>
+                                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Company Name">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Job Title</label>
+                                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Your Position">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Preferences -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="ph ph-heart text-emerald-600"></i>
+                            Event Preferences
+                        </h4>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Dietary Restrictions</label>
+                                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                    <option value="">No restrictions</option>
+                                    <option value="vegetarian">Vegetarian</option>
+                                    <option value="vegan">Vegan</option>
+                                    <option value="gluten-free">Gluten-Free</option>
+                                    <option value="halal">Halal</option>
+                                    <option value="kosher">Kosher</option>
+                                    <option value="other">Other (please specify)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Table Preference</label>
+                                <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                    <option value="">No preference</option>
+                                    <option value="near-stage">Near Stage</option>
+                                    <option value="near-exit">Near Exit</option>
+                                    <option value="quiet-area">Quiet Area</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Special Requirements or Allergies</label>
+                            <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" rows="3" placeholder="Please let us know about any allergies, accessibility needs, or special accommodations"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Communication Preferences -->
+                    <div class="border-b border-gray-200 pb-6">
+                        <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="ph ph-envelope-simple text-emerald-600"></i>
+                            Communication Preferences
+                        </h4>
+                        
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500" checked>
+                                <span class="text-sm text-gray-700">Send me event updates and reminders via email</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500" checked>
+                                <span class="text-sm text-gray-700">Send me SMS notifications for important updates</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer">
+                                <input type="checkbox" class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500">
+                                <span class="text-sm text-gray-700">Add me to the FeedTan newsletter for future events</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i class="ph ph-credit-card text-emerald-600"></i>
+                            Payment Information
+                        </h4>
+                        
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                            <div class="flex items-center justify-between mb-4">
+                                <div>
+                                    <span class="font-semibold text-gray-900">Total Amount:</span>
+                                    <span id="totalAmount" class="ml-2 text-2xl font-bold text-emerald-600">$150</span>
+                                </div>
+                                <div class="text-sm text-gray-600">
+                                    <i class="ph ph-info"></i> Payment will be processed securely
+                                </div>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
+                                    <select class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500">
+                                        <option value="card">Credit/Debit Card</option>
+                                        <option value="mobile">Mobile Money</option>
+                                        <option value="bank">Bank Transfer</option>
+                                        <option value="cash">Cash at Event</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Billing Address</label>
+                                    <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Optional">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Terms and Submit -->
+                    <div class="border-t border-gray-200 pt-6">
+                        <div class="mb-6">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="checkbox" required class="w-4 h-4 text-emerald-600 border-gray-300 rounded focus:ring-emerald-500 mt-1">
+                                <span class="text-sm text-gray-700">
+                                    I agree to the <a href="#" class="text-emerald-600 hover:text-emerald-700 font-semibold">Terms and Conditions</a> 
+                                    and understand that my registration is subject to availability. I acknowledge that photos may be taken during the event for promotional purposes.
+                                </span>
+                            </label>
+                        </div>
+                        
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button type="button" onclick="closeRegistrationModal()" class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition">
+                                Cancel
+                            </button>
+                            <button type="submit" class="flex-1 bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition flex items-center justify-center gap-2">
+                                <i class="ph ph-check-circle"></i>
+                                Complete Registration
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -500,10 +684,107 @@
         }
 
         // Registration functions
+        let attendeeCount = 0;
+
         function registerTicket(type) {
             document.getElementById('ticketType').value = type;
+            updateTicketDisplay(type);
+            showAdditionalAttendees(type);
+            updateTotalAmount(type);
             document.getElementById('registrationModal').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
+        }
+
+        function updateTicketDisplay(type) {
+            const displayElement = document.getElementById('ticketTypeDisplay');
+            const ticketNames = {
+                'individual': 'Individual Ticket - $150',
+                'couple': 'Couple Package - $250',
+                'corporate': 'Corporate Table - $1,500'
+            };
+            displayElement.textContent = ticketNames[type] || 'Individual Ticket - $150';
+        }
+
+        function showAdditionalAttendees(type) {
+            const additionalSection = document.getElementById('additionalAttendees');
+            const attendeesList = document.getElementById('attendeesList');
+            
+            // Clear existing attendees
+            attendeesList.innerHTML = '';
+            attendeeCount = 0;
+            
+            if (type === 'couple') {
+                additionalSection.classList.remove('hidden');
+                addAttendee(); // Add one additional attendee for couple
+            } else if (type === 'corporate') {
+                additionalSection.classList.remove('hidden');
+                // Add 7 additional attendees for corporate table (8 total)
+                for (let i = 0; i < 7; i++) {
+                    addAttendee();
+                }
+            } else {
+                additionalSection.classList.add('hidden');
+            }
+        }
+
+        function addAttendee() {
+            attendeeCount++;
+            const attendeesList = document.getElementById('attendeesList');
+            const attendeeDiv = document.createElement('div');
+            attendeeDiv.className = 'bg-gray-50 rounded-lg p-4 border border-gray-200';
+            attendeeDiv.innerHTML = `
+                <div class="flex justify-between items-center mb-3">
+                    <h5 class="font-semibold text-gray-900">Attendee ${attendeeCount + 1}</h5>
+                    ${attendeeCount > 1 ? `<button type="button" onclick="removeAttendee(this)" class="text-red-500 hover:text-red-700">
+                        <i class="ph ph-trash"></i> Remove
+                    </button>` : ''}
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                        <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="First name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                        <input type="text" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="Last name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                        <input type="email" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="email@example.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+                        <input type="tel" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500" placeholder="+255 712 345 678">
+                    </div>
+                </div>
+            `;
+            attendeesList.appendChild(attendeeDiv);
+        }
+
+        function removeAttendee(button) {
+            button.closest('.bg-gray-50').remove();
+            updateAttendeeNumbers();
+        }
+
+        function updateAttendeeNumbers() {
+            const attendees = document.querySelectorAll('#attendeesList > div');
+            attendees.forEach((attendee, index) => {
+                const title = attendee.querySelector('h5');
+                if (title) {
+                    title.textContent = `Attendee ${index + 2}`;
+                }
+            });
+            attendeeCount = attendees.length - 1;
+        }
+
+        function updateTotalAmount(type) {
+            const totalElement = document.getElementById('totalAmount');
+            const prices = {
+                'individual': '$150',
+                'couple': '$250',
+                'corporate': '$1,500'
+            };
+            totalElement.textContent = prices[type] || '$150';
         }
 
         function closeRegistrationModal() {
