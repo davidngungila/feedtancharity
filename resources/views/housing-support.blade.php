@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Housing Support - FeedTan Hope Foundation | Building Homes, Restoring Dignity</title>
     <meta name="description" content="FeedTan's housing support programs provide shelter, housing assistance, and community housing solutions for families in need. Help us build safe homes and sustainable communities.">
+    <link rel="icon" href="{{ asset('charity_logo_icon.png') }}" type="image/png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About FeedTan Hope Foundation | Restoring Hope, Building Futures</title>
     <meta name="description" content="FeedTan Hope Foundation is a non-profit charitable organization dedicated to improving lives across Tanzania through food assistance, emergency relief, and housing support.">
+    <link rel="icon" href="{{ asset('charity_logo_icon.png') }}" type="image/png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

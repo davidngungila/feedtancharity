@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Impact - FeedTan Hope Foundation | Growing Hope, Feeding Futures</title>
     <meta name="description" content="Discover FeedTan Hope Foundation's impact since 2009. See how we've served 125,000+ meals, helped 3,500+ families, and built sustainable communities.">
+    <link rel="icon" href="{{ asset('charity_logo_icon.png') }}" type="image/png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

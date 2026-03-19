@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Events - FeedTan Hope Foundation | Growing Hope, Feeding Futures</title>
     <meta name="description" content="Join FeedTan Hope Foundation's events and activities. Participate in community outreach, fundraising events, and volunteer opportunities to make a difference.">
+    <link rel="icon" href="{{ asset('charity_logo_icon.png') }}" type="image/png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

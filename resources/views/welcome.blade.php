@@ -6,7 +6,7 @@
         
         <title>FeedTan Hope Foundation — Growing Hope, Feeding Futures</title>
 
-        <link rel="icon" href="/favicon.ico">
+        <link rel="icon" href="{{ asset('charity_logo_icon.png') }}" type="image/png">
 
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

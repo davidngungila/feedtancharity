@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Donate - FeedTan Charity | Make a Difference Today</title>
-    <meta name="description" content="Support FeedTan Charity's mission with a secure donation. Help provide nutritious meals and sustainable food solutions to communities in need.">
+    <title>Donate - FeedTan Hope Foundation | Make a Difference Today</title>
+    <meta name="description" content="Support FeedTan Hope Foundation's mission with a secure donation. Help provide food assistance, emergency relief, and housing support to communities in need.">
+    <link rel="icon" href="{{ asset('charity_logo_icon.png') }}" type="image/png">
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
