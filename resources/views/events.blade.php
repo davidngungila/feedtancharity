@@ -67,59 +67,10 @@
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 glass border-b border-gray-200" x-cloak>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <!-- Logo -->
-                <div class="flex items-center">
-                    <a href="/" class="flex items-center space-x-2">
-                        <div class="w-10 h-10 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold text-lg">FT</span>
-                        </div>
-                        <span class="font-bold text-xl text-gray-900">FeedTan</span>
-                    </a>
-                </div>
+<body class="min-h-screen bg-white text-slate-900 antialiased font-medium" x-data="{ mobileMenuOpen: false }">
+    @include('components.header')
 
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="/" class="nav-link text-gray-700 hover:text-emerald-600">Home</a>
-                    <a href="/about" class="nav-link text-gray-700 hover:text-emerald-600">About</a>
-                    <div class="relative group">
-                        <a href="/impact" class="nav-link text-gray-700 hover:text-emerald-600">Impact</a>
-                    </div>
-                    <a href="/events" class="nav-link text-emerald-600 font-semibold">Events</a>
-                    <a href="/blog" class="nav-link text-gray-700 hover:text-emerald-600">Blog</a>
-                    <a href="/get-involved" class="nav-link text-gray-700 hover:text-emerald-600">Get Involved</a>
-                    <a href="/donate" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition">
-                        Donate
-                    </a>
-                </div>
-
-                <!-- Mobile menu button -->
-                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2">
-                    <i class="ph ph-list text-2xl text-gray-700"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Navigation -->
-        <div x-show="mobileMenuOpen" x-transition class="md:hidden bg-white border-t border-gray-200">
-            <div class="px-4 py-2 space-y-1">
-                <a href="/" class="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded">Home</a>
-                <a href="/about" class="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded">About</a>
-                <a href="/impact" class="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded">Impact</a>
-                <a href="/events" class="block px-3 py-2 text-emerald-600 font-semibold bg-emerald-50 rounded">Events</a>
-                <a href="/blog" class="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded">Blog</a>
-                <a href="/get-involved" class="block px-3 py-2 text-gray-700 hover:text-emerald-600 hover:bg-gray-50 rounded">Get Involved</a>
-                <a href="/donate" class="block px-3 py-2 bg-emerald-600 text-white rounded">Donate</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="pt-16">
+    <main class="pt-24 lg:pt-28">
         <!-- Hero Section -->
         <div class="bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-600 text-white relative overflow-hidden">
             <div class="absolute inset-0 bg-black opacity-20"></div>
@@ -478,59 +429,7 @@
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center space-x-2 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-emerald-600 to-teal-600 rounded-full flex items-center justify-center">
-                            <span class="text-white font-bold text-lg">FT</span>
-                        </div>
-                        <span class="font-bold text-xl">FeedTan</span>
-                    </div>
-                    <p class="text-gray-400">Growing hope, feeding futures since 2009.</p>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Quick Links</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="/about" class="hover:text-emerald-400">About Us</a></li>
-                        <li><a href="/impact" class="hover:text-emerald-400">Our Impact</a></li>
-                        <li><a href="/events" class="hover:text-emerald-400">Events</a></li>
-                        <li><a href="/get-involved" class="hover:text-emerald-400">Get Involved</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Contact</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li>info@feedtancmg.org</li>
-                        <li>+255 712 345 678</li>
-                        <li>Dar es Salaam, Tanzania</li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-4">Follow Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-emerald-400">
-                            <i class="ph ph-facebook-logo text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-emerald-400">
-                            <i class="ph ph-twitter-logo text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-emerald-400">
-                            <i class="ph ph-instagram-logo text-xl"></i>
-                        </a>
-                        <a href="#" class="text-gray-400 hover:text-emerald-400">
-                            <i class="ph ph-linkedin-logo text-xl"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2024 FeedTan Community Microfinance Group. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    @include('components.footer')
 
     <!-- Event Registration Modal -->
     <div id="eventModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
