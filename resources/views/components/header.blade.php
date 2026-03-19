@@ -3,7 +3,7 @@
     <div class="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
         <a href="{{ url('/') }}" class="flex items-center gap-3 group/logo">
             <div class="h-20 w-20 rounded-2xl object-contain bg-white p-3 transition-transform group-hover/logo:scale-105 overflow-hidden shadow-lg">
-                <img src="{{ asset('https://res.cloudinary.com/dzv1tksr2/image/upload/v1772609946/4_lqe3dl.png') }}" alt="FeedTan Logo" class="w-full h-full object-contain">
+                <img src="{{ asset('charity_logo.png') }}" alt="FeedTan Logo" class="w-full h-full object-contain">
             </div>
             <div class="flex flex-col">
                 <span class="text-2xl font-black tracking-tighter text-slate-900 leading-none">FeedTan</span>
@@ -95,7 +95,7 @@
             <div class="flex items-center justify-between mb-8">
                 <a href="{{ url('/') }}" class="flex items-center gap-3">
                     <div class="h-12 w-12 rounded-xl object-contain bg-white p-2">
-                        <img src="{{ asset('https://res.cloudinary.com/dzv1tksr2/image/upload/v1772609946/4_lqe3dl.png') }}" alt="FeedTan Logo" class="w-full h-full object-contain">
+                        <img src="{{ asset('charity_logo.png') }}" alt="FeedTan Logo" class="w-full h-full object-contain">
                     </div>
                     <div class="flex flex-col">
                         <span class="text-lg font-black tracking-tighter text-slate-900 leading-none">FeedTan</span>

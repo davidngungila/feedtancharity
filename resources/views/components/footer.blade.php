@@ -4,7 +4,7 @@
         <div class="col-span-1 md:col-span-1 lg:col-span-1">
             <a href="{{ url('/') }}" class="flex items-center gap-3 mb-6">
                 <div class="h-16 w-16 rounded-2xl object-contain bg-white p-3 shadow-lg">
-                    <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772609946/4_lqe3dl.png" alt="FeedTan Logo" class="w-full h-full object-contain">
+                    <img src="{{ asset('charity_logo.png') }}" alt="FeedTan Logo" class="w-full h-full object-contain">
                 </div>
                 <div class="flex flex-col">
                     <span class="text-lg font-black tracking-tighter text-white leading-none">FeedTan</span>
