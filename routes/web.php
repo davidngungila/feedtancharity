@@ -99,6 +99,11 @@ Route::get('/impact', function () {
     return view('impact');
 });
 
+// Get Involved page
+Route::get('/get-involved', function () {
+    return view('get-involved');
+});
+
 // Events page
 Route::get('/events', function () {
     return view('events');
