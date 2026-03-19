@@ -109,6 +109,11 @@ Route::get('/events', function () {
     return view('events');
 });
 
+// Event details page
+Route::get('/events/{slug}', function ($slug) {
+    return view('event-details', ['slug' => $slug]);
+});
+
 // Blog/News page
 Route::get('/blog', function () {
     return view('blog');

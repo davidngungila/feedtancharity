@@ -620,7 +620,9 @@
         }
 
         function eventDetails(eventName) {
-            alert(`Detailed information for "${eventName}" would be displayed here. This would include full event description, schedule, speaker information, and more.`);
+            // Convert event name to URL-friendly slug
+            const slug = eventName.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+            window.location.href = `/events/${slug}`;
         }
 
         // Gallery functions
