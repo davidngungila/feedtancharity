@@ -403,22 +403,98 @@
                     </div>
                 </div>
 
-                <!-- Photo Gallery -->
-                <div class="bg-gray-50 rounded-xl p-8">
-                    <h3 class="text-2xl font-bold mb-6 text-center">Event Highlights</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div class="bg-gray-200 rounded-lg h-32 flex items-center justify-center text-gray-500">
-                            <span>📸 Charity Gala</span>
+                <!-- Advanced Event Highlights Gallery -->
+                <div class="bg-gradient-to-br from-slate-50 to-emerald-50 rounded-2xl p-8 shadow-xl">
+                    <h3 class="text-3xl font-bold mb-8 text-center text-gray-900">Event Highlights</h3>
+                    
+                    <!-- Featured Highlight -->
+                    <div class="mb-8">
+                        <div class="relative rounded-xl overflow-hidden shadow-lg group cursor-pointer" onclick="openEventGallery('charity-gala')">
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Charity Gala Highlight" class="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-6">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-2xl font-bold text-white mb-2">Annual Charity Gala 2024</h4>
+                                        <p class="text-white/90">Record-breaking fundraising event with 500+ attendees</p>
+                                    </div>
+                                    <div class="bg-emerald-600 text-white px-4 py-2 rounded-full font-semibold">
+                                        <i class="ph ph-play mr-1"></i> View Gallery
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-gray-200 rounded-lg h-32 flex items-center justify-center text-gray-500">
-                            <span>📸 Food Drive</span>
+                    </div>
+
+                    <!-- Gallery Grid -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="relative group cursor-pointer" onclick="openEventGallery('food-drive')">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80" alt="Food Drive" class="w-full h-32 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div class="text-white text-center">
+                                    <i class="ph ph-images text-2xl mb-1"></i>
+                                    <p class="text-xs font-semibold">Food Drive</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-gray-200 rounded-lg h-32 flex items-center justify-center text-gray-500">
-                            <span>📸 Workshop</span>
+                        
+                        <div class="relative group cursor-pointer" onclick="openEventGallery('workshop')">
+                            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Educational Workshop" class="w-full h-32 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div class="text-white text-center">
+                                    <i class="ph ph-images text-2xl mb-1"></i>
+                                    <p class="text-xs font-semibold">Workshop</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="bg-gray-200 rounded-lg h-32 flex items-center justify-center text-gray-500">
-                            <span>📸 Fun Fair</span>
+                        
+                        <div class="relative group cursor-pointer" onclick="openEventGallery('fun-fair')">
+                            <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Summer Fun Fair" class="w-full h-32 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div class="text-white text-center">
+                                    <i class="ph ph-images text-2xl mb-1"></i>
+                                    <p class="text-xs font-semibold">Fun Fair</p>
+                                </div>
+                            </div>
                         </div>
+                        
+                        <div class="relative group cursor-pointer" onclick="openEventGallery('cleanup')">
+                            <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Community Clean-Up" class="w-full h-32 object-cover rounded-lg transition-transform duration-300 group-hover:scale-105">
+                            <div class="absolute inset-0 bg-black/40 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                                <div class="text-white text-center">
+                                    <i class="ph ph-images text-2xl mb-1"></i>
+                                    <p class="text-xs font-semibold">Clean-Up</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Event Stats -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="text-2xl font-bold text-emerald-600 mb-1">500+</div>
+                            <div class="text-sm text-gray-600">Photos Captured</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="text-2xl font-bold text-blue-600 mb-1">25+</div>
+                            <div class="text-sm text-gray-600">Events Covered</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="text-2xl font-bold text-purple-600 mb-1">10K+</div>
+                            <div class="text-sm text-gray-600">Smiles Shared</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center shadow-sm">
+                            <div class="text-2xl font-bold text-orange-600 mb-1">100%</div>
+                            <div class="text-sm text-gray-600">Memorable Moments</div>
+                        </div>
+                    </div>
+
+                    <!-- Call to Action -->
+                    <div class="text-center">
+                        <button onclick="openFullGallery()" class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-3 rounded-lg font-semibold hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 transform hover:scale-105 shadow-lg">
+                            <i class="ph ph-images mr-2"></i> View Complete Gallery
+                        </button>
+                        <p class="text-sm text-gray-600 mt-2">Explore memories from our past events and community celebrations</p>
                     </div>
                 </div>
             </div>
@@ -505,6 +581,15 @@
 
         function eventDetails(eventName) {
             alert(`Detailed information for "${eventName}" would be displayed here. This would include full event description, schedule, speaker information, and more.`);
+        }
+
+        // Gallery functions
+        function openEventGallery(eventType) {
+            alert(`Opening photo gallery for ${eventType}. This would display a beautiful lightbox gallery with photos from the event, including attendee photos, activities, and highlights.`);
+        }
+
+        function openFullGallery() {
+            alert('Opening complete event gallery. This would show a comprehensive gallery with photos from all our past events, organized by event type and date.');
         }
 
         // Animated statistics
