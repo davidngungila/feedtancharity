@@ -71,95 +71,95 @@
     <section class="relative h-[calc(100vh-6rem)] min-h-[620px] overflow-hidden rounded-none">
                 <div class="swiper heroSwiper h-full w-full">
                     <div class="swiper-wrapper">
-                        <!-- Slide 1: Sustainable Farming -->
+                        <!-- Slide 1: Feeding Programs -->
                         <div class="swiper-slide relative flex items-center">
                             <div class="absolute inset-0 z-0">
-                                <img src="https://images.unsplash.com/photo-1592984357309-361b6c4c5e3b?auto=format&fit=crop&w=2200&q=80" alt="Sustainable Farming" class="w-full h-full object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613875/happy-students-receiving-donations_hkmhgf.jpg" alt="Feeding Programs" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/35 to-transparent"></div>
                             </div>
                             <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
                                 <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
-                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Sustainable Farming</span>
-                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Growing <span class="text-emerald-400">hope</span> from the earth</h1>
-                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Cultivating sustainable agriculture practices that nourish communities and protect our planet for future generations.</p>
+                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Feeding Programs</span>
+                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Nourishing <span class="text-emerald-400">communities</span></h1>
+                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Providing nutritious meals and fighting hunger through comprehensive feeding programs that transform lives.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="{{ url('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Support Farms</a>
+                                        <a href="{{ url('feeding-programs') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Support Feeding</a>
                                         <a href="{{ url('get-involved') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Join Mission</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Slide 2: Community Gardens -->
+                        <!-- Slide 2: Emergency Support -->
                         <div class="swiper-slide relative flex items-center">
                             <div class="absolute inset-0 z-0">
-                                <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=2200&q=80" alt="Community Gardens" class="w-full h-full object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613879/volunteer-helping-with-donation-box_dwuyr7.jpg" alt="Emergency Support" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/35 to-transparent"></div>
                             </div>
                             <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
                                 <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
-                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Community Gardens</span>
-                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Together we <span class="text-emerald-400">grow</span></h1>
-                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Building vibrant community gardens where neighbors come together to grow fresh food and stronger bonds.</p>
+                                    <span class="inline-block px-4 py-1.5 bg-blue-600/20 text-blue-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-blue-600/30">Emergency Support</span>
+                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Rapid <span class="text-blue-400">response</span></h1>
+                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">24/7 emergency response providing immediate relief and long-term recovery support when communities need it most.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="{{ url('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Start Garden</a>
+                                        <a href="{{ url('emergency-support') }}" class="w-full sm:w-auto px-10 py-4 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 shadow-xl shadow-blue-600/30 transition-all text-center">Emergency Aid</a>
                                         <a href="{{ url('get-involved') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Volunteer</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Slide 3: Children Nutrition -->
+                        <!-- Slide 3: Housing Support -->
                         <div class="swiper-slide relative flex items-center">
                             <div class="absolute inset-0 z-0">
-                                <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=2200&q=80" alt="Children Nutrition" class="w-full h-full object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613870/african-kid-marketplace-_7_xiwx7g.jpg" alt="Housing Support" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/35 to-transparent"></div>
                             </div>
                             <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
                                 <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
-                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Children Nutrition</span>
-                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Nourishing <span class="text-emerald-400">young minds</span></h1>
-                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Ensuring every child has access to nutritious meals to help them learn, grow, and reach their full potential.</p>
+                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Housing Support</span>
+                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Building <span class="text-emerald-400">homes</span></h1>
+                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Providing safe, affordable housing solutions that restore dignity and build sustainable communities for families in need.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="{{ url('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Feed a Child</a>
+                                        <a href="{{ url('housing-support') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Build Homes</a>
                                         <a href="{{ url('about') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Learn More</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Slide 4: Natural Harvest -->
+                        <!-- Slide 4: Community Impact -->
                         <div class="swiper-slide relative flex items-center">
                             <div class="absolute inset-0 z-0">
-                                <img src="https://images.unsplash.com/photo-1471193945509-9ad0617afabf?auto=format&fit=crop&w=2200&q=80" alt="Natural Harvest" class="w-full h-full object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613873/african-kid-marketplace-_8_caa2f7.jpg" alt="Community Impact" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/35 to-transparent"></div>
                             </div>
                             <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
                                 <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
-                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Natural Harvest</span>
-                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Celebrating <span class="text-emerald-400">nature's bounty</span></h1>
-                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Harvesting the goodness of nature to provide fresh, organic produce to families in need across our communities.</p>
+                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Community Impact</span>
+                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Transforming <span class="text-emerald-400">lives</span></h1>
+                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Creating lasting change through comprehensive programs that address hunger, emergencies, and housing needs.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="{{ url('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Support Harvest</a>
+                                        <a href="{{ url('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Support Impact</a>
                                         <a href="{{ url('impact') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">See Impact</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Slide 5: Environmental Care -->
+                        <!-- Slide 5: Happy Children -->
                         <div class="swiper-slide relative flex items-center">
                             <div class="absolute inset-0 z-0">
-                                <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=2200&q=80" alt="Environmental Care" class="w-full h-full object-cover">
+                                <img src="https://res.cloudinary.com/dzv1tksr2/image/upload/v1772613868/african-children-enjoying-life_sebm6h.jpg" alt="Happy Children" class="w-full h-full object-cover">
                                 <div class="absolute inset-0 bg-gradient-to-r from-slate-950/85 via-slate-950/35 to-transparent"></div>
                             </div>
                             <div class="relative z-10 max-w-7xl mx-auto px-6 w-full">
                                 <div class="max-w-2xl translate-y-10 opacity-0 transition-all duration-1000 slide-content">
-                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Environmental Care</span>
-                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Protecting <span class="text-emerald-400">our planet</span></h1>
-                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Implementing eco-friendly practices that fight hunger while preserving the natural environment for future generations.</p>
+                                    <span class="inline-block px-4 py-1.5 bg-emerald-600/20 text-emerald-300 rounded-full text-xs font-bold tracking-widest uppercase mb-6 border border-emerald-600/30">Bright Futures</span>
+                                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-serif text-white mb-8 leading-[1.05]">Growing <span class="text-emerald-400">hope</span></h1>
+                                    <p class="text-lg md:text-xl text-slate-200 mb-10 leading-relaxed">Together we're building a future where every child has nutritious food, safe shelter, and the opportunity to thrive.</p>
                                     <div class="flex flex-col sm:flex-row items-center gap-4">
-                                        <a href="{{ url('campaigns') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Go Green</a>
+                                        <a href="{{ url('donate') }}" class="w-full sm:w-auto px-10 py-4 bg-emerald-600 text-white font-bold rounded-full hover:bg-emerald-700 shadow-xl shadow-emerald-600/30 transition-all text-center">Donate Now</a>
                                         <a href="{{ url('contact') }}" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white font-bold rounded-full border border-white/20 hover:bg-white/20 transition-all text-center backdrop-blur-md">Contact Us</a>
                                     </div>
                                 </div>
