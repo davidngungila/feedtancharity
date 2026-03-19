@@ -135,7 +135,9 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Event Card 1 -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-r from-emerald-400 to-teal-400 relative">
+                        <div class="h-48 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Annual Charity Gala" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div class="absolute top-4 left-4 bg-white text-emerald-600 px-3 py-1 rounded-full text-sm font-semibold">
                                 Featured
                             </div>
@@ -168,7 +170,9 @@
 
                     <!-- Event Card 2 -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-r from-blue-400 to-indigo-400 relative">
+                        <div class="h-48 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1964&q=80" alt="Community Food Drive" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div class="absolute bottom-4 right-4 bg-white bg-opacity-90 text-blue-600 px-3 py-2 rounded-lg">
                                 <div class="text-xs font-semibold">APR</div>
                                 <div class="text-xl font-bold">15</div>
@@ -198,7 +202,9 @@
 
                     <!-- Event Card 3 -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-r from-purple-400 to-pink-400 relative">
+                        <div class="h-48 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Educational Workshop" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div class="absolute bottom-4 right-4 bg-white bg-opacity-90 text-purple-600 px-3 py-2 rounded-lg">
                                 <div class="text-xs font-semibold">MAY</div>
                                 <div class="text-xl font-bold">10</div>
@@ -228,7 +234,9 @@
 
                     <!-- Event Card 4 -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-r from-orange-400 to-red-400 relative">
+                        <div class="h-48 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1469371670807-013ccf25f16a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Summer Fun Fair" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div class="absolute bottom-4 right-4 bg-white bg-opacity-90 text-orange-600 px-3 py-2 rounded-lg">
                                 <div class="text-xs font-semibold">JUN</div>
                                 <div class="text-xl font-bold">18</div>
@@ -258,7 +266,9 @@
 
                     <!-- Event Card 5 -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-r from-green-400 to-teal-400 relative">
+                        <div class="h-48 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Community Clean-Up Day" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div class="absolute bottom-4 right-4 bg-white bg-opacity-90 text-green-600 px-3 py-2 rounded-lg">
                                 <div class="text-xs font-semibold">JUL</div>
                                 <div class="text-xl font-bold">22</div>
@@ -288,7 +298,9 @@
 
                     <!-- Event Card 6 -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-r from-indigo-400 to-purple-400 relative">
+                        <div class="h-48 relative overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Back to School Drive" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                             <div class="absolute bottom-4 right-4 bg-white bg-opacity-90 text-indigo-600 px-3 py-2 rounded-lg">
                                 <div class="text-xs font-semibold">AUG</div>
                                 <div class="text-xl font-bold">14</div>
