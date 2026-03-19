@@ -72,12 +72,12 @@
 
             <a href="{{ url('/about') }}" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">About</a>
             <a href="{{ url('/impact') }}" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Impact</a>
-            <a href="{{ url('/get-involved') }}" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Get Involved</a>
+            <a href="{{ url('/events') }}" class="nav-link font-bold hover:text-emerald-600 transition-colors py-8">Events</a>
         </div>
 
         <div class="flex items-center gap-4">
             <a href="{{ url('/donate') }}" class="hidden sm:inline-flex items-center gap-2 text-sm font-semibold text-slate-700 bg-white border border-slate-200 px-5 py-2.5 rounded-full hover:bg-slate-50 transition-all">Donate</a>
-            <a href="{{ url('/get-involved') }}" class="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-white bg-emerald-600 px-6 py-2.5 rounded-full hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 transition-all">Join Us</a>
+            <a href="{{ url('/events') }}" class="hidden md:inline-flex items-center gap-2 text-sm font-semibold text-white bg-emerald-600 px-6 py-2.5 rounded-full hover:bg-emerald-700 shadow-lg shadow-emerald-600/20 transition-all">Join Events</a>
 
             <button @click="mobileMenuOpen = true" class="lg:hidden w-12 h-12 bg-slate-50 text-slate-900 rounded-2xl flex items-center justify-center hover:bg-emerald-600 hover:text-white transition-all" type="button">
                 <i class="ph ph-list text-2xl"></i>
@@ -139,7 +139,7 @@
 
                 <a href="{{ url('/about') }}" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">About</a>
                 <a href="{{ url('/impact') }}" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Impact</a>
-                <a href="{{ url('/get-involved') }}" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Get Involved</a>
+                <a href="{{ url('/events') }}" class="block text-2xl font-serif font-black text-slate-900 hover:text-emerald-600">Events</a>
             </nav>
 
             <div class="mt-8 pt-8 border-t border-slate-200">
